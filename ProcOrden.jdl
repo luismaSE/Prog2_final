@@ -1,0 +1,51 @@
+// application {
+//   config {
+//     baseName Prog2_final
+//     packageName prog2.sarmiento
+//     authenticationType jwt
+//     databaseType sql
+//     prodDatabaseType mariadb
+//     devDatabaseType h2Disk
+//     cacheProvider ehcache
+//     enableHibernateCache true
+//     buildTool maven
+//     clientFramework react
+//     useSass true
+//     enableTranslation true
+//     nativeLanguage [spanish]
+//   }
+// }
+
+
+entity Orden {
+  numero String required
+  cliente Long required
+  accionId Long required
+  accion String required
+  operacion Operacion required
+  precio Long required
+  cantidad Long required
+  fechaOperacion String required
+  modo ModoOrden required
+  estado EstadoOrden required
+}
+
+enum Operacion { COMPRA, VENTA}
+
+enum ModoOrden {
+  AHORA, FINDIA, INICIODIA
+}
+
+enum EstadoOrden {
+  PENDIENTE, EXITOSA, FALLIDA, PROGRAMADA
+}
+
+// relationship OneToOne {
+//   Orden{cliente(id)} to Cliente
+// }
+
+// entity Cliente {
+//   id Long required
+//   nombre String required
+// }
+

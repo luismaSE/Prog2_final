@@ -1,0 +1,524 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Programacion-2",
+    "dateExported": "2023-10-24T12:50:22.512Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "65c44083-ef4b-42c4-9310-41d9f62e232b",
+            "name": "Usuario",
+            "containerId": "",
+            "created": "2023-10-24T12:46:41.678Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "17d0e9a4-d02f-4edc-8f8c-9e8e728fd27f",
+            "name": "Clientes",
+            "containerId": "",
+            "created": "2023-10-24T12:47:00.927Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "41ca8ebb-48a0-4443-bcfa-d6e620155dc9",
+            "name": "Acciones",
+            "containerId": "",
+            "created": "2023-10-24T12:47:12.619Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "166a936e-f037-4389-ac11-d2caa929cab6",
+            "name": "Ordenes",
+            "containerId": "",
+            "created": "2023-10-24T12:47:34.225Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "cbb389a0-03e4-4473-ba19-2df2c91804be",
+            "name": "Reporte operaciones",
+            "containerId": "",
+            "created": "2023-10-24T12:48:19.130Z",
+            "sortNum": 50000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "dedfbd99-af25-4916-82ae-888a3e486855",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "65c44083-ef4b-42c4-9310-41d9f62e232b",
+            "name": "Iniciar sesion",
+            "url": "http://192.168.194.254:8000/api/authenticate",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-10-24T12:46:47.345Z",
+            "modified": "2023-10-24T12:46:47.345Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\"username\": \"facundoguarnier\",\n\"password\": \"facu1234\",\n\"rememberMe\": false\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "7f0af52d-070d-49bd-a5fb-f3fb65d1be04",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "17d0e9a4-d02f-4edc-8f8c-9e8e728fd27f",
+            "name": "Clientes",
+            "url": "http://192.168.194.254:8000/api/clientes/",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-10-24T12:47:03.110Z",
+            "modified": "2023-10-24T12:47:03.110Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "1ebe6388-5a05-444a-af42-8ed3e34d7736",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "41ca8ebb-48a0-4443-bcfa-d6e620155dc9",
+            "name": "Acciones",
+            "url": "http://192.168.194.254:8000/api/acciones/",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-10-24T12:47:16.118Z",
+            "modified": "2023-10-24T12:47:16.118Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "5751580c-be25-45c7-8800-0dfb43d13529",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "166a936e-f037-4389-ac11-d2caa929cab6",
+            "name": "Orden fija (ejemplo)",
+            "url": "http://192.168.194.254:8000/api/ordenes/ordenes",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-10-24T12:47:36.496Z",
+            "modified": "2023-10-24T12:47:36.496Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "6b82dbbb-bc76-4072-be78-373c8bb90700",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "cbb389a0-03e4-4473-ba19-2df2c91804be",
+            "name": "Reportar",
+            "url": "http://192.168.194.254:8000/",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-10-24T12:48:23.341Z",
+            "modified": "2023-10-24T12:48:23.341Z",
+            "headers": []
+        },
+        {
+            "_id": "6b15d2d1-e75e-406b-b53c-13c80b127008",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "65c44083-ef4b-42c4-9310-41d9f62e232b",
+            "name": "Activar usuario",
+            "url": "http://192.168.194.254:8000/api/activar",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-10-24T12:46:48.771Z",
+            "modified": "2023-10-24T12:46:48.772Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\"login\": \"facundoguarnier\",\n\"email\": \"fj.guarnier@alumno.um.edu.ar\",\n\"nombres\": \"Guarnier Facundo\",\n\"descripcion\": \"Grupo 6\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "32ba71b3-1c07-42a8-9c5b-813fd2bc723f",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "17d0e9a4-d02f-4edc-8f8c-9e8e728fd27f",
+            "name": "Cliente por nombre y empresa",
+            "url": "http://192.168.194.254:8000/api/clientes/buscar?empresa=o&nombre=to",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-10-24T12:47:04.601Z",
+            "modified": "2023-10-24T12:47:04.601Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "empresa",
+                    "value": "o",
+                    "isPath": false
+                },
+                {
+                    "name": "nombre",
+                    "value": "to",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "4205e1f0-9cca-4d08-8431-50a969a96e37",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "41ca8ebb-48a0-4443-bcfa-d6e620155dc9",
+            "name": "Accion por empresa o codigo",
+            "url": "http://192.168.194.254:8000/api/acciones/buscar?empresa=coca",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-10-24T12:47:17.717Z",
+            "modified": "2023-10-24T12:47:17.717Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "empresa",
+                    "value": "coca",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "c97f758e-916f-4fa3-afe0-ceb5023d5951",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "166a936e-f037-4389-ac11-d2caa929cab6",
+            "name": "Orden espejo (ejemplo)",
+            "url": "http://192.168.194.254:8000/api/ordenes/espejo",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-10-24T12:47:37.630Z",
+            "modified": "2023-10-24T12:47:37.630Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"ordenes\": [\r\n    {\r\n      \"cliente\": 1202,\r\n      \"accionId\": 2,\r\n      \"accion\": \"GOOGL\",\r\n      \"operacion\": \"COMPRA\",\r\n      \"cantidad\": 10,\r\n      \"fechaOperacion\": \"2023-09-25T03:00:00Z\",\r\n      \"modo\": \"AHORA\"\r\n    },\r\n    {\r\n      \"cliente\": 1201,\r\n      \"accionId\": 3,\r\n      \"accion\": \"INTC\",\r\n      \"operacion\": \"VENTA\",\r\n      \"cantidad\": 20,\r\n      \"fechaOperacion\": \"2023-09-25T03:00:00Z\",\r\n      \"modo\": \"FINDIA\"\r\n    },\r\n    {\r\n      \"cliente\": 1201,\r\n      \"accionId\": 3,\r\n      \"accion\": \"INTC\",\r\n      \"operacion\": \"VENTA\",\r\n      \"cantidad\": 25,\r\n      \"fechaOperacion\": \"2023-09-25T03:00:00Z\",\r\n      \"modo\": \"FINDIA\"\r\n    }\r\n  ]\r\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "969a1c15-7a6d-4da7-8630-93452569ba06",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "cbb389a0-03e4-4473-ba19-2df2c91804be",
+            "name": "Consultar",
+            "url": "http://192.168.194.254:8000/api/reporte-operaciones/consulta",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-10-24T12:48:24.834Z",
+            "modified": "2023-10-24T12:48:24.834Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "c29717a2-762f-4ca2-8834-f7cba1578c04",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "65c44083-ef4b-42c4-9310-41d9f62e232b",
+            "name": "Crear usuario",
+            "url": "http://192.168.194.254:8000/api/register",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-10-24T12:46:50.036Z",
+            "modified": "2023-10-24T12:46:50.036Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n\"login\": \"facundoguarnier\",\r\n\"email\": \"fj.guarnier@alumno.um.edu.ar\",\r\n\"password\": \"facu1234\",\r\n\"langKey\": \"es\"\r\n}\r\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "7203ca4f-7dc6-4cee-8089-bd75c2e26239",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "17d0e9a4-d02f-4edc-8f8c-9e8e728fd27f",
+            "name": "Cliente por empresa",
+            "url": "http://192.168.194.254:8000/api/clientes/buscar?empresa=mo",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-10-24T12:47:05.742Z",
+            "modified": "2023-10-24T12:47:05.742Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "empresa",
+                    "value": "mo",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "e769a85a-5a92-43d3-a307-e4d4d1629055",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "41ca8ebb-48a0-4443-bcfa-d6e620155dc9",
+            "name": "Accion por empresa",
+            "url": "http://192.168.194.254:8000/api/acciones/buscar?empresa=o&codigo=o",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-10-24T12:47:19.324Z",
+            "modified": "2023-10-24T12:47:19.324Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "empresa",
+                    "value": "o",
+                    "isPath": false
+                },
+                {
+                    "name": "codigo",
+                    "value": "o",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "86b868b3-c153-4f15-95fd-db1820f57fa2",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "cbb389a0-03e4-4473-ba19-2df2c91804be",
+            "name": "Consultar por cliente ID",
+            "url": "http://192.168.194.254:8000/api/reporte-operaciones/consulta?clienteId=1102",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-10-24T12:48:26.459Z",
+            "modified": "2023-10-24T12:48:26.459Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "clienteId",
+                    "value": "1102",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "17671e36-1d75-4ccc-b868-4f37758e831d",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "17d0e9a4-d02f-4edc-8f8c-9e8e728fd27f",
+            "name": "Cliente por nombre",
+            "url": "http://192.168.194.254:8000/api/clientes/buscar?nombre=ricardo",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-10-24T12:47:07.043Z",
+            "modified": "2023-10-24T12:47:07.043Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "nombre",
+                    "value": "ricardo",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "a104ed1d-291b-47c4-bb39-15a1ac4148e2",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "41ca8ebb-48a0-4443-bcfa-d6e620155dc9",
+            "name": "Accion por codigo ",
+            "url": "http://192.168.194.254:8000/api/acciones/buscar?codigo=o",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-10-24T12:47:20.765Z",
+            "modified": "2023-10-24T12:47:20.765Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "codigo",
+                    "value": "o",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "91d5b43f-86d1-4b14-b5ca-c3a14e0bb169",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "cbb389a0-03e4-4473-ba19-2df2c91804be",
+            "name": "Consultar por accion ID",
+            "url": "http://192.168.194.254:8000/api/reporte-operaciones/consulta?accionId=1",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-10-24T12:48:27.793Z",
+            "modified": "2023-10-24T12:48:27.793Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "accionId",
+                    "value": "1",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "0f312900-a63a-4f90-85fe-09d1c87bccbf",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "41ca8ebb-48a0-4443-bcfa-d6e620155dc9",
+            "name": "Accion ultimo valor",
+            "url": "http://192.168.194.254:8000/api/acciones/valores/AAPL/2023-12-10T09:00:00z/2023-12-10T11:00:00z",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-10-24T12:47:22.097Z",
+            "modified": "2023-10-24T12:47:22.097Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "278cf1f4-18a5-44ca-b3e0-0c7aaa670834",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "cbb389a0-03e4-4473-ba19-2df2c91804be",
+            "name": "Consultar por cliente ID y accion ID",
+            "url": "http://192.168.194.254:8000/api/reporte-operaciones/consulta?clienteId=1101&accionId=1",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-10-24T12:48:29.181Z",
+            "modified": "2023-10-24T12:48:29.181Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "clienteId",
+                    "value": "1101",
+                    "isPath": false
+                },
+                {
+                    "name": "accionId",
+                    "value": "1",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "30f03da4-9aa1-4d04-92c9-14e31caff577",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "41ca8ebb-48a0-4443-bcfa-d6e620155dc9",
+            "name": "Accion valor historico",
+            "url": "http://192.168.194.254:8000/api/acciones/ultimovalor/AAPL",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2023-10-24T12:47:23.561Z",
+            "modified": "2023-10-24T12:47:23.561Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "2433985f-881c-4ada-9e4d-9c47110d7512",
+            "colId": "e00e9674-1f00-4c01-91f0-e78f450dde17",
+            "containerId": "cbb389a0-03e4-4473-ba19-2df2c91804be",
+            "name": "Consultar por cliente, accion y fecha",
+            "url": "http://192.168.194.254:8000/api/reporte-operaciones/consulta?clienteId=1101&accionId=1&fechaInicio=2023-09-24T02:00:00Z&fechaFin=2023-09-25T04:00:00Z",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2023-10-24T12:48:30.200Z",
+            "modified": "2023-10-24T12:48:30.200Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "clienteId",
+                    "value": "1101",
+                    "isPath": false
+                },
+                {
+                    "name": "accionId",
+                    "value": "1",
+                    "isPath": false
+                },
+                {
+                    "name": "fechaInicio",
+                    "value": "2023-09-24T02:00:00Z",
+                    "isPath": false
+                },
+                {
+                    "name": "fechaFin",
+                    "value": "2023-09-25T04:00:00Z",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{TOKEN}}"
+            },
+            "tests": []
+        }
+    ],
+    "settings": {
+        "auth": {
+            "type": "bearer",
+            "bearer": "{{TOKEN}}"
+        },
+        "options": {
+            "baseUrl": "http://192.168.194.254:8000"
+        }
+    }
+}

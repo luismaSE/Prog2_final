@@ -1,0 +1,69 @@
+{
+  "applications": "*",
+  "changelogDate": "20231031191539",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "orden",
+  "fields": [
+    {
+      "fieldName": "numero",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cliente",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "accionId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "accion",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "operacion",
+      "fieldType": "Operacion",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "COMPRA,VENTA"
+    },
+    {
+      "fieldName": "precio",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cantidad",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "fechaOperacion",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "modo",
+      "fieldType": "ModoOrden",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "AHORA,FINDIA,INICIODIA"
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoOrden",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "PENDIENTE,EXITOSA,FALLIDA,PROGRAMADA"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Orden",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

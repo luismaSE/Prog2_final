@@ -1,0 +1,9 @@
+export enum EstadoOrden {
+  PENDIENTE = 'PENDIENTE',
+
+  EXITOSA = 'EXITOSA',
+
+  FALLIDA = 'FALLIDA',
+
+  PROGRAMADA = 'PROGRAMADA',
+}
