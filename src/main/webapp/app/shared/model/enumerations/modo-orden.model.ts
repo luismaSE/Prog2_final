@@ -3,5 +3,5 @@ export enum ModoOrden {
 
   FINDIA = 'FINDIA',
 
-  INICIODIA = 'INICIODIA',
+  PRINCIPIODIA = 'PRINCIPIODIA',
 }

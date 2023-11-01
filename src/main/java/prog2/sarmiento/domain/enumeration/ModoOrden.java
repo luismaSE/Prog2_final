@@ -6,5 +6,5 @@ package prog2.sarmiento.domain.enumeration;
 public enum ModoOrden {
     AHORA,
     FINDIA,
-    INICIODIA,
+    PRINCIPIODIA,
 }

@@ -50,7 +50,7 @@
       "fieldName": "modo",
       "fieldType": "ModoOrden",
       "fieldValidateRules": ["required"],
-      "fieldValues": "AHORA,FINDIA,INICIODIA"
+      "fieldValues": "AHORA,FINDIA,PRINCIPIODIA"
     },
     {
       "fieldName": "estado",
