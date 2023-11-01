@@ -1,27 +1,28 @@
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import prog2.sarmiento.domain.Orden;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.stereotype.Service;
+// import org.springframework.web.client.RestTemplate;
+// import prog2.sarmiento.domain.Orden;
+// import prog2.sarmiento.domain.OrdenApiResponse;
 
-import java.util.List;
+// import java.util.List;
 
-@Service
-public class OrdenService {
-    private final String API_URL = "/api/ordenes/ordenes";
+// @Service
+// public class OrdenService {
+//     private final String API_URL = "http://192.168.194.254:8000/api/ordenes/ordenes";
 
-    private final RestTemplate restTemplate;
+//     private final RestTemplate restTemplate;
 
-    public OrdenService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+//     public OrdenService(RestTemplate restTemplate) {
+//         this.restTemplate = restTemplate;
+//     }
 
-    public List<Orden> obtenerOrdenesDesdeAPI() {
-        // Realiza una solicitud HTTP a la API
-        ResponseEntity<OrdenApiResponse> response = restTemplate.getForEntity(API_URL, OrdenApiResponse.class);
+//     public List<Orden> obtenerOrdenesDesdeAPI() {
+//         // Realiza una solicitud HTTP a la API
+//         ResponseEntity<OrdenApiResponse> response = restTemplate.getForEntity(API_URL, OrdenApiResponse.class);
 
-        // Extrae las órdenes del cuerpo de la respuesta
-        List<Orden> ordenes = response.getBody().getOrdenes();
+//         // Extrae las órdenes del cuerpo de la respuesta
+//         List<Orden> ordenes = response.getBody().getOrdenes();
 
-        return ordenes;
-    }
-}
+//         return ordenes;
+//     }
+// }

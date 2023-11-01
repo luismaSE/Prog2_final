@@ -1,5 +1,4 @@
-
-import prog2.sarmiento.domain.Orden;
+package prog2.sarmiento.domain;
 
 import java.util.List;
 
@@ -14,3 +13,5 @@ public class OrdenApiResponse {
         this.ordenes = ordenes;
     }
 }
+
+
