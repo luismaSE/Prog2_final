@@ -17,12 +17,21 @@ import org.aspectj.weaver.ast.Or;
 public class Main {
 
     public static void main(String[] args) {
+        System.out.println("Iniciando...");
         ApiService apiService = new ApiService();
         AnalizardorOrdenesService analizadorOrdenes = new AnalizardorOrdenesService(apiService);
         ProcesadorOrdenesService procesadorOrdenes = new ProcesadorOrdenesService();
+        System.out.println("Servicios instanciados");
+        System.out.println("Analizando...");
+        List<List<Orden>> ordenesAnalisis = analizadorOrdenes.analizarOrdenes();
+        System.out.println("Analisis terminado\n\nIniciando Clasificacion...");
+        procesadorOrdenes.clasificarOrdenes(ordenesAnalisis.get(0));
+        System.out.println("Clasificacion terminada\n\nIniciando procesamiento...");
+        procesadorOrdenes.procesarOrdenesAhora();
+        System.out.println("Ordenes instantaneas procesadas");
+        procesadorOrdenes.procesarOrdenesProg();
+        System.out.println("\nTodas las tareas han sido completadas");
 
-
-        List<List<Orden>> ordenesAnalisis = analizadorOrdenes.analizarOrdenes(procesadorOrdenes);
         
 
     }

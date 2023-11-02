@@ -30,13 +30,14 @@ public class AnalizardorOrdenesService {
     private final Logger log = LoggerFactory.getLogger(AnalizardorOrdenesService.class);
 
 
-    public List<List<Orden>> analizarOrdenes(ProcesadorOrdenesService procesadorOrdenes) {
+    public List<List<Orden>> analizarOrdenes() {
 
 
         List<List<Orden>> ordenesAnalisis = new ArrayList<>();
         List<Orden> ordenes = apiService.obtenerOrdenesDesdeAPI();
         List<Orden> ordenesOk = new ArrayList<>();
         List<Orden> ordenesFail = new ArrayList<>();
+    
         for (Orden orden : ordenes) {
             String estado = analizarOrden(orden);
 
@@ -48,7 +49,8 @@ public class AnalizardorOrdenesService {
             orden.setEstado(EstadoOrden.FAIL);
             orden.setDescripcionEstado(estado);
             ordenesFail.add(orden);
-            }  
+            }
+            System.out.println("Orden analizada, estado:"+estado);  
         } 
         ordenesAnalisis.add(ordenesOk);
         ordenesAnalisis.add(ordenesFail);

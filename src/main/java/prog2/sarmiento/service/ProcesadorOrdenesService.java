@@ -1,6 +1,7 @@
 package prog2.sarmiento.service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,9 +17,9 @@ import prog2.sarmiento.domain.enumeration.Operacion;
 @Transactional
 public class ProcesadorOrdenesService {
 
-    List<Orden> ordenesAhora = null;
-    List<Orden> ordenesFinDia = null;
-    List<Orden> ordenesPrincipioDia = null;
+    List<Orden> ordenesAhora = new ArrayList<>();
+    List<Orden> ordenesFinDia = new ArrayList<>();;
+    List<Orden> ordenesPrincipioDia = new ArrayList<>();;
 
     private final Logger log = LoggerFactory.getLogger(ProcesadorOrdenesService.class);
 
@@ -38,13 +39,17 @@ public class ProcesadorOrdenesService {
 
     public void procesarOrden(Orden orden) {
         ServicioExternoService servicioExterno = new ServicioExternoService();
-        Boolean response;
+        Boolean response = null;
         if (orden.getOperacion() == Operacion.COMPRA) {
             response = servicioExterno.ordenCompra(orden) ;
         }
         if (orden.getOperacion() == Operacion.VENTA) {
             response = servicioExterno.ordenVenta(orden);
         }
+        System.out.println("Orden de ("+orden.getOperacion()+") procesada:"+orden);
+        System.out.println("Resultado:"+response+"\n");
+
+
     }
 
     public void procesarOrdenesProg () {
@@ -62,7 +67,13 @@ public class ProcesadorOrdenesService {
             for (Orden orden : ordenes) {
                 procesarOrden(orden);
             }
+        } else {
+            System.out.println("Nada por hacer, ordenes programadas:");
+            System.out.println("\nOrdenes de Principio de Día:"+ordenesPrincipioDia);
+            System.out.println("\nOrdenes de Fin de Día:"+ordenesFinDia);
+
         }
+
     }
 
     public void procesarOrdenesAhora() {
