@@ -53,6 +53,9 @@ public class AnalizadorOrdenesService {
         return orden;  
     }
 
+
+    
+
     public void registrarOrden(Orden orden) {
         // System.out.println("Orden analizada, estado:"+orden.getEstado());
         if (!(orden.getEstado().equals(EstadoOrden.FAIL))) {
@@ -61,6 +64,9 @@ public class AnalizadorOrdenesService {
             ordenesFail.add(orden);
         }
     }
+
+
+
 
     public void mostrarResultadoAnalisis () {
         System.out.println("\nOrdenes OK:");
@@ -84,6 +90,9 @@ public class AnalizadorOrdenesService {
         ordenesOk.clear();
         ordenesFail.clear();
     }
+
+
+
 
     public boolean analizarCliente(Orden orden) {
         List<Long> clientes = apiService.obtenerClientesDesdeAPI();

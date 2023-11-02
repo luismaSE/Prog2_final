@@ -8,16 +8,21 @@ import java.util.Queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.EstadoOrden;
 import prog2.sarmiento.domain.enumeration.ModoOrden;
+import prog2.sarmiento.repository.OrdenRepository;
 
 @Service
-@Transactional
+// @Transactional
 public class MainService {
+
+    // @Autowired
+    // private OrdenRepository ordenRepository;
 
     public List<Orden> ordenesAhora = new ArrayList<>();
     
@@ -33,6 +38,8 @@ public class MainService {
     private final LocalTime HORA_FIN_DIA = LocalTime.of(18, 0);
 
 
+    Long i = (long) 0;
+
     private final Logger log = LoggerFactory.getLogger(MainService.class);
 
     public void Serve() {
@@ -42,13 +49,19 @@ public class MainService {
     
     
     System.out.println("Analizando Ordenes...");
+
     while (!ordenesPendientes.isEmpty()) {
         Orden orden = analizadorOrdenes.analizarOrden(ordenesPendientes.poll());
+        orden.setId(i);;
+
         if (orden.getModo().equals(ModoOrden.AHORA) && orden.getEstado().equals(EstadoOrden.OK)) {
             orden = procesadorOrdenes.procesarOrden(orden);
         }
+        // ordenRepository.save(orden);
         analizadorOrdenes.registrarOrden(orden);
+        i++;
     }
+
     analizadorOrdenes.mostrarResultadoAnalisis();
     List<List<Orden>> analisis = analizadorOrdenes.terminarAnalisis();
     programarOrdenes(analisis.get(0));
@@ -57,6 +70,15 @@ public class MainService {
     System.out.println("\nTodas las tareas han sido completadas");
 
     }
+
+
+
+
+
+
+
+
+
 
 
     public void programarOrdenes(List<Orden> ordenes) {
