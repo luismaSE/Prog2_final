@@ -44,6 +44,9 @@
             <column name="estado" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="descripcion_estado" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -75,6 +78,7 @@
             <column name="fecha_operacion" type="string"/>
             <column name="modo" type="string"/>
             <column name="estado" type="string"/>
+            <column name="descripcion_estado" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

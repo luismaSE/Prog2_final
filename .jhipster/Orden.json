@@ -56,7 +56,11 @@
       "fieldName": "estado",
       "fieldType": "EstadoOrden",
       "fieldValidateRules": ["required"],
-      "fieldValues": "PENDIENTE,EXITOSA,FALLIDA,PROGRAMADA"
+      "fieldValues": "PEND,OK,FAIL,PROG"
+    },
+    {
+      "fieldName": "descripcionEstado",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

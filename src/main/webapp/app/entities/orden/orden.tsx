@@ -81,6 +81,9 @@ export const Orden = () => {
                 <th>
                   <Translate contentKey="prog2FinalApp.orden.estado">Estado</Translate>
                 </th>
+                <th>
+                  <Translate contentKey="prog2FinalApp.orden.descripcionEstado">Descripcion Estado</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -108,6 +111,7 @@ export const Orden = () => {
                   <td>
                     <Translate contentKey={`prog2FinalApp.EstadoOrden.${orden.estado}`} />
                   </td>
+                  <td>{orden.descripcionEstado}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/orden/${orden.id}`} color="info" size="sm" data-cy="entityDetailsButton">

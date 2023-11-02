@@ -153,6 +153,9 @@ public class OrdenResource {
                 if (orden.getEstado() != null) {
                     existingOrden.setEstado(orden.getEstado());
                 }
+                if (orden.getDescripcionEstado() != null) {
+                    existingOrden.setDescripcionEstado(orden.getDescripcionEstado());
+                }
 
                 return existingOrden;
             })

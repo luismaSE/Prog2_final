@@ -92,6 +92,12 @@ export const OrdenDetail = () => {
             </span>
           </dt>
           <dd>{ordenEntity.estado}</dd>
+          <dt>
+            <span id="descripcionEstado">
+              <Translate contentKey="prog2FinalApp.orden.descripcionEstado">Descripcion Estado</Translate>
+            </span>
+          </dt>
+          <dd>{ordenEntity.descripcionEstado}</dd>
         </dl>
         <Button tag={Link} to="/orden" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

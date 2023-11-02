@@ -1,11 +1,11 @@
-id;numero;cliente;accion_id;accion;operacion;precio;cantidad;fecha_operacion;modo;estado
-1;Account;79159;9964;JBOD Pound;COMPRA;65212;9823;calculate Loan markets;FINDIA;FALLIDA
-2;nivel;13941;78867;feed;VENTA;90934;89051;SQL;AHORA;EXITOSA
-3;adaptador invoice Bricolaje;60268;25899;política;VENTA;67294;93749;Buckinghamshire;AHORA;FALLIDA
-4;Central Manat;72594;7460;Enfocado;VENTA;62451;81413;Refinado;FINDIA;PENDIENTE
-5;Bebes;83853;35530;Camino Dollar Loan;VENTA;82015;36252;Belice moderador Account;PRINCIPIODIA;EXITOSA
-6;Guapo integrate Avenida;15091;78975;Acero Rial program;COMPRA;31120;97918;driver Productor Tunez;AHORA;PENDIENTE
-7;withdrawal holistic iterate;73137;20936;revolutionize;VENTA;82542;21004;Gris;FINDIA;EXITOSA
-8;tangible Principado invoice;63586;18134;Decoración Ladrillo robust;COMPRA;67346;64666;intranet microchip;FINDIA;EXITOSA
-9;Pelota Buckinghamshire;75086;3620;Gris;COMPRA;33775;63207;Berkshire;AHORA;FALLIDA
-10;Azul División Patatas;15674;81233;Guarani optical;COMPRA;40401;4732;Papelería Analista enable;PRINCIPIODIA;PENDIENTE
+id;numero;cliente;accion_id;accion;operacion;precio;cantidad;fecha_operacion;modo;estado;descripcion_estado
+1;Account;79159;9964;JBOD Pound;COMPRA;65212;9823;calculate Loan markets;FINDIA;FAIL;nivel
+2;back-end;68679;44088;Humano SQL Joyería;COMPRA;2289;56907;solid Siria;AHORA;PEND;protocol
+3;Paradigma New Account;48257;65731;mobile Pequeño colaboración;VENTA;81413;13604;Distrito;AHORA;FAIL;Rojo
+4;copying Camino;70334;92198;Loan Interno Global;COMPRA;32473;66296;Account Funcionalidad Guapo;FINDIA;PEND;Avenida Queso
+5;Música;96792;82189;Amigable website driver;VENTA;74645;73027;Heredado Public-key;FINDIA;FAIL;Funcionario Jefe
+6;Gris;59537;85862;Azul monetize Salida;VENTA;97978;58603;Patatas;AHORA;PROG;Facilitador
+7;action-items Metal intranet;71886;16715;e-tailers Pelota Buckinghamshire;VENTA;3620;32248;models;FINDIA;FAIL;Berkshire
+8;Tunez;13670;12427;Arrabal Gerente bluetooth;VENTA;98524;81060;Clonado Acero Analista;FINDIA;PEND;Relacciones Soporte
+9;Sabroso wireless;76137;35785;Hormigon quantifying;VENTA;49518;13984;Asturias system leverage;FINDIA;FAIL;Bajada Jefe
+10;de;97511;23376;Coche;COMPRA;14130;91052;didactica;AHORA;PEND;Acero Pelota deposit

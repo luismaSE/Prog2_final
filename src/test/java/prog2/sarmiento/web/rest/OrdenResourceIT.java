@@ -59,8 +59,11 @@ class OrdenResourceIT {
     private static final ModoOrden DEFAULT_MODO = ModoOrden.AHORA;
     private static final ModoOrden UPDATED_MODO = ModoOrden.FINDIA;
 
-    private static final EstadoOrden DEFAULT_ESTADO = EstadoOrden.PENDIENTE;
-    private static final EstadoOrden UPDATED_ESTADO = EstadoOrden.EXITOSA;
+    private static final EstadoOrden DEFAULT_ESTADO = EstadoOrden.PEND;
+    private static final EstadoOrden UPDATED_ESTADO = EstadoOrden.OK;
+
+    private static final String DEFAULT_DESCRIPCION_ESTADO = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPCION_ESTADO = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/ordens";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -96,7 +99,8 @@ class OrdenResourceIT {
             .cantidad(DEFAULT_CANTIDAD)
             .fechaOperacion(DEFAULT_FECHA_OPERACION)
             .modo(DEFAULT_MODO)
-            .estado(DEFAULT_ESTADO);
+            .estado(DEFAULT_ESTADO)
+            .descripcionEstado(DEFAULT_DESCRIPCION_ESTADO);
         return orden;
     }
 
@@ -117,7 +121,8 @@ class OrdenResourceIT {
             .cantidad(UPDATED_CANTIDAD)
             .fechaOperacion(UPDATED_FECHA_OPERACION)
             .modo(UPDATED_MODO)
-            .estado(UPDATED_ESTADO);
+            .estado(UPDATED_ESTADO)
+            .descripcionEstado(UPDATED_DESCRIPCION_ESTADO);
         return orden;
     }
 
@@ -149,6 +154,7 @@ class OrdenResourceIT {
         assertThat(testOrden.getFechaOperacion()).isEqualTo(DEFAULT_FECHA_OPERACION);
         assertThat(testOrden.getModo()).isEqualTo(DEFAULT_MODO);
         assertThat(testOrden.getEstado()).isEqualTo(DEFAULT_ESTADO);
+        assertThat(testOrden.getDescripcionEstado()).isEqualTo(DEFAULT_DESCRIPCION_ESTADO);
     }
 
     @Test
@@ -360,7 +366,8 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.[*].cantidad").value(hasItem(DEFAULT_CANTIDAD.intValue())))
             .andExpect(jsonPath("$.[*].fechaOperacion").value(hasItem(DEFAULT_FECHA_OPERACION)))
             .andExpect(jsonPath("$.[*].modo").value(hasItem(DEFAULT_MODO.toString())))
-            .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())));
+            .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())))
+            .andExpect(jsonPath("$.[*].descripcionEstado").value(hasItem(DEFAULT_DESCRIPCION_ESTADO)));
     }
 
     @Test
@@ -384,7 +391,8 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.cantidad").value(DEFAULT_CANTIDAD.intValue()))
             .andExpect(jsonPath("$.fechaOperacion").value(DEFAULT_FECHA_OPERACION))
             .andExpect(jsonPath("$.modo").value(DEFAULT_MODO.toString()))
-            .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO.toString()));
+            .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO.toString()))
+            .andExpect(jsonPath("$.descripcionEstado").value(DEFAULT_DESCRIPCION_ESTADO));
     }
 
     @Test
@@ -416,7 +424,8 @@ class OrdenResourceIT {
             .cantidad(UPDATED_CANTIDAD)
             .fechaOperacion(UPDATED_FECHA_OPERACION)
             .modo(UPDATED_MODO)
-            .estado(UPDATED_ESTADO);
+            .estado(UPDATED_ESTADO)
+            .descripcionEstado(UPDATED_DESCRIPCION_ESTADO);
 
         restOrdenMockMvc
             .perform(
@@ -440,6 +449,7 @@ class OrdenResourceIT {
         assertThat(testOrden.getFechaOperacion()).isEqualTo(UPDATED_FECHA_OPERACION);
         assertThat(testOrden.getModo()).isEqualTo(UPDATED_MODO);
         assertThat(testOrden.getEstado()).isEqualTo(UPDATED_ESTADO);
+        assertThat(testOrden.getDescripcionEstado()).isEqualTo(UPDATED_DESCRIPCION_ESTADO);
     }
 
     @Test
@@ -539,6 +549,7 @@ class OrdenResourceIT {
         assertThat(testOrden.getFechaOperacion()).isEqualTo(UPDATED_FECHA_OPERACION);
         assertThat(testOrden.getModo()).isEqualTo(DEFAULT_MODO);
         assertThat(testOrden.getEstado()).isEqualTo(UPDATED_ESTADO);
+        assertThat(testOrden.getDescripcionEstado()).isEqualTo(DEFAULT_DESCRIPCION_ESTADO);
     }
 
     @Test
@@ -563,7 +574,8 @@ class OrdenResourceIT {
             .cantidad(UPDATED_CANTIDAD)
             .fechaOperacion(UPDATED_FECHA_OPERACION)
             .modo(UPDATED_MODO)
-            .estado(UPDATED_ESTADO);
+            .estado(UPDATED_ESTADO)
+            .descripcionEstado(UPDATED_DESCRIPCION_ESTADO);
 
         restOrdenMockMvc
             .perform(
@@ -587,6 +599,7 @@ class OrdenResourceIT {
         assertThat(testOrden.getFechaOperacion()).isEqualTo(UPDATED_FECHA_OPERACION);
         assertThat(testOrden.getModo()).isEqualTo(UPDATED_MODO);
         assertThat(testOrden.getEstado()).isEqualTo(UPDATED_ESTADO);
+        assertThat(testOrden.getDescripcionEstado()).isEqualTo(UPDATED_DESCRIPCION_ESTADO);
     }
 
     @Test

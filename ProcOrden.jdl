@@ -28,6 +28,7 @@ entity Orden {
   fechaOperacion String required
   modo ModoOrden required
   estado EstadoOrden required
+  descripcionEstado String
 }
 
 enum Operacion { COMPRA, VENTA}
@@ -37,7 +38,7 @@ enum ModoOrden {
 }
 
 enum EstadoOrden {
-  PENDIENTE, EXITOSA, FALLIDA, PROGRAMADA
+  PEND, OK, FAIL, PROG
 }
 
 // relationship OneToOne {

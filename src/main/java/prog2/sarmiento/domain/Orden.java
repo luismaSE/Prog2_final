@@ -69,6 +69,9 @@ public class Orden implements Serializable {
     @Column(name = "estado", nullable = false)
     private EstadoOrden estado;
 
+    @Column(name = "descripcion_estado")
+    private String descripcionEstado;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -214,6 +217,19 @@ public class Orden implements Serializable {
         this.estado = estado;
     }
 
+    public String getDescripcionEstado() {
+        return this.descripcionEstado;
+    }
+
+    public Orden descripcionEstado(String descripcionEstado) {
+        this.setDescripcionEstado(descripcionEstado);
+        return this;
+    }
+
+    public void setDescripcionEstado(String descripcionEstado) {
+        this.descripcionEstado = descripcionEstado;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -248,6 +264,7 @@ public class Orden implements Serializable {
             ", fechaOperacion='" + getFechaOperacion() + "'" +
             ", modo='" + getModo() + "'" +
             ", estado='" + getEstado() + "'" +
+            ", descripcionEstado='" + getDescripcionEstado() + "'" +
             "}";
     }
 }

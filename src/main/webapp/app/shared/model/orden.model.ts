@@ -14,6 +14,7 @@ export interface IOrden {
   fechaOperacion?: string;
   modo?: ModoOrden;
   estado?: EstadoOrden;
+  descripcionEstado?: string | null;
 }
 
 export const defaultValue: Readonly<IOrden> = {};

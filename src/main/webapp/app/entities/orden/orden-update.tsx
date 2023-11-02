@@ -67,7 +67,7 @@ export const OrdenUpdate = () => {
       : {
           operacion: 'COMPRA',
           modo: 'AHORA',
-          estado: 'PENDIENTE',
+          estado: 'PEND',
           ...ordenEntity,
         };
 
@@ -203,6 +203,13 @@ export const OrdenUpdate = () => {
                   </option>
                 ))}
               </ValidatedField>
+              <ValidatedField
+                label={translate('prog2FinalApp.orden.descripcionEstado')}
+                id="orden-descripcionEstado"
+                name="descripcionEstado"
+                data-cy="descripcionEstado"
+                type="text"
+              />
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/orden" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

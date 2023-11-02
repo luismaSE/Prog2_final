@@ -1,9 +1,9 @@
 export enum EstadoOrden {
-  PENDIENTE = 'PENDIENTE',
+  PEND = 'PEND',
 
-  EXITOSA = 'EXITOSA',
+  OK = 'OK',
 
-  FALLIDA = 'FALLIDA',
+  FAIL = 'FAIL',
 
-  PROGRAMADA = 'PROGRAMADA',
+  PROG = 'PROG',
 }
