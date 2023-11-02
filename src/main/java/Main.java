@@ -4,6 +4,7 @@ import prog2.sarmiento.service.AnalizarOrdenService;
 import prog2.sarmiento.service.AnalizarOrdenesService;
 // import prog2.sarmiento.domain.OrdenApiResponse;
 import prog2.sarmiento.service.ApiService;
+import prog2.sarmiento.service.ProcesadorOrdenesService;
 
 import java.util.ArrayList;
 // import java.io.IOException;
@@ -19,9 +20,9 @@ public class Main {
     public static void main(String[] args) {
         ApiService apiService = new ApiService();
         AnalizarOrdenesService analizadorOrdenes = new AnalizarOrdenesService(apiService);
+        ProcesadorOrdenesService procesadorOrdenes = new ProcesadorOrdenesService();
         List<List<Orden>> ordenesAnalisis = analizadorOrdenes.analizarOrdenes();
-        for (List<Orden> lista : ordenesAnalisis) {
-            System.out.println(lista);
-        }
+        
+        
     }
 }
