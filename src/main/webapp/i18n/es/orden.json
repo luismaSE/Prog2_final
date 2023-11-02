@@ -18,7 +18,6 @@
         "title": "Orden"
       },
       "id": "ID",
-      "numero": "Numero",
       "cliente": "Cliente",
       "accionId": "Accion Id",
       "accion": "Accion",

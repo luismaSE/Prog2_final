@@ -27,10 +27,6 @@ public class Orden implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "numero", nullable = false)
-    private String numero;
-
-    @NotNull
     @Column(name = "cliente", nullable = false)
     private Long cliente;
 
@@ -85,19 +81,6 @@ public class Orden implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNumero() {
-        return this.numero;
-    }
-
-    public Orden numero(String numero) {
-        this.setNumero(numero);
-        return this;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
     }
 
     public Long getCliente() {
@@ -254,7 +237,6 @@ public class Orden implements Serializable {
     public String toString() {
         return "Orden{" +
             "id=" + getId() +
-            ", numero='" + getNumero() + "'" +
             ", cliente=" + getCliente() +
             ", accionId=" + getAccionId() +
             ", accion='" + getAccion() + "'" +

@@ -52,9 +52,6 @@ export const Orden = () => {
                   <Translate contentKey="prog2FinalApp.orden.id">ID</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="prog2FinalApp.orden.numero">Numero</Translate>
-                </th>
-                <th>
                   <Translate contentKey="prog2FinalApp.orden.cliente">Cliente</Translate>
                 </th>
                 <th>
@@ -95,7 +92,6 @@ export const Orden = () => {
                       {orden.id}
                     </Button>
                   </td>
-                  <td>{orden.numero}</td>
                   <td>{orden.cliente}</td>
                   <td>{orden.accionId}</td>
                   <td>{orden.accion}</td>

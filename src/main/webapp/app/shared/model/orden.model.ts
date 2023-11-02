@@ -4,7 +4,6 @@ import { EstadoOrden } from 'app/shared/model/enumerations/estado-orden.model';
 
 export interface IOrden {
   id?: number;
-  numero?: string;
   cliente?: number;
   accionId?: number;
   accion?: string;

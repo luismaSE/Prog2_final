@@ -123,9 +123,6 @@ public class OrdenResource {
         Optional<Orden> result = ordenRepository
             .findById(orden.getId())
             .map(existingOrden -> {
-                if (orden.getNumero() != null) {
-                    existingOrden.setNumero(orden.getNumero());
-                }
                 if (orden.getCliente() != null) {
                     existingOrden.setCliente(orden.getCliente());
                 }

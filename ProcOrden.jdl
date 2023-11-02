@@ -18,7 +18,6 @@
 
 
 entity Orden {
-  numero String required
   cliente Long required
   accionId Long required
   accion String required
@@ -38,7 +37,7 @@ enum ModoOrden {
 }
 
 enum EstadoOrden {
-  PEND, OK, FAIL, PROG
+  OK, FAIL, PROG, COMPLETE
 }
 
 // relationship OneToOne {

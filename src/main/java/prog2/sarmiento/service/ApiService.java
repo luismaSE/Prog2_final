@@ -3,17 +3,9 @@ package prog2.sarmiento.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -76,24 +68,22 @@ public class ApiService {
     }
 
     public List<Orden> obtenerOrdenesDesdeAPI() {
+        List<Orden> ordenes = new ArrayList<>();
         try {
             String API_URL = "http://192.168.194.254:8000/api/ordenes/ordenes";
             HttpResponse<String> response = getApiResponse(API_URL);
+
             if (response != null) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 OrdenApiResponse ordenApiResponse = objectMapper.readValue(response.body(), OrdenApiResponse.class);
-                return ordenApiResponse.getOrdenes();
-            } else {
-                // Manejar caso en que la respuesta sea nula
-                return Collections.emptyList();
+                ordenes = ordenApiResponse.getOrdenes();
             }
         } catch (IOException e) {
-            // Manejar excepción de lectura
             e.printStackTrace();
-            return Collections.emptyList();
         }
+        return ordenes;
     }
-    
+
     public List<Long> obtenerClientesDesdeAPI() {
         try {
             String API_URL = "http://192.168.194.254:8000/api/clientes/";

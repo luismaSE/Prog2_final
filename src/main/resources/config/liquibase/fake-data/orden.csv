@@ -1,11 +1,11 @@
-id;numero;cliente;accion_id;accion;operacion;precio;cantidad;fecha_operacion;modo;estado;descripcion_estado
-1;Account;79159;9964;JBOD Pound;COMPRA;65212;9823;calculate Loan markets;FINDIA;FAIL;nivel
-2;back-end;68679;44088;Humano SQL Joyería;COMPRA;2289;56907;solid Siria;AHORA;PEND;protocol
-3;Paradigma New Account;48257;65731;mobile Pequeño colaboración;VENTA;81413;13604;Distrito;AHORA;FAIL;Rojo
-4;copying Camino;70334;92198;Loan Interno Global;COMPRA;32473;66296;Account Funcionalidad Guapo;FINDIA;PEND;Avenida Queso
-5;Música;96792;82189;Amigable website driver;VENTA;74645;73027;Heredado Public-key;FINDIA;FAIL;Funcionario Jefe
-6;Gris;59537;85862;Azul monetize Salida;VENTA;97978;58603;Patatas;AHORA;PROG;Facilitador
-7;action-items Metal intranet;71886;16715;e-tailers Pelota Buckinghamshire;VENTA;3620;32248;models;FINDIA;FAIL;Berkshire
-8;Tunez;13670;12427;Arrabal Gerente bluetooth;VENTA;98524;81060;Clonado Acero Analista;FINDIA;PEND;Relacciones Soporte
-9;Sabroso wireless;76137;35785;Hormigon quantifying;VENTA;49518;13984;Asturias system leverage;FINDIA;FAIL;Bajada Jefe
-10;de;97511;23376;Coche;COMPRA;14130;91052;didactica;AHORA;PEND;Acero Pelota deposit
+id;cliente;accion_id;accion;operacion;precio;cantidad;fecha_operacion;modo;estado;descripcion_estado
+1;29619;61443;neural Tajikistan;COMPRA;70176;76320;Queso payment Arquitecto;AHORA;PROG;Canarias e-commerce
+2;78867;13930;Won Humano SQL;COMPRA;31411;98549;Bricolaje;PRINCIPIODIA;COMPLETE;Siria
+3;25899;6046;protocol;VENTA;93749;33195;New Account;FINDIA;PROG;mobile Pequeño colaboración
+4;62451;81413;Refinado;VENTA;12449;18908;Namibia;FINDIA;COMPLETE;Ensalada Adelante
+5;58034;39401;copying Belice moderador;VENTA;13189;63687;sistémica reboot Genérico;AHORA;COMPLETE;Acero Rial program
+6;41182;31120;Seguro Estratega drive;VENTA;11347;23258;withdrawal holistic iterate;PRINCIPIODIA;OK;revolutionize
+7;85862;82542;Madera;COMPRA;46519;45761;tangible Principado invoice;FINDIA;OK;Decoración Ladrillo robust
+8;4764;67346;B2C Hecho;VENTA;43463;30614;Pelota Buckinghamshire;PRINCIPIODIA;OK;Gris
+9;26907;33775;Bebes Arrabal;VENTA;21400;13670;División;AHORA;COMPLETE;Bacon
+10;66707;65499;optical Práctico up;COMPRA;99747;50055;enable;PRINCIPIODIA;OK;Soporte optimize

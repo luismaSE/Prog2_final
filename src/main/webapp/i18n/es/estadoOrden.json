@@ -2,10 +2,10 @@
   "prog2FinalApp": {
     "EstadoOrden": {
       "null": "",
-      "PEND": "PEND",
       "OK": "OK",
       "FAIL": "FAIL",
-      "PROG": "PROG"
+      "PROG": "PROG",
+      "COMPLETE": "COMPLETE"
     }
   }
 }

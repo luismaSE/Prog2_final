@@ -14,9 +14,6 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="numero" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
             <column name="cliente" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -68,7 +65,6 @@
                   tableName="orden"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="numero" type="string"/>
             <column name="cliente" type="numeric"/>
             <column name="accion_id" type="numeric"/>
             <column name="accion" type="string"/>

@@ -67,7 +67,7 @@ export const OrdenUpdate = () => {
       : {
           operacion: 'COMPRA',
           modo: 'AHORA',
-          estado: 'PEND',
+          estado: 'OK',
           ...ordenEntity,
         };
 
@@ -96,16 +96,6 @@ export const OrdenUpdate = () => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField
-                label={translate('prog2FinalApp.orden.numero')}
-                id="orden-numero"
-                name="numero"
-                data-cy="numero"
-                type="text"
-                validate={{
-                  required: { value: true, message: translate('entity.validation.required') },
-                }}
-              />
               <ValidatedField
                 label={translate('prog2FinalApp.orden.cliente')}
                 id="orden-cliente"

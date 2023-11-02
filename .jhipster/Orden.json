@@ -6,11 +6,6 @@
   "entityTableName": "orden",
   "fields": [
     {
-      "fieldName": "numero",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "cliente",
       "fieldType": "Long",
       "fieldValidateRules": ["required"]
@@ -56,7 +51,7 @@
       "fieldName": "estado",
       "fieldType": "EstadoOrden",
       "fieldValidateRules": ["required"],
-      "fieldValues": "PEND,OK,FAIL,PROG"
+      "fieldValues": "OK,FAIL,PROG,COMPLETE"
     },
     {
       "fieldName": "descripcionEstado",

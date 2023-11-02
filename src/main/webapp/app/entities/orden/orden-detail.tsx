@@ -33,12 +33,6 @@ export const OrdenDetail = () => {
           </dt>
           <dd>{ordenEntity.id}</dd>
           <dt>
-            <span id="numero">
-              <Translate contentKey="prog2FinalApp.orden.numero">Numero</Translate>
-            </span>
-          </dt>
-          <dd>{ordenEntity.numero}</dd>
-          <dt>
             <span id="cliente">
               <Translate contentKey="prog2FinalApp.orden.cliente">Cliente</Translate>
             </span>
