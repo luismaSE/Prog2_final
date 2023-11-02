@@ -1,7 +1,6 @@
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.EstadoOrden;
-import prog2.sarmiento.service.AnalizarOrdenService;
-import prog2.sarmiento.service.AnalizarOrdenesService;
+import prog2.sarmiento.service.AnalizardorOrdenesService;
 // import prog2.sarmiento.domain.OrdenApiResponse;
 import prog2.sarmiento.service.ApiService;
 import prog2.sarmiento.service.ProcesadorOrdenesService;
@@ -19,10 +18,12 @@ public class Main {
 
     public static void main(String[] args) {
         ApiService apiService = new ApiService();
-        AnalizarOrdenesService analizadorOrdenes = new AnalizarOrdenesService(apiService);
+        AnalizardorOrdenesService analizadorOrdenes = new AnalizardorOrdenesService(apiService);
         ProcesadorOrdenesService procesadorOrdenes = new ProcesadorOrdenesService();
-        List<List<Orden>> ordenesAnalisis = analizadorOrdenes.analizarOrdenes();
+
+
+        List<List<Orden>> ordenesAnalisis = analizadorOrdenes.analizarOrdenes(procesadorOrdenes);
         
-        
+
     }
 }

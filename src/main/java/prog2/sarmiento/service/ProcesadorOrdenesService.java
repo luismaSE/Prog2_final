@@ -16,22 +16,22 @@ import prog2.sarmiento.domain.enumeration.Operacion;
 @Transactional
 public class ProcesadorOrdenesService {
 
-    List<Orden> ordenesAhora;
-    List<Orden> ordenesFinDia;
-    List<Orden> ordenesPrincipioDia;
+    List<Orden> ordenesAhora = null;
+    List<Orden> ordenesFinDia = null;
+    List<Orden> ordenesPrincipioDia = null;
 
     private final Logger log = LoggerFactory.getLogger(ProcesadorOrdenesService.class);
 
     public void clasificarOrdenes (List<Orden> ordenes) {
         for (Orden orden : ordenes) {
-            if (orden.getModo() == ModoOrden.AHORA) {
-                ordenesAhora.add(orden);
-            }
             if (orden.getModo() == ModoOrden.PRINCIPIODIA) {
                 ordenesPrincipioDia.add(orden); 
             }
             if (orden.getModo() == ModoOrden.FINDIA) {
                 ordenesFinDia.add(orden);
+            }
+            if (orden.getModo() == ModoOrden.AHORA) {
+                ordenesAhora.add(orden);
             }
         }
     }
@@ -63,7 +63,14 @@ public class ProcesadorOrdenesService {
                 procesarOrden(orden);
             }
         }
+    }
 
+    public void procesarOrdenesAhora() {
+            if (ordenesAhora != null) {
+                for (Orden orden : ordenesAhora) {
+                    procesarOrden(orden);
+                }
+            }
     }
 
 
