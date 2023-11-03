@@ -21,8 +21,8 @@ import prog2.sarmiento.repository.OrdenRepository;
 // @Transactional
 public class MainService {
 
-    // @Autowired
-    // private OrdenRepository ordenRepository;
+    @Autowired
+    private OrdenRepository ordenRepository;
 
     public List<Orden> ordenesAhora = new ArrayList<>();
     
@@ -38,11 +38,13 @@ public class MainService {
     private final LocalTime HORA_FIN_DIA = LocalTime.of(18, 0);
 
 
-    Long i = (long) 0;
+    // Long i = (long) 0;
 
     private final Logger log = LoggerFactory.getLogger(MainService.class);
 
-    public void Serve() {
+
+
+    public String Serve() {
     System.out.println("Iniciando...");
     System.out.println("Obteniendo nuevas Ordenes...");
     ordenesPendientes.addAll(apiService.obtenerOrdenesDesdeAPI());
@@ -52,22 +54,25 @@ public class MainService {
 
     while (!ordenesPendientes.isEmpty()) {
         Orden orden = analizadorOrdenes.analizarOrden(ordenesPendientes.poll());
-        orden.setId(i);;
+        // orden.setId(i);;
 
         if (orden.getModo().equals(ModoOrden.AHORA) && orden.getEstado().equals(EstadoOrden.OK)) {
             orden = procesadorOrdenes.procesarOrden(orden);
         }
         // ordenRepository.save(orden);
         analizadorOrdenes.registrarOrden(orden);
-        i++;
+        orden = ordenRepository.save(orden);
+
+        // i++;
     }
 
-    analizadorOrdenes.mostrarResultadoAnalisis();
+    String estado = analizadorOrdenes.mostrarResultadoAnalisis();
     List<List<Orden>> analisis = analizadorOrdenes.terminarAnalisis();
     programarOrdenes(analisis.get(0));
     revisarOrdenesProg();
 
-    System.out.println("\nTodas las tareas han sido completadas");
+
+    return (estado);
 
     }
 
@@ -93,6 +98,7 @@ public class MainService {
                     ordenesFinDia.add(orden);
                 }
             }
+            ordenRepository.save(orden);
         }
     }
 
@@ -103,10 +109,12 @@ public class MainService {
         if (horaActual.equals(HORA_PRINCIPIO_DIA)) {
                 while (!ordenesPrincipioDia.isEmpty()) {
                     Orden orden = procesadorOrdenes.procesarOrden(ordenesPrincipioDia.poll());
+                    ordenRepository.save(orden);
                 }
         } else if (horaActual.equals(HORA_FIN_DIA)) {
             while (!ordenesFinDia.isEmpty()) {
                 Orden orden = procesadorOrdenes.procesarOrden(ordenesFinDia.poll());
+                ordenRepository.save(orden);
             }
         } else {
             System.out.println("\nNada por hacer");

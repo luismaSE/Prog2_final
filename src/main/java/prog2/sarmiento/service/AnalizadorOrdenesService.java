@@ -68,15 +68,20 @@ public class AnalizadorOrdenesService {
 
 
 
-    public void mostrarResultadoAnalisis () {
+    public String mostrarResultadoAnalisis () {
+        StringBuilder resultado = new StringBuilder();
         System.out.println("\nOrdenes OK:");
         for (Orden orden : ordenesOk) {
             System.out.println(orden);
+            resultado.append(orden+"\n");
         } 
         System.out.println("\nOrdenes FAIL:");
         for (Orden orden : ordenesFail) {
             System.out.println(orden);
+            resultado.append(orden+"\n");
         } 
+        return resultado.toString();
+        
     }
 
     public List<List<Orden>> terminarAnalisis() {

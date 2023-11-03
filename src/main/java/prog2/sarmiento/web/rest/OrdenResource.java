@@ -10,11 +10,13 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.repository.OrdenRepository;
+import prog2.sarmiento.service.MainService;
 import prog2.sarmiento.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -47,6 +49,27 @@ public class OrdenResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new orden, or with status {@code 400 (Bad Request)} if the orden has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+
+
+    // Metodos Propios
+    @GetMapping("/ordens/procesar")
+    public ResponseEntity<String> ejecutarMainService() {
+    try {
+        MainService mainService = new MainService();
+         mainService.Serve();
+        String estado = mainService.Serve();
+        
+        return ResponseEntity.ok(estado);
+    } catch (Exception e) {
+        // Manejo de excepción en caso de error
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al ejecutar MainService: " + e.getMessage());
+    }
+}
+
+
+
+
+    // Metodos de JHipster
     @PostMapping("/ordens")
     public ResponseEntity<Orden> createOrden(@Valid @RequestBody Orden orden) throws URISyntaxException {
         log.debug("REST request to save Orden : {}", orden);

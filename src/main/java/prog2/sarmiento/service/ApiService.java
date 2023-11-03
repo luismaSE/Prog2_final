@@ -78,8 +78,10 @@ public class ApiService {
                 OrdenApiResponse ordenApiResponse = objectMapper.readValue(response.body(), OrdenApiResponse.class);
                 ordenes = ordenApiResponse.getOrdenes();
             }
-        } catch (IOException e) {
+        } catch (IOException  e) {
+
             e.printStackTrace();
+
         }
         return ordenes;
     }
