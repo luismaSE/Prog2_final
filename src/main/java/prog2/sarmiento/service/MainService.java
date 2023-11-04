@@ -13,18 +13,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import prog2.sarmiento.domain.Orden;
-import prog2.sarmiento.domain.enumeration.EstadoOrden;
-import prog2.sarmiento.domain.enumeration.ModoOrden;
+import prog2.sarmiento.domain.enumeration.Estado;
+import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.repository.OrdenRepository;
+import prog2.sarmiento.service.mapper.OrdenMapper;
 
 @Service
-// @Transactional
+@Transactional
 public class MainService {
 
-    @Autowired
-    private OrdenRepository ordenRepository;
+    private final Logger log = LoggerFactory.getLogger(MainService.class);
+
     @Autowired
     ApiService apiService;
+    @Autowired
+    private OrdenRepository ordenRepository;
     @Autowired
     AnalizadorOrdenesService analizadorOrdenes;
     @Autowired
@@ -36,18 +39,8 @@ public class MainService {
     public Queue<Orden> ordenesFinDia = new LinkedList<>();
     public Queue<Orden> ordenesPrincipioDia = new LinkedList<>();
 
-    // ApiService apiService = new ApiService();
-    // AnalizadorOrdenesService analizadorOrdenes = new AnalizadorOrdenesService(apiService);
-    // ProcesadorOrdenesService procesadorOrdenes = new ProcesadorOrdenesService();
-
     private final LocalTime HORA_PRINCIPIO_DIA = LocalTime.of(9, 0);
     private final LocalTime HORA_FIN_DIA = LocalTime.of(18, 0);
-
-
-    // Long i = (long) 0;
-
-    private final Logger log = LoggerFactory.getLogger(MainService.class);
-
 
 
     public String Serve() {
@@ -60,15 +53,13 @@ public class MainService {
 
     while (!ordenesPendientes.isEmpty()) {
         Orden orden = analizadorOrdenes.analizarOrden(ordenesPendientes.poll());
-        // orden.setId(i);;
 
-        if (orden.getModo().equals(ModoOrden.AHORA) && orden.getEstado().equals(EstadoOrden.OK)) {
+        if (orden.getModo().equals(Modo.AHORA) && orden.getEstado().equals(Estado.OK)) {
             orden = procesadorOrdenes.procesarOrden(orden);
         }
         analizadorOrdenes.registrarOrden(orden);
         orden = ordenRepository.save(orden);
 
-        // i++;
     }
 
     String estado = analizadorOrdenes.mostrarResultadoAnalisis();
@@ -84,13 +75,13 @@ public class MainService {
 
     public void programarOrdenes(List<Orden> ordenes) {
         for(Orden orden : ordenes) {
-            if (!orden.getModo().equals(ModoOrden.AHORA)) {
-                orden.setEstado(EstadoOrden.PROG);
+            if (!orden.getModo().equals(Modo.AHORA)) {
+                orden.setEstado(Estado.PROG);
                 orden.setDescripcionEstado("Programada para procesamiento");;
-                if (orden.getModo() == ModoOrden.PRINCIPIODIA) {
+                if (orden.getModo() == Modo.PRINCIPIODIA) {
                     ordenesPrincipioDia.add(orden);
                 }
-                if (orden.getModo() == ModoOrden.FINDIA) {
+                if (orden.getModo() == Modo.FINDIA) {
                     ordenesFinDia.add(orden);
                 }
             }
@@ -115,5 +106,5 @@ public class MainService {
         } else {
             System.out.println("\nNada por hacer");
         }
-    }
+    } 
 }

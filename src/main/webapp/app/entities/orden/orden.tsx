@@ -102,10 +102,10 @@ export const Orden = () => {
                   <td>{orden.cantidad}</td>
                   <td>{orden.fechaOperacion}</td>
                   <td>
-                    <Translate contentKey={`prog2FinalApp.ModoOrden.${orden.modo}`} />
+                    <Translate contentKey={`prog2FinalApp.Modo.${orden.modo}`} />
                   </td>
                   <td>
-                    <Translate contentKey={`prog2FinalApp.EstadoOrden.${orden.estado}`} />
+                    <Translate contentKey={`prog2FinalApp.Estado.${orden.estado}`} />
                   </td>
                   <td>{orden.descripcionEstado}</td>
                   <td className="text-end">

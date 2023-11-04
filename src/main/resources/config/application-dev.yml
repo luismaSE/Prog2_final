@@ -42,14 +42,14 @@ spring:
     config:
       uri: http://admin:${jhipster.registry.password}@localhost:8761/config
       # name of the config server's property source (file.yml) that we want to use
-      name: Prog2_final
+      name: Prog2Final
       profile: dev
       label: main # toggle to switch to a different version of the configuration as stored in git
       # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/prog2_final;DB_CLOSE_DELAY=-1;MODE=LEGACY
-    username: Prog2_final
+    url: jdbc:h2:file:./target/h2db/db/prog2final;DB_CLOSE_DELAY=-1;MODE=LEGACY
+    username: Prog2Final
     password:
     hikari:
       poolName: Hikari
@@ -117,7 +117,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
-        base64-secret: Y2ZlNjZkMDk4NWM4MWQ5MThjZTcwNmQwMjVjYzllMWQ1MTUwMGRkOTVmN2UwOWQ0NTFiMGFlNDU1ZmFkMGY1Y2I0N2I5ZjFlMDFmMjk0YmM2NjY3MjEzMDhhN2JjZDkxMTMzM2MxNWE4MGIwMmY5YWUwZGQ0MjBmMzA2MWI5Y2E=
+        base64-secret: ZGViZmQwNmU2ZjIwMjcxY2NiZGE1MGI1ODk5ZDRlODEyZGYzM2JhYTI2NWM4N2M5MDVhOThmMTFhMmU4YzU2NmQ1YjkyMTAyYzU3YTdjMTE5YTk3M2MxNjY1Y2MxNWIxYjNkZWUzOTM5MDY4N2VhYTE2YTUxYTNlNWViOWFlMGU=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000

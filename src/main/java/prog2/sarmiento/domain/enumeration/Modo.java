@@ -1,9 +1,9 @@
 package prog2.sarmiento.domain.enumeration;
 
 /**
- * The ModoOrden enumeration.
+ * The Modo enumeration.
  */
-public enum ModoOrden {
+public enum Modo {
     AHORA,
     FINDIA,
     PRINCIPIODIA,

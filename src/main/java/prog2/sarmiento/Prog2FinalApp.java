@@ -32,7 +32,7 @@ public class Prog2FinalApp {
     }
 
     /**
-     * Initializes Prog2_final.
+     * Initializes Prog2Final.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>

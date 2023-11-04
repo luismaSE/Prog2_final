@@ -9,9 +9,9 @@ import prog2.sarmiento.domain.Orden;
 
 @Service
 @Transactional
-public class ServicioExternoService {
+public class ExternalService {
 
-    private final Logger log = LoggerFactory.getLogger(ServicioExternoService.class);
+    private final Logger log = LoggerFactory.getLogger(ExternalService.class);
 
     public boolean ordenCompra(Orden orden) {
         return true;
@@ -20,7 +20,6 @@ public class ServicioExternoService {
     public boolean ordenVenta(Orden orden) {
         return true;
     }
-
 
 
 }

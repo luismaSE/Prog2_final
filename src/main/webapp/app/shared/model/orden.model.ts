@@ -1,6 +1,6 @@
 import { Operacion } from 'app/shared/model/enumerations/operacion.model';
-import { ModoOrden } from 'app/shared/model/enumerations/modo-orden.model';
-import { EstadoOrden } from 'app/shared/model/enumerations/estado-orden.model';
+import { Modo } from 'app/shared/model/enumerations/modo.model';
+import { Estado } from 'app/shared/model/enumerations/estado.model';
 
 export interface IOrden {
   id?: number;
@@ -11,8 +11,8 @@ export interface IOrden {
   precio?: number;
   cantidad?: number;
   fechaOperacion?: string;
-  modo?: ModoOrden;
-  estado?: EstadoOrden;
+  modo?: Modo;
+  estado?: Estado | null;
   descripcionEstado?: string | null;
 }
 

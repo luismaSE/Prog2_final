@@ -1,6 +1,8 @@
-package prog2.sarmiento.domain;
+package prog2.sarmiento.service.dto;
 
 import java.util.List;
+
+import prog2.sarmiento.domain.Orden;
 
 public class OrdenApiResponse {
     private List<Orden> ordenes;

@@ -1,14 +1,5 @@
 package prog2.sarmiento.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -17,15 +8,27 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import prog2.sarmiento.domain.Orden;
-import prog2.sarmiento.domain.OrdenApiResponse;
-
-
+import prog2.sarmiento.service.dto.OrdenApiResponse;
 
 @Service
 @Transactional
 public class ApiService {
+
+    private final Logger log = LoggerFactory.getLogger(ApiService.class);
 
     private String JWT_TOKEN;
 
@@ -86,11 +89,11 @@ public class ApiService {
         return ordenes;
     }
 
-    public List<Long> obtenerClientesDesdeAPI() {
+    public List<Integer> obtenerClientesDesdeAPI() {
         try {
             String API_URL = "http://192.168.194.254:8000/api/clientes/";
             HttpResponse<String> response = getApiResponse(API_URL);
-            List<Long> clienteIds = new ArrayList<>();
+            List<Integer> clienteIds = new ArrayList<>();
     
             if (response != null) {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -99,7 +102,7 @@ public class ApiService {
     
                 if (clientesNode.isArray()) {
                     for (JsonNode clienteNode : clientesNode) {
-                        long clienteId = clienteNode.get("id").asLong();
+                        Integer clienteId = clienteNode.get("id").asInt();
                         clienteIds.add(clienteId);
                     }
                 }
@@ -134,4 +137,3 @@ public class ApiService {
         }
     }
 }
-    

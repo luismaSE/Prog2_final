@@ -1,18 +1,15 @@
 {
-  "applications": "*",
-  "changelogDate": "20231031191539",
-  "dto": "no",
-  "embedded": false,
-  "entityTableName": "orden",
+  "changelogDate": "20231104014839",
+  "dto": "mapstruct",
   "fields": [
     {
       "fieldName": "cliente",
-      "fieldType": "Long",
+      "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "accionId",
-      "fieldType": "Long",
+      "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     },
     {
@@ -28,12 +25,12 @@
     },
     {
       "fieldName": "precio",
-      "fieldType": "Long",
+      "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "cantidad",
-      "fieldType": "Long",
+      "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     },
     {
@@ -43,26 +40,24 @@
     },
     {
       "fieldName": "modo",
-      "fieldType": "ModoOrden",
+      "fieldType": "Modo",
       "fieldValidateRules": ["required"],
       "fieldValues": "AHORA,FINDIA,PRINCIPIODIA"
     },
     {
       "fieldName": "estado",
-      "fieldType": "EstadoOrden",
-      "fieldValidateRules": ["required"],
-      "fieldValues": "OK,FAIL,PROG,COMPLETE"
+      "fieldType": "Estado",
+      "fieldValues": "OK,FAIL,PROG,COMPLETE,PEND"
     },
     {
       "fieldName": "descripcionEstado",
       "fieldType": "String"
     }
   ],
-  "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "Orden",
   "pagination": "no",
   "readOnly": false,
   "relationships": [],
-  "service": "no"
+  "service": "serviceClass"
 }

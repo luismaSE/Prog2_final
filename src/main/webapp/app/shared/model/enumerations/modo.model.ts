@@ -1,4 +1,4 @@
-export enum ModoOrden {
+export enum Modo {
   AHORA = 'AHORA',
 
   FINDIA = 'FINDIA',

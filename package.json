@@ -2,7 +2,7 @@
   "name": "prog-2-final",
   "version": "0.0.1-SNAPSHOT",
   "private": true,
-  "description": "Description for Prog2_final",
+  "description": "Description for Prog2Final",
   "license": "UNLICENSED",
   "scripts": {
     "app:start": "./mvnw",

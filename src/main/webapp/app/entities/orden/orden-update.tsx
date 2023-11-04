@@ -10,8 +10,8 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IOrden } from 'app/shared/model/orden.model';
 import { Operacion } from 'app/shared/model/enumerations/operacion.model';
-import { ModoOrden } from 'app/shared/model/enumerations/modo-orden.model';
-import { EstadoOrden } from 'app/shared/model/enumerations/estado-orden.model';
+import { Modo } from 'app/shared/model/enumerations/modo.model';
+import { Estado } from 'app/shared/model/enumerations/estado.model';
 import { getEntity, updateEntity, createEntity, reset } from './orden.reducer';
 
 export const OrdenUpdate = () => {
@@ -27,8 +27,8 @@ export const OrdenUpdate = () => {
   const updating = useAppSelector(state => state.orden.updating);
   const updateSuccess = useAppSelector(state => state.orden.updateSuccess);
   const operacionValues = Object.keys(Operacion);
-  const modoOrdenValues = Object.keys(ModoOrden);
-  const estadoOrdenValues = Object.keys(EstadoOrden);
+  const modoValues = Object.keys(Modo);
+  const estadoValues = Object.keys(Estado);
 
   const handleClose = () => {
     navigate('/orden');
@@ -174,9 +174,9 @@ export const OrdenUpdate = () => {
                 }}
               />
               <ValidatedField label={translate('prog2FinalApp.orden.modo')} id="orden-modo" name="modo" data-cy="modo" type="select">
-                {modoOrdenValues.map(modoOrden => (
-                  <option value={modoOrden} key={modoOrden}>
-                    {translate('prog2FinalApp.ModoOrden.' + modoOrden)}
+                {modoValues.map(modo => (
+                  <option value={modo} key={modo}>
+                    {translate('prog2FinalApp.Modo.' + modo)}
                   </option>
                 ))}
               </ValidatedField>
@@ -187,9 +187,9 @@ export const OrdenUpdate = () => {
                 data-cy="estado"
                 type="select"
               >
-                {estadoOrdenValues.map(estadoOrden => (
-                  <option value={estadoOrden} key={estadoOrden}>
-                    {translate('prog2FinalApp.EstadoOrden.' + estadoOrden)}
+                {estadoValues.map(estado => (
+                  <option value={estado} key={estado}>
+                    {translate('prog2FinalApp.Estado.' + estado)}
                   </option>
                 ))}
               </ValidatedField>

@@ -1,4 +1,4 @@
-export enum EstadoOrden {
+export enum Estado {
   OK = 'OK',
 
   FAIL = 'FAIL',
@@ -6,4 +6,6 @@ export enum EstadoOrden {
   PROG = 'PROG',
 
   COMPLETE = 'COMPLETE',
+
+  PEND = 'PEND',
 }

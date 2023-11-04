@@ -5,8 +5,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import prog2.sarmiento.domain.enumeration.EstadoOrden;
-import prog2.sarmiento.domain.enumeration.ModoOrden;
+import prog2.sarmiento.domain.enumeration.Estado;
+import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.domain.enumeration.Operacion;
 
 /**
@@ -28,11 +28,11 @@ public class Orden implements Serializable {
 
     @NotNull
     @Column(name = "cliente", nullable = false)
-    private Long cliente;
+    private Integer cliente;
 
     @NotNull
     @Column(name = "accion_id", nullable = false)
-    private Long accionId;
+    private Integer accionId;
 
     @NotNull
     @Column(name = "accion", nullable = false)
@@ -45,11 +45,11 @@ public class Orden implements Serializable {
 
     @NotNull
     @Column(name = "precio", nullable = false)
-    private Long precio;
+    private Integer precio;
 
     @NotNull
     @Column(name = "cantidad", nullable = false)
-    private Long cantidad;
+    private Integer cantidad;
 
     @NotNull
     @Column(name = "fecha_operacion", nullable = false)
@@ -58,12 +58,11 @@ public class Orden implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "modo", nullable = false)
-    private ModoOrden modo;
+    private Modo modo;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado", nullable = false)
-    private EstadoOrden estado;
+    @Column(name = "estado")
+    private Estado estado;
 
     @Column(name = "descripcion_estado")
     private String descripcionEstado;
@@ -83,29 +82,29 @@ public class Orden implements Serializable {
         this.id = id;
     }
 
-    public Long getCliente() {
+    public Integer getCliente() {
         return this.cliente;
     }
 
-    public Orden cliente(Long cliente) {
+    public Orden cliente(Integer cliente) {
         this.setCliente(cliente);
         return this;
     }
 
-    public void setCliente(Long cliente) {
+    public void setCliente(Integer cliente) {
         this.cliente = cliente;
     }
 
-    public Long getAccionId() {
+    public Integer getAccionId() {
         return this.accionId;
     }
 
-    public Orden accionId(Long accionId) {
+    public Orden accionId(Integer accionId) {
         this.setAccionId(accionId);
         return this;
     }
 
-    public void setAccionId(Long accionId) {
+    public void setAccionId(Integer accionId) {
         this.accionId = accionId;
     }
 
@@ -135,29 +134,29 @@ public class Orden implements Serializable {
         this.operacion = operacion;
     }
 
-    public Long getPrecio() {
+    public Integer getPrecio() {
         return this.precio;
     }
 
-    public Orden precio(Long precio) {
+    public Orden precio(Integer precio) {
         this.setPrecio(precio);
         return this;
     }
 
-    public void setPrecio(Long precio) {
+    public void setPrecio(Integer precio) {
         this.precio = precio;
     }
 
-    public Long getCantidad() {
+    public Integer getCantidad() {
         return this.cantidad;
     }
 
-    public Orden cantidad(Long cantidad) {
+    public Orden cantidad(Integer cantidad) {
         this.setCantidad(cantidad);
         return this;
     }
 
-    public void setCantidad(Long cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -174,29 +173,29 @@ public class Orden implements Serializable {
         this.fechaOperacion = fechaOperacion;
     }
 
-    public ModoOrden getModo() {
+    public Modo getModo() {
         return this.modo;
     }
 
-    public Orden modo(ModoOrden modo) {
+    public Orden modo(Modo modo) {
         this.setModo(modo);
         return this;
     }
 
-    public void setModo(ModoOrden modo) {
+    public void setModo(Modo modo) {
         this.modo = modo;
     }
 
-    public EstadoOrden getEstado() {
+    public Estado getEstado() {
         return this.estado;
     }
 
-    public Orden estado(EstadoOrden estado) {
+    public Orden estado(Estado estado) {
         this.setEstado(estado);
         return this;
     }
 
-    public void setEstado(EstadoOrden estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 

@@ -25,7 +25,7 @@ public class MariadbTestContainer implements SqlTestContainer {
         if (null == mariaDBContainer) {
             mariaDBContainer =
                 new MariaDBContainer<>("mariadb:10.8.3")
-                    .withDatabaseName("Prog2_final")
+                    .withDatabaseName("Prog2Final")
                     .withTmpFs(Collections.singletonMap("/testtmpfs", "rw"))
                     .withLogConsumer(new Slf4jLogConsumer(log))
                     .withReuse(true)

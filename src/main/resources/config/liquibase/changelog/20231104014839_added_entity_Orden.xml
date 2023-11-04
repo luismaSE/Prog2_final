@@ -9,15 +9,15 @@
     <!--
         Added the entity Orden.
     -->
-    <changeSet id="20231031191539-1" author="jhipster">
+    <changeSet id="20231104014839-1" author="jhipster">
         <createTable tableName="orden">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="cliente" type="bigint">
+            <column name="cliente" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="accion_id" type="bigint">
+            <column name="accion_id" type="integer">
                 <constraints nullable="false" />
             </column>
             <column name="accion" type="varchar(255)">
@@ -26,10 +26,10 @@
             <column name="operacion" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="precio" type="bigint">
+            <column name="precio" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="cantidad" type="bigint">
+            <column name="cantidad" type="integer">
                 <constraints nullable="false" />
             </column>
             <column name="fecha_operacion" type="varchar(255)">
@@ -39,7 +39,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="estado" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="descripcion_estado" type="varchar(255)">
                 <constraints nullable="true" />
@@ -58,7 +58,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20231031191539-1-data" author="jhipster" context="faker">
+    <changeSet id="20231104014839-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/orden.csv"
                   separator=";"

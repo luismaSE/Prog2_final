@@ -9,6 +9,4 @@ import prog2.sarmiento.domain.Orden;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface OrdenRepository extends JpaRepository<Orden, Long> {
-        // métodos adicionales para realizar búsquedas personalizadas.
-}
+public interface OrdenRepository extends JpaRepository<Orden, Long>, JpaSpecificationExecutor<Orden> {}

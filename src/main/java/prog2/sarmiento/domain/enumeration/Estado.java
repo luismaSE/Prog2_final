@@ -1,11 +1,12 @@
 package prog2.sarmiento.domain.enumeration;
 
 /**
- * The EstadoOrden enumeration.
+ * The Estado enumeration.
  */
-public enum EstadoOrden {
+public enum Estado {
     OK,
     FAIL,
     PROG,
     COMPLETE,
+    PEND,
 }
