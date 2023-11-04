@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,12 +51,16 @@ public class OrdenResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
 
+    @Autowired
+    MainService mainService;
 
     // Metodos Propios
     @GetMapping("/ordens/procesar")
     public ResponseEntity<String> ejecutarMainService() {
+
+        
     try {
-        MainService mainService = new MainService();
+        // MainService mainService = new MainService();
          mainService.Serve();
         String estado = mainService.Serve();
         

@@ -23,6 +23,12 @@ public class MainService {
 
     @Autowired
     private OrdenRepository ordenRepository;
+    @Autowired
+    ApiService apiService;
+    @Autowired
+    AnalizadorOrdenesService analizadorOrdenes;
+    @Autowired
+    ProcesadorOrdenesService procesadorOrdenes;
 
     public List<Orden> ordenesAhora = new ArrayList<>();
     
@@ -30,9 +36,9 @@ public class MainService {
     public Queue<Orden> ordenesFinDia = new LinkedList<>();
     public Queue<Orden> ordenesPrincipioDia = new LinkedList<>();
 
-    ApiService apiService = new ApiService();
-    AnalizadorOrdenesService analizadorOrdenes = new AnalizadorOrdenesService(apiService);
-    ProcesadorOrdenesService procesadorOrdenes = new ProcesadorOrdenesService();
+    // ApiService apiService = new ApiService();
+    // AnalizadorOrdenesService analizadorOrdenes = new AnalizadorOrdenesService(apiService);
+    // ProcesadorOrdenesService procesadorOrdenes = new ProcesadorOrdenesService();
 
     private final LocalTime HORA_PRINCIPIO_DIA = LocalTime.of(9, 0);
     private final LocalTime HORA_FIN_DIA = LocalTime.of(18, 0);
@@ -59,7 +65,6 @@ public class MainService {
         if (orden.getModo().equals(ModoOrden.AHORA) && orden.getEstado().equals(EstadoOrden.OK)) {
             orden = procesadorOrdenes.procesarOrden(orden);
         }
-        // ordenRepository.save(orden);
         analizadorOrdenes.registrarOrden(orden);
         orden = ordenRepository.save(orden);
 
@@ -75,15 +80,6 @@ public class MainService {
     return (estado);
 
     }
-
-
-
-
-
-
-
-
-
 
 
     public void programarOrdenes(List<Orden> ordenes) {
