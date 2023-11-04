@@ -37,7 +37,7 @@ public class ProcesadorOrdenesService {
             if (response) {
                 orden.setEstado(Estado.COMPLETE);
                 orden.setDescripcionEstado("Orden COMPLETADA");;
-                // System.out.println("Orden de (" + orden.getOperacion() + ") procesada:" + orden);
+                log.info("Orden de (" + orden.getOperacion() + ") procesada correctamente:" + orden);
             }
             return orden;
         }

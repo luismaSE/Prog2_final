@@ -66,7 +66,6 @@ public class OrdenResource {
     @GetMapping("/ordens/procesar")
     public ResponseEntity<String> ejecutarMainService() {   
         try {
-             mainService.Serve();
             String estado = mainService.Serve();
             return ResponseEntity.ok(estado);
         } catch (Exception e) {

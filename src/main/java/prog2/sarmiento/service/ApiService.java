@@ -36,8 +36,10 @@ public class ApiService {
     public ApiService() {
         try {
             this.JWT_TOKEN = readTokenFromFile("/home/luisma_se/Documentos/programacion_2/token.txt");
+            log.info("Token extraido correctamente");
         } catch (IOException e) {
-            e.printStackTrace();
+
+            log.info("ERROR: "+e);
         }
 
     }
@@ -49,13 +51,14 @@ public class ApiService {
     }
 
 
-    public HttpHeaders createHeadersWithJwt(String jwt) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Auth", "Bearer " + jwt);
-        return headers;
-    }
+    // public HttpHeaders createHeadersWithJwt(String jwt) {
+    //     HttpHeaders headers = new HttpHeaders();
+    //     headers.set("Auth", "Bearer " + jwt);
+    //     return headers;
+    // }
 
     public HttpResponse<String> getApiResponse(String API_URL) {
+        log.info("Estableciendo conexión con la API");
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL))
@@ -63,6 +66,7 @@ public class ApiService {
                 .build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            log.info("Respuesta obtenida correctamente");
             return response;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -74,6 +78,7 @@ public class ApiService {
         List<Orden> ordenes = new ArrayList<>();
         try {
             String API_URL = "http://192.168.194.254:8000/api/ordenes/ordenes";
+            log.info("Obteniendo listado de ordenes por Procesar...");
             HttpResponse<String> response = getApiResponse(API_URL);
 
             if (response != null) {
@@ -92,6 +97,7 @@ public class ApiService {
     public List<Integer> obtenerClientesDesdeAPI() {
         try {
             String API_URL = "http://192.168.194.254:8000/api/clientes/";
+            log.info("Obteniendo listado de Clientes...");
             HttpResponse<String> response = getApiResponse(API_URL);
             List<Integer> clienteIds = new ArrayList<>();
     
@@ -117,6 +123,7 @@ public class ApiService {
     public String obtenerCompDesdeAPIconCodigo(String codigo) {
         try {
             String API_URL = "http://192.168.194.254:8000/api/acciones/buscar?codigo=" + codigo;
+            log.info("Obteniendo Codigo de Acción...");
             HttpResponse<String> response = getApiResponse(API_URL);
             if (response != null) {
                 ObjectMapper objectMapper = new ObjectMapper();

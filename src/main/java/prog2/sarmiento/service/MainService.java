@@ -16,7 +16,6 @@ import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.repository.OrdenRepository;
-import prog2.sarmiento.service.mapper.OrdenMapper;
 
 @Service
 @Transactional
@@ -39,26 +38,30 @@ public class MainService {
     public Queue<Orden> ordenesFinDia = new LinkedList<>();
     public Queue<Orden> ordenesPrincipioDia = new LinkedList<>();
 
-    private final LocalTime HORA_PRINCIPIO_DIA = LocalTime.of(9, 0);
+    private final LocalTime HORA_PRINCIPIO_DIA = LocalTime.of(13, 0);
     private final LocalTime HORA_FIN_DIA = LocalTime.of(18, 0);
 
 
     public String Serve() {
-    System.out.println("Iniciando...");
-    System.out.println("Obteniendo nuevas Ordenes...");
+    log.info("Iniciando Procesamiento de Ordenes...");
+    log.info("Obteniendo nuevas Ordenes...");
     ordenesPendientes.addAll(apiService.obtenerOrdenesDesdeAPI());
     
     
-    System.out.println("Analizando Ordenes...");
+    log.info("Analizando Ordenes...");
 
     while (!ordenesPendientes.isEmpty()) {
         Orden orden = analizadorOrdenes.analizarOrden(ordenesPendientes.poll());
+        log.info("Orden Analizada: "+orden);
 
         if (orden.getModo().equals(Modo.AHORA) && orden.getEstado().equals(Estado.OK)) {
             orden = procesadorOrdenes.procesarOrden(orden);
+            log.info("Orden Inmediata Procesada: "+orden);
         }
         analizadorOrdenes.registrarOrden(orden);
         orden = ordenRepository.save(orden);
+        log.info("Orden Guardada en Base de Datos: "+orden);
+
 
     }
 
@@ -77,34 +80,40 @@ public class MainService {
         for(Orden orden : ordenes) {
             if (!orden.getModo().equals(Modo.AHORA)) {
                 orden.setEstado(Estado.PROG);
-                orden.setDescripcionEstado("Programada para procesamiento");;
+                orden.setDescripcionEstado("Programada para procesamiento");
                 if (orden.getModo() == Modo.PRINCIPIODIA) {
                     ordenesPrincipioDia.add(orden);
                 }
                 if (orden.getModo() == Modo.FINDIA) {
                     ordenesFinDia.add(orden);
                 }
+                log.info("Orden Programada para su Procesamiento: "+orden);
+                ordenRepository.save(orden);
+                log.info("Orden ACtualizada en Base de datos: "+orden);
+
             }
-            ordenRepository.save(orden);
         }
     }
 
 
     public void revisarOrdenesProg() {
         LocalTime horaActual = LocalTime.now();
-        System.out.println("\nHora actual:"+horaActual);
-        if (horaActual.equals(HORA_PRINCIPIO_DIA)) {
+        log.info("\nHora actual:"+horaActual);
+        if (horaActual.getHour() == (HORA_PRINCIPIO_DIA.getHour())) {
+            log.info("Iniciando Procesamiento de Ordenes Programadas para PRINCIPIODIA");
                 while (!ordenesPrincipioDia.isEmpty()) {
                     Orden orden = procesadorOrdenes.procesarOrden(ordenesPrincipioDia.poll());
                     ordenRepository.save(orden);
                 }
-        } else if (horaActual.equals(HORA_FIN_DIA)) {
+        } else if (horaActual.getHour() == (HORA_FIN_DIA.getHour())) {
+
+            log.info("Iniciando Procesamiento de Ordenes Programadas para FINDIA");
             while (!ordenesFinDia.isEmpty()) {
                 Orden orden = procesadorOrdenes.procesarOrden(ordenesFinDia.poll());
                 ordenRepository.save(orden);
             }
         } else {
-            System.out.println("\nNada por hacer");
+            log.info("\nNada por hacer, terminando ejecucion");
         }
     } 
 }

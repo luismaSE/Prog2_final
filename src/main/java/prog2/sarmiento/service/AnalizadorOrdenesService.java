@@ -60,7 +60,7 @@ public class AnalizadorOrdenesService {
     
 
     public void registrarOrden(Orden orden) {
-        // System.out.println("Orden analizada, estado:"+orden.getEstado());
+        // log.info("Orden analizada, estado:"+orden.getEstado());
         if (!(orden.getEstado().equals(Estado.FAIL))) {
             ordenesOk.add(orden);
         } else {
@@ -73,14 +73,14 @@ public class AnalizadorOrdenesService {
 
     public String mostrarResultadoAnalisis () {
         StringBuilder resultado = new StringBuilder();
-        System.out.println("\nOrdenes OK:");
+        log.info("\nOrdenes OK:");
         for (Orden orden : ordenesOk) {
-            System.out.println(orden);
+            log.info("OK: "+orden);
             resultado.append(orden+"\n");
         } 
-        System.out.println("\nOrdenes FAIL:");
+        log.info("\nOrdenes FAIL:");
         for (Orden orden : ordenesFail) {
-            System.out.println(orden);
+            log.info("FAIL: "+orden);
             resultado.append(orden+"\n");
         } 
         return resultado.toString();
@@ -129,7 +129,7 @@ public class AnalizadorOrdenesService {
 
     public LocalDateTime strToDate(String fechaStr){
         LocalDateTime fecha = LocalDateTime.parse(fechaStr, DateTimeFormatter.ISO_DATE_TIME);
-        // System.out.println(fecha.getDayOfMonth()+"/" + fecha.getMonthValue() + "/" + fecha.getYear() + "-" + fecha.getHour() + ":" + fecha.getMinute() + ":" + fecha.getSecond());
+        // log.info(fecha.getDayOfMonth()+"/" + fecha.getMonthValue() + "/" + fecha.getYear() + "-" + fecha.getHour() + ":" + fecha.getMinute() + ":" + fecha.getSecond());
         return fecha;
     }
 }
