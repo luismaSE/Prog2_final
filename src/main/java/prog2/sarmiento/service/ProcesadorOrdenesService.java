@@ -22,10 +22,7 @@ public class ProcesadorOrdenesService {
     private final Logger log = LoggerFactory.getLogger(ProcesadorOrdenesService.class);
 
     List<Orden> ordenesAhora = new ArrayList<>();
-    List<Orden> ordenesFinDia = new ArrayList<>();
-    List<Orden> ordenesPrincipioDia = new ArrayList<>();
-
-
+    
     public Orden procesarOrden(Orden orden) {
         Boolean response = false;
         switch (orden.getOperacion()) {

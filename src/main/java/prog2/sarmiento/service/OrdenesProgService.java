@@ -1,0 +1,72 @@
+package prog2.sarmiento.service;
+
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import prog2.sarmiento.domain.Orden;
+import prog2.sarmiento.domain.enumeration.Estado;
+import prog2.sarmiento.domain.enumeration.Modo;
+import prog2.sarmiento.repository.OrdenRepository;
+
+@Service
+@Transactional
+public class OrdenesProgService {
+
+    @Autowired
+    private OrdenRepository ordenRepository;
+    @Autowired
+    ProcesadorOrdenesService procesadorOrdenes;
+
+    private final Logger log = LoggerFactory.getLogger(OrdenesProgService.class);
+
+    public Queue<Orden> ordenesFinDia = new LinkedList<>();
+    public Queue<Orden> ordenesPrincipioDia = new LinkedList<>();
+
+
+    public void programarOrdenes(List<Orden> ordenes) {
+        for(Orden orden : ordenes) {
+            if (!orden.getModo().equals(Modo.AHORA)) {
+                orden.setEstado(Estado.PROG);
+                orden.setDescripcionEstado("Programada para procesamiento");
+                if (orden.getModo() == Modo.PRINCIPIODIA) {
+                    ordenesPrincipioDia.add(orden);
+                }
+                if (orden.getModo() == Modo.FINDIA) {
+                    ordenesFinDia.add(orden);
+                }
+                log.info("Orden Programada para su Procesamiento: "+orden);
+                ordenRepository.save(orden);
+                log.info("Orden ACtualizada en Base de datos: "+orden);
+
+            }
+        }
+    }
+
+    @Scheduled(cron = "0 0 9 * * ?")
+    public void procOrdenesInicioDia() {
+        log.info("procesando ordenes PRINCIPIODIA");
+        while (!ordenesPrincipioDia.isEmpty()) {
+            Orden orden = procesadorOrdenes.procesarOrden(ordenesPrincipioDia.poll());
+            ordenRepository.save(orden);
+        }
+    }
+
+    @Scheduled(cron = "0 0 18 * * ?")
+    public void procOrdenesFinDia() {
+        log.info("procesando ordenes FINDIA");
+        while (!ordenesFinDia.isEmpty()) {
+            Orden orden = procesadorOrdenes.procesarOrden(ordenesFinDia.poll());
+            ordenRepository.save(orden);
+        }
+    } 
+
+}

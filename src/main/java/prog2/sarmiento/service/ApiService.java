@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// import org.apiguardian.api.API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +29,6 @@ import prog2.sarmiento.service.dto.OrdenApiResponse;
 public class ApiService {
 
     private final Logger log = LoggerFactory.getLogger(ApiService.class);
-
     private String JWT_TOKEN;
 
 
@@ -50,13 +49,6 @@ public class ApiService {
         return new String(tokenBytes).trim();
     }
 
-
-    // public HttpHeaders createHeadersWithJwt(String jwt) {
-    //     HttpHeaders headers = new HttpHeaders();
-    //     headers.set("Auth", "Bearer " + jwt);
-    //     return headers;
-    // }
-
     public HttpResponse<String> getApiResponse(String API_URL) {
         log.info("Estableciendo conexión con la API");
         HttpClient client = HttpClient.newHttpClient();
@@ -70,9 +62,48 @@ public class ApiService {
             return response;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            return null; // Agrega un retorno en caso de error
+            return null;
         }
     }
+
+    public HttpResponse<String> postApiResponse (String API_URL, String jsonOrdenes) {
+        log.info("Estableciendo conexión con la API");
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL))
+                    .header("Authorization", "Bearer " + JWT_TOKEN)
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonOrdenes))
+                    .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            log.info("Respuesta obtenida correctamente");
+            return response;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public List<Orden> consultaEspejo (String jsonOrdenes) {
+        List<Orden> ordenes = new ArrayList<>();
+        try {
+            String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
+            log.info("Obteniendo listado de ordenes por Procesar...");
+            HttpResponse<String> response = postApiResponse(API_URL, jsonOrdenes);
+            if (response != null) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                OrdenApiResponse ordenApiResponse = objectMapper.readValue(response.body(), OrdenApiResponse.class);
+                ordenes = ordenApiResponse.getOrdenes();
+            }
+        } catch (IOException  e) {
+            e.printStackTrace();
+        }
+        return ordenes;
+    }
+
+        
 
     public List<Orden> obtenerOrdenesDesdeAPI() {
         List<Orden> ordenes = new ArrayList<>();
@@ -119,6 +150,9 @@ public class ApiService {
             return Collections.emptyList();
         }
     }
+    
+
+
     
     public String obtenerCompDesdeAPIconCodigo(String codigo) {
         try {
