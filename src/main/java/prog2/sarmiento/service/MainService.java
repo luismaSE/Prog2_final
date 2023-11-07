@@ -8,6 +8,7 @@ import java.util.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,9 @@ import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.repository.OrdenRepository;
+
+
+//Agregar comentarios
 
 @Service
 @Transactional
@@ -31,12 +35,13 @@ public class MainService {
     @Autowired
     ProcesadorOrdenesService procesadorOrdenes;
     @Autowired
-    OrdenesProgService programadorOrdenes;
+    ProgramadorOrdenesService programadorOrdenes;
 
     public List<Orden> ordenesAhora = new ArrayList<>();
     
     private Queue<Orden> ordenesPendientes = new LinkedList<>();
 
+    @Scheduled(cron = "0/10 * * * * ?")
     public String Serve() {
         log.info("Iniciando Procesamiento de Ordenes...");
         log.info("Obteniendo nuevas Ordenes...");

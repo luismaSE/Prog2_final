@@ -19,14 +19,13 @@ import prog2.sarmiento.repository.OrdenRepository;
 
 @Service
 @Transactional
-public class OrdenesProgService {
+public class ProgramadorOrdenesService {
 
-    @Autowired
-    private OrdenRepository ordenRepository;
+    @Autowired OrdenRepository ordenRepository;
     @Autowired
     ProcesadorOrdenesService procesadorOrdenes;
 
-    private final Logger log = LoggerFactory.getLogger(OrdenesProgService.class);
+    private final Logger log = LoggerFactory.getLogger(ProgramadorOrdenesService.class);
 
     public Queue<Orden> ordenesFinDia = new LinkedList<>();
     public Queue<Orden> ordenesPrincipioDia = new LinkedList<>();
@@ -51,7 +50,7 @@ public class OrdenesProgService {
         }
     }
 
-    @Scheduled(cron = "0 0 9 * * ?")
+    @Scheduled(cron = "0 15 18 * * ?")
     public void procOrdenesInicioDia() {
         log.info("procesando ordenes PRINCIPIODIA");
         while (!ordenesPrincipioDia.isEmpty()) {

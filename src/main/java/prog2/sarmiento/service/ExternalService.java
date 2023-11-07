@@ -14,10 +14,12 @@ public class ExternalService {
     private final Logger log = LoggerFactory.getLogger(ExternalService.class);
 
     public boolean ordenCompra(Orden orden) {
+        log.info("Compra realizada");
         return true;
     }
 
     public boolean ordenVenta(Orden orden) {
+            log.info("Venta realizada");
         return true;
     }
 

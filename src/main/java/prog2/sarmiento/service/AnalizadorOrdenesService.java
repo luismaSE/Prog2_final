@@ -28,11 +28,6 @@ public class AnalizadorOrdenesService {
     @Autowired
     ApiService apiService;
 
-
-    // public AnalizadorOrdenesService(ApiService apiService) {
-    //     this.apiService = apiService;
-	// }
-
     public Orden analizarOrden(Orden orden) {
         String estado = "OK";
 
