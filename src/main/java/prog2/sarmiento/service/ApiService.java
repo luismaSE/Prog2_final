@@ -9,9 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,18 +26,19 @@ import prog2.sarmiento.service.dto.OrdenApiResponse;
 public class ApiService {
 
     private final Logger log = LoggerFactory.getLogger(ApiService.class);
+    private ObjectMapper objectMapper = new ObjectMapper();
+    private OrdenApiResponse ordenApiResponse;
+    private final HttpClient client;
     private String JWT_TOKEN;
 
-
     public ApiService() {
+        this.client = HttpClient.newHttpClient();
         try {
             this.JWT_TOKEN = readTokenFromFile("/home/luisma_se/Documentos/programacion_2/token.txt");
             log.info("Token extraido correctamente");
         } catch (IOException e) {
-
-            log.info("ERROR: "+e);
+            log.error("Error al leer el token: ", e);
         }
-
     }
 
     public static String readTokenFromFile(String filePath) throws IOException {
@@ -48,132 +47,165 @@ public class ApiService {
         return new String(tokenBytes).trim();
     }
 
-    public HttpResponse<String> getApiResponse(String API_URL) {
-        log.info("Estableciendo conexión con la API");
-        HttpClient client = HttpClient.newHttpClient();
+    private HttpResponse<String> sendRequest(String url, HttpRequest.BodyPublisher bodyPublisher, String method) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(API_URL))
+                .uri(URI.create(url))
                 .header("Authorization", "Bearer " + JWT_TOKEN)
+                .method(method, bodyPublisher)
                 .build();
         try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info("Respuesta obtenida correctamente");
-            return response;
+            return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error("Error llamando a la API", e);
             return null;
         }
     }
 
-    public HttpResponse<String> postApiResponse (String API_URL, String jsonOrdenes) {
+    public HttpResponse<String> getApiMethod(String API_URL) {
         log.info("Estableciendo conexión con la API");
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(API_URL))
-                    .header("Authorization", "Bearer " + JWT_TOKEN)
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonOrdenes))
-                    .build();
-        try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            log.info("Respuesta obtenida correctamente");
-            return response;
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        return sendRequest(API_URL, HttpRequest.BodyPublishers.noBody(), "GET");
     }
 
-    public List<Orden> consultaEspejo (String jsonOrdenes) {
-        List<Orden> ordenes = new ArrayList<>();
-        try {
-            String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
-            log.info("Obteniendo listado de ordenes por Procesar...");
-            HttpResponse<String> response = postApiResponse(API_URL, jsonOrdenes);
-            if (response != null) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                OrdenApiResponse ordenApiResponse = objectMapper.readValue(response.body(), OrdenApiResponse.class);
-                ordenes = ordenApiResponse.getOrdenes();
-            }
-        } catch (IOException  e) {
-            e.printStackTrace();
-        }
-        return ordenes;
+    public HttpResponse<String> postApiMethod(String API_URL, String jsonOrdenes) {
+        log.info("Estableciendo conexión con la API");
+        return sendRequest(API_URL, HttpRequest.BodyPublishers.ofString(jsonOrdenes), "POST");
     }
 
-        
 
     public List<Orden> obtenerOrdenesDesdeAPI() {
         List<Orden> ordenes = new ArrayList<>();
+        String API_URL = "http://192.168.194.254:8000/api/ordenes/ordenes";
+        log.info("Obteniendo listado de ordenes por Procesar...");
+        HttpResponse<String> response = getApiMethod(API_URL);
+        if (response != null) {
+            ordenes = mapOrdenes(response.body());
+        }
+        return ordenes;
+    }
+        
+    public void postEspejo (String jsoString) {
+        String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
+        log.info("Enviando ordenes a espejo...");
         try {
-            String API_URL = "http://192.168.194.254:8000/api/ordenes/ordenes";
-            log.info("Obteniendo listado de ordenes por Procesar...");
-            HttpResponse<String> response = getApiResponse(API_URL);
-
-            if (response != null) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                OrdenApiResponse ordenApiResponse = objectMapper.readValue(response.body(), OrdenApiResponse.class);
-                ordenes = ordenApiResponse.getOrdenes();
+            HttpResponse<String> response = postApiMethod(API_URL, jsoString);
+            if (response.statusCode() == 200) {
+                log.info("Ordenes enviadas a espejo correctamente");
+            } else {
+                log.error("Error al enviar ordenes a espejo");
             }
-        } catch (IOException  e) {
-
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
 
+    public List<Integer> obtenerClientesDesdeAPI() {
+        String API_URL = "http://192.168.194.254:8000/api/clientes/";
+        log.info("Obteniendo listado de Clientes...");
+        HttpResponse<String> response = getApiMethod(API_URL);
+        List<Integer> clienteIds = new ArrayList<>();
+        if (response != null) {
+            String responseBody = response.body();
+            JsonNode rootNode;
+            try {
+                rootNode = objectMapper.readTree(responseBody);
+                JsonNode lista = rootNode.get("clientes");
+                for (JsonNode nodo : lista) {
+                    clienteIds.add(nodo.asInt());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return clienteIds;
+    } 
+
+    public String obtenerCompDesdeAPIconCodigo(String codigo) {
+        String API_URL = "http://192.168.194.254:8000/api/acciones/buscar?codigo=" + codigo;
+        log.info("Obteniendo Codigo de Acción...");
+        HttpResponse<String> response = getApiMethod(API_URL);
+        if (response != null) {
+            String responseBody = response.body();
+            JsonNode rootNode;
+            try {
+                rootNode = objectMapper.readTree(responseBody);
+                String accionCodigo = rootNode.get("codigo").asText();
+                return accionCodigo;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "null";
+            }
+
+        } else {
+            return "null";
+        }
+
+    }
+
+    public Integer obtenerUltimoValor (String codigo) {
+        String API_URL = "http://192.168.194.254:8000/api/acciones/ultimovalor/" + codigo;
+        log.info("Obteniendo Ultimo Valor de Acción...");
+        try {
+            HttpResponse<String> response = getApiMethod(API_URL);
+            if (response.statusCode() == 200) {
+                String responseBody = response.body();
+                JsonNode rootNode = objectMapper.readTree(responseBody);
+                Integer ultimoValor = rootNode.get("UltimoValor").get("valor").asInt();
+                return ultimoValor;
+            } else {
+                throw new IOException("No se pudo obtener el ultimo valor");
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Orden> mapOrdenes (String jsonOrdenes) {
+        List<Orden> ordenes = new ArrayList<>();
+        try {
+            ordenApiResponse = objectMapper.readValue(jsonOrdenes, OrdenApiResponse.class);
+            ordenes = ordenApiResponse.getOrdenes();
+        } catch (Exception e) {
+            log.error("Error al mapear ordenes: {}", e.getMessage());
         }
         return ordenes;
     }
 
-    public List<Integer> obtenerClientesDesdeAPI() {
-        try {
-            String API_URL = "http://192.168.194.254:8000/api/clientes/";
-            log.info("Obteniendo listado de Clientes...");
-            HttpResponse<String> response = getApiResponse(API_URL);
-            List<Integer> clienteIds = new ArrayList<>();
-    
-            if (response != null) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode rootNode = objectMapper.readTree(response.body());
-                JsonNode clientesNode = rootNode.get("clientes");
-    
-                if (clientesNode.isArray()) {
-                    for (JsonNode clienteNode : clientesNode) {
-                        Integer clienteId = clienteNode.get("id").asInt();
-                        clienteIds.add(clienteId);
-                    }
-                }
-            }
-            return clienteIds;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
-    }
-    
 
-
-    
-    public String obtenerCompDesdeAPIconCodigo(String codigo) {
+    //obtiene un json con una orden y la convierte en un objeto orden
+    public Orden mapOrden (String jsonOrden) {
+        Orden orden = new Orden();
         try {
-            String API_URL = "http://192.168.194.254:8000/api/acciones/buscar?codigo=" + codigo;
-            log.info("Obteniendo Codigo de Acción...");
-            HttpResponse<String> response = getApiResponse(API_URL);
-            if (response != null) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode rootNode = objectMapper.readTree(response.body());
-                JsonNode accionesNode = rootNode.get("acciones");
-    
-                if (accionesNode.isArray() && accionesNode.size() == 1) {
-                    JsonNode accionNode = accionesNode.get(0);
-                    return accionNode.get("codigo").asText();
-                } else {
-                    return "null";
-                }
-            }
-            return "null";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "null";
+            orden = objectMapper.readValue(jsonOrden, Orden.class);
+        } catch (Exception e) {
+            log.error("Error al mapear orden: {}", e.getMessage());
         }
+        return orden;
     }
+
+    // public String mapOrdenAtributo(String jsonOrden, String atributo) {
+    //     String valor = "";
+    //     try {
+    //         JsonNode rootNode = objectMapper.readTree(jsonOrden);
+    //         valor = rootNode.get(atributo).asText();
+    //     } catch ( IOException e) {
+    //         log.error("Error: "+ e.getMessage());
+    //     }
+    //     return valor;
+    // }
+
+    // public List<Integer> mapOrdenLista(String jsonOrden, String atributo) {
+    //     List<Integer> valores = new ArrayList<>();
+    //     try {
+    //         JsonNode rootNode = objectMapper.readTree(jsonOrden);
+    //         JsonNode lista = rootNode.get(atributo);
+    //         for (JsonNode nodo : lista) {
+    //             valores.add(nodo.asInt());
+    //         }
+    //     } catch ( IOException e) {
+    //         log.error("Error: "+ e.getMessage());
+    //     }
+    //     return valores;
+    // }
 }
+ 

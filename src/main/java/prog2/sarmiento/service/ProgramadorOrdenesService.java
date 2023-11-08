@@ -22,8 +22,8 @@ import prog2.sarmiento.repository.OrdenRepository;
 public class ProgramadorOrdenesService {
 
     @Autowired OrdenRepository ordenRepository;
-    @Autowired
-    ProcesadorOrdenesService procesadorOrdenes;
+    @Autowired ProcesadorOrdenesService procesadorOrdenes;
+    @Autowired ApiService apiService;
 
     private final Logger log = LoggerFactory.getLogger(ProgramadorOrdenesService.class);
 
@@ -54,7 +54,10 @@ public class ProgramadorOrdenesService {
     public void procOrdenesInicioDia() {
         log.info("procesando ordenes PRINCIPIODIA");
         while (!ordenesPrincipioDia.isEmpty()) {
-            Orden orden = procesadorOrdenes.procesarOrden(ordenesPrincipioDia.poll());
+            Orden orden = ordenesPrincipioDia.poll();
+            Integer ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
+            orden.setPrecio(ultimoValor);
+            orden = procesadorOrdenes.procesarOrden(orden);
             ordenRepository.save(orden);
         }
     }
@@ -63,7 +66,10 @@ public class ProgramadorOrdenesService {
     public void procOrdenesFinDia() {
         log.info("procesando ordenes FINDIA");
         while (!ordenesFinDia.isEmpty()) {
-            Orden orden = procesadorOrdenes.procesarOrden(ordenesFinDia.poll());
+            Orden orden = ordenesFinDia.poll();
+            Integer ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
+            orden.setPrecio(ultimoValor);
+            orden = procesadorOrdenes.procesarOrden(orden);
             ordenRepository.save(orden);
         }
     } 

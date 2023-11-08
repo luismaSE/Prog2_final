@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,13 @@ public class AnalizadorOrdenesService {
 
     @Autowired
     ApiService apiService;
+
+    public void analizarOrdenes(List<Orden> ordenes) {
+        for (Orden orden : ordenes) {
+            // Perform analysis on each order
+            log.info("Analyzing order: {}", orden);
+        }
+    }
 
     public Orden analizarOrden(Orden orden) {
         String estado = "OK";
@@ -124,7 +130,6 @@ public class AnalizadorOrdenesService {
 
     public LocalDateTime strToDate(String fechaStr){
         LocalDateTime fecha = LocalDateTime.parse(fechaStr, DateTimeFormatter.ISO_DATE_TIME);
-        // log.info(fecha.getDayOfMonth()+"/" + fecha.getMonthValue() + "/" + fecha.getYear() + "-" + fecha.getHour() + ":" + fecha.getMinute() + ":" + fecha.getSecond());
         return fecha;
     }
 }
