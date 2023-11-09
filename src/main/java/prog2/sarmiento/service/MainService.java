@@ -63,13 +63,11 @@ public class MainService {
         String reporte = reportarOrdenes.convertirJSON();
         analisis.clear();
         analizadorOrdenes.limpiarAnalisis();
-        // try {
-        //     apiService.postReportar(reporte);
-        // } catch (IOException | InterruptedException e) {
-        //     e.printStackTrace();
-        // }
+        try {
+            apiService.postReportar(reporte);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         return (reporte);
-
-        // return analisis.toString();
     }    
 }
