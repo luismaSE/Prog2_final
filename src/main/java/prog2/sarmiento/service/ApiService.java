@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.swagger.v3.core.util.Json;
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.service.dto.OrdenApiResponse;
 
@@ -82,21 +83,51 @@ public class ApiService {
         }
         return ordenes;
     }
-        
-    public void postEspejo (String jsoString) {
+       
+    
+    // public void postEspejo(String jsonString) throws IOException, InterruptedException {
+    //     String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
+
+    //     log.info("Enviando ordenes a espejo...");
+    //     HttpResponse<String> response = postApiMethod(API_URL, jsonString);
+
+    //     if (response.statusCode() == 200) {
+    //         log.info("Ordenes enviadas a espejo correctamente");
+    //     } else {
+    //         log.error("Error al enviar ordenes a espejo: " + response.body());
+    //         throw new RuntimeException("Error al enviar ordenes a espejo, código de estado: " + response.statusCode());
+    //     }
+    // }
+
+    public String postEspejo(String jsonString) throws IOException, InterruptedException {
         String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
+    
         log.info("Enviando ordenes a espejo...");
-        try {
-            HttpResponse<String> response = postApiMethod(API_URL, jsoString);
-            if (response.statusCode() == 200) {
-                log.info("Ordenes enviadas a espejo correctamente");
-            } else {
-                log.error("Error al enviar ordenes a espejo");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        HttpResponse<String> response = postApiMethod(API_URL, jsonString);
+    
+        if (response.statusCode() == 200) {
+            log.info("Ordenes enviadas a espejo correctamente");
+            return response.body();
+        } else {
+            log.error("Error al enviar ordenes a espejo: " + response.body());
+            throw new RuntimeException("Error al enviar ordenes a espejo, código de estado: " + response.statusCode());
         }
     }
+
+    // public void postEspejo (String jsoString) {
+    //     String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
+    //     log.info("Enviando ordenes a espejo...");
+    //     HttpResponse<String> response = postApiMethod(API_URL, jsoString);
+    //     try {
+    //         if (response.statusCode() == 200) {
+    //             log.info("Ordenes enviadas a espejo correctamente");
+    //         } else {
+    //             log.error("Error al enviar ordenes a espejo");
+    //         }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public List<Integer> obtenerClientesDesdeAPI() {
         String API_URL = "http://192.168.194.254:8000/api/clientes/";
@@ -110,7 +141,7 @@ public class ApiService {
                 rootNode = objectMapper.readTree(responseBody);
                 JsonNode lista = rootNode.get("clientes");
                 for (JsonNode nodo : lista) {
-                    clienteIds.add(nodo.asInt());
+                    clienteIds.add(nodo.get("id").asInt());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -118,28 +149,27 @@ public class ApiService {
         }
         return clienteIds;
     } 
-
     public String obtenerCompDesdeAPIconCodigo(String codigo) {
         String API_URL = "http://192.168.194.254:8000/api/acciones/buscar?codigo=" + codigo;
         log.info("Obteniendo Codigo de Acción...");
         HttpResponse<String> response = getApiMethod(API_URL);
-        if (response != null) {
-            String responseBody = response.body();
-            JsonNode rootNode;
-            try {
-                rootNode = objectMapper.readTree(responseBody);
-                String accionCodigo = rootNode.get("codigo").asText();
-                return accionCodigo;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "null";
-            }
-
-        } else {
+        if (response == null) {
             return "null";
         }
-
+        String responseBody = response.body();
+        try {
+            JsonNode rootNode = objectMapper.readTree(responseBody);
+            if (rootNode.size() != 1) {
+                return "null";
+            }
+            JsonNode node = rootNode.get("acciones");
+            return node.get(0).get("codigo").asText();
+        } catch (IOException e) {
+            log.error("Error: "+ e.getMessage());
+            return "null";
+        }
     }
+    
 
     public Integer obtenerUltimoValor (String codigo) {
         String API_URL = "http://192.168.194.254:8000/api/acciones/ultimovalor/" + codigo;
@@ -182,6 +212,9 @@ public class ApiService {
         }
         return orden;
     }
+
+
+
 
     // public String mapOrdenAtributo(String jsonOrden, String atributo) {
     //     String valor = "";
