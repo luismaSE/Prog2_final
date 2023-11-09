@@ -24,6 +24,7 @@ import prog2.sarmiento.service.MainService;
 import prog2.sarmiento.service.OrdenQueryService;
 import prog2.sarmiento.service.OrdenService;
 import prog2.sarmiento.service.ProgramadorOrdenesService;
+import prog2.sarmiento.service.ReportarOrdenesService;
 import prog2.sarmiento.service.criteria.OrdenCriteria;
 import prog2.sarmiento.service.dto.OrdenDTO;
 import prog2.sarmiento.web.rest.errors.BadRequestAlertException;
@@ -66,16 +67,11 @@ public class OrdenResource {
 
     
     // Metodos Propios
-    @Autowired
-    MainService mainService;
-    @Autowired
-    private AnalizadorOrdenesService analizadorOrdenesService;
-
-    @Autowired
-    private ProgramadorOrdenesService programadorOrdenesService;
-
-    @Autowired
-    private ApiService apiService;
+    @Autowired private MainService mainService;
+    @Autowired private ApiService apiService;
+    @Autowired private AnalizadorOrdenesService analizadorOrdenesService;
+    @Autowired private ProgramadorOrdenesService programadorOrdenesService;
+    @Autowired private ReportarOrdenesService reportarOrdenesService;
 
 
     @GetMapping("/ordenes/procesar")
@@ -89,14 +85,36 @@ public class OrdenResource {
         }
     }
 
-
-    @PostMapping("/analizar")
-    public ResponseEntity<String> analizarOrdenes(String jsonOrdenes)  {
-        //convertir json a lista de ordenes
-        List<Orden> ordenes = apiService.mapOrdenes(jsonOrdenes);
-        analizadorOrdenesService.analizarOrdenes(ordenes);
-        return ResponseEntity.ok("Ordenes analizadas correctamente");
+    @GetMapping("/ordenes/procesar/principiodia")
+    public ResponseEntity<String> ejecutarPrincipioDia() {   
+        try {
+            programadorOrdenesService.procOrdenesInicioDia();
+            return ResponseEntity.ok("Ordenes procesadas correctamente");
+        } catch (Exception e) {
+            // Manejo de excepción en caso de error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al ejecutar MainService: " + e.getMessage());
+        }
     }
+
+    @GetMapping("/ordenes/procesar/findia")
+    public ResponseEntity<String> ejecutarFinDia() {   
+        try {
+            programadorOrdenesService.procOrdenesFinDia();
+            return ResponseEntity.ok("Ordenes procesadas correctamente");
+        } catch (Exception e) {
+            // Manejo de excepción en caso de error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al ejecutar MainService: " + e.getMessage());
+        }
+    }
+
+
+    // @PostMapping("/analizar")
+    // public ResponseEntity<String> analizarOrdenes(String jsonOrdenes)  {
+    //     //convertir json a lista de ordenes
+    //     List<Orden> ordenes = apiService.mapOrdenes(jsonOrdenes);
+    //     analizadorOrdenesService.analizarOrdenes(ordenes);
+    //     return ResponseEntity.ok("Ordenes analizadas correctamente");
+    // }
 
     @PostMapping("/programar")
     public ResponseEntity<String> programarOrdenes(@RequestBody List<Orden> ordenes) {
@@ -122,7 +140,16 @@ public class OrdenResource {
         }
     }
 
-    
+    @PostMapping("/reportar")
+    public ResponseEntity<String> reportarOrdenes(@RequestBody String jsonOrdenes) {
+        try {
+            String response = apiService.postReportar(jsonOrdenes);
+            return ResponseEntity.ok(response);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la solicitud: " + e.getMessage());
+        }
+    }    
 
 
 

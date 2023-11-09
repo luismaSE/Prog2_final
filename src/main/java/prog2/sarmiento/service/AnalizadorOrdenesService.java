@@ -27,12 +27,12 @@ public class AnalizadorOrdenesService {
     @Autowired
     ApiService apiService;
 
-    public void analizarOrdenes(List<Orden> ordenes) {
-        for (Orden orden : ordenes) {
-            // Perform analysis on each order
-            log.info("Analyzing order: {}", orden);
-        }
-    }
+    // public void analizarOrdenes(List<Orden> ordenes) {
+    //     for (Orden orden : ordenes) {
+    //         // Perform analysis on each order
+    //         log.info("Analyzing order: {}", orden);
+    //     }
+    // }
 
     public Orden analizarOrden(Orden orden) {
         String estado = "OK";
@@ -58,7 +58,6 @@ public class AnalizadorOrdenesService {
     }
 
 
-    
 
     public void registrarOrden(Orden orden) {
         // log.info("Orden analizada, estado:"+orden.getEstado());
@@ -68,8 +67,6 @@ public class AnalizadorOrdenesService {
             ordenesFail.add(orden);
         }
     }
-
-
 
 
     public String mostrarResultadoAnalisis () {
@@ -99,8 +96,6 @@ public class AnalizadorOrdenesService {
         ordenesOk.clear();
         ordenesFail.clear();
     }
-
-
 
 
     public boolean analizarCliente(Orden orden) {

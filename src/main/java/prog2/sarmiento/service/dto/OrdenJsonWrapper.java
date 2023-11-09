@@ -4,7 +4,7 @@ import java.util.List;
 
 import prog2.sarmiento.domain.Orden;
 
-public class OrdenApiResponse {
+public class OrdenJsonWrapper {
     private List<Orden> ordenes;
 
     public List<Orden> getOrdenes() {

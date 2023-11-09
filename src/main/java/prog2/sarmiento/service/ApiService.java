@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import prog2.sarmiento.domain.Orden;
-import prog2.sarmiento.service.dto.OrdenApiResponse;
+import prog2.sarmiento.service.dto.OrdenJsonWrapper;
 
 @Service
 @Transactional
@@ -27,7 +27,7 @@ public class ApiService {
 
     private final Logger log = LoggerFactory.getLogger(ApiService.class);
     private ObjectMapper objectMapper = new ObjectMapper();
-    private OrdenApiResponse ordenApiResponse;
+    private OrdenJsonWrapper ordenApiResponse;
     private final HttpClient client;
     private String JWT_TOKEN;
 
@@ -100,6 +100,19 @@ public class ApiService {
         }
     }
 
+    public String postReportar (String jsonString) throws IOException, InterruptedException {
+        String API_URL = "http://192.168.194.254:8000/api/reporte-operaciones/reportar/";
+        log.info("Enviando ordenes para reportar...");
+        HttpResponse<String> response = postApiMethod(API_URL, jsonString);
+        if (response.statusCode() == 200) {
+            log.info("Ordenes enviadas para reportar correctamente");
+            return response.body();
+        } else {
+            log.error("Error al enviar ordenes para reportar: " + response.body());
+            throw new RuntimeException("Error al enviar ordenes para reportar, código de estado: " + response.statusCode());
+        }
+    }
+
  
     public List<Integer> obtenerClientesDesdeAPI() {
         String API_URL = "http://192.168.194.254:8000/api/clientes/";
@@ -142,17 +155,20 @@ public class ApiService {
         }
     }
     
-
+    
+    
     public Integer obtenerUltimoValor (String codigo) {
         String API_URL = "http://192.168.194.254:8000/api/acciones/ultimovalor/" + codigo;
         log.info("Obteniendo Ultimo Valor de Acción...");
         try {
             HttpResponse<String> response = getApiMethod(API_URL);
             if (response.statusCode() == 200) {
+                log.info("Ultimo Valor obtenido");
                 String responseBody = response.body();
                 JsonNode rootNode = objectMapper.readTree(responseBody);
-                Integer ultimoValor = rootNode.get("UltimoValor").get("valor").asInt();
-                return ultimoValor;
+                JsonNode node = rootNode.get("ultimoValor");
+                Integer ultimoValor = node.get("valor").asInt();
+                return ultimoValor.intValue();
             } else {
                 throw new IOException("No se pudo obtener el ultimo valor");
             }
@@ -165,7 +181,7 @@ public class ApiService {
     public List<Orden> mapOrdenes (String jsonOrdenes) {
         List<Orden> ordenes = new ArrayList<>();
         try {
-            ordenApiResponse = objectMapper.readValue(jsonOrdenes, OrdenApiResponse.class);
+            ordenApiResponse = objectMapper.readValue(jsonOrdenes, OrdenJsonWrapper.class);
             ordenes = ordenApiResponse.getOrdenes();
         } catch (Exception e) {
             log.error("Error al mapear ordenes: {}", e.getMessage());
