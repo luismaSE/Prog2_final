@@ -3,9 +3,7 @@ package prog2.sarmiento.web.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -17,8 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.repository.OrdenRepository;
@@ -114,30 +110,6 @@ public class OrdenResource {
         return ResponseEntity.ok(ultimoValor);
     }
 
-    
-
-    // @PostMapping("/espejo")
-    // public ResponseEntity<String> espejo(@RequestBody String jsonOrden) {
-    //     try {
-    //         apiService.postEspejo(jsonOrden);
-    //     } catch (IOException | InterruptedException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
-    
-
-    @PostMapping("/espejo2")
-    public ResponseEntity<String> espejo(@RequestBody Map<String, Object> jsonOrden) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            String jsonString = mapper.writeValueAsString(jsonOrden);
-            String response = apiService.postEspejo(jsonString);
-            return ResponseEntity.ok(response);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la solicitud: " + e.getMessage());
-        }
-    }
 
     @PostMapping("/espejo")
     public ResponseEntity<String> espejo(@RequestBody String jsonOrden) {
@@ -151,6 +123,8 @@ public class OrdenResource {
     }
 
     
+
+
 
     //Metodos de Jhipster
     @PostMapping("/ordenes")

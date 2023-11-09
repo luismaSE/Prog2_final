@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.swagger.v3.core.util.Json;
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.service.dto.OrdenApiResponse;
 
@@ -52,6 +51,7 @@ public class ApiService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Authorization", "Bearer " + JWT_TOKEN)
+                .header("Content-Type", "application/json")
                 .method(method, bodyPublisher)
                 .build();
         try {
@@ -84,20 +84,6 @@ public class ApiService {
         return ordenes;
     }
        
-    
-    // public void postEspejo(String jsonString) throws IOException, InterruptedException {
-    //     String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
-
-    //     log.info("Enviando ordenes a espejo...");
-    //     HttpResponse<String> response = postApiMethod(API_URL, jsonString);
-
-    //     if (response.statusCode() == 200) {
-    //         log.info("Ordenes enviadas a espejo correctamente");
-    //     } else {
-    //         log.error("Error al enviar ordenes a espejo: " + response.body());
-    //         throw new RuntimeException("Error al enviar ordenes a espejo, código de estado: " + response.statusCode());
-    //     }
-    // }
 
     public String postEspejo(String jsonString) throws IOException, InterruptedException {
         String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
@@ -114,21 +100,7 @@ public class ApiService {
         }
     }
 
-    // public void postEspejo (String jsoString) {
-    //     String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
-    //     log.info("Enviando ordenes a espejo...");
-    //     HttpResponse<String> response = postApiMethod(API_URL, jsoString);
-    //     try {
-    //         if (response.statusCode() == 200) {
-    //             log.info("Ordenes enviadas a espejo correctamente");
-    //         } else {
-    //             log.error("Error al enviar ordenes a espejo");
-    //         }
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    // }
-
+ 
     public List<Integer> obtenerClientesDesdeAPI() {
         String API_URL = "http://192.168.194.254:8000/api/clientes/";
         log.info("Obteniendo listado de Clientes...");
@@ -214,7 +186,7 @@ public class ApiService {
     }
 
 
-
+    
 
     // public String mapOrdenAtributo(String jsonOrden, String atributo) {
     //     String valor = "";

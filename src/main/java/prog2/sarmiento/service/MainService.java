@@ -18,7 +18,6 @@ import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.repository.OrdenRepository;
 
 
-//Agregar comentarios
 
 @Service
 @Transactional
@@ -41,7 +40,7 @@ public class MainService {
     
     private Queue<Orden> ordenesPendientes = new LinkedList<>();
 
-    // @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     public String Serve() {
         log.info("Iniciando Procesamiento de Ordenes...");
         log.info("Obteniendo nuevas Ordenes...");
