@@ -1,6 +1,7 @@
 package prog2.sarmiento.service;
 
 import java.util.List;
+import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -107,9 +108,6 @@ public class OrdenQueryService extends QueryService<Orden> {
             if (criteria.getCantidad() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getCantidad(), Orden_.cantidad));
             }
-            if (criteria.getFechaOperacion() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getFechaOperacion(), Orden_.fechaOperacion));
-            }
             if (criteria.getModo() != null) {
                 specification = specification.and(buildSpecification(criteria.getModo(), Orden_.modo));
             }
@@ -118,6 +116,9 @@ public class OrdenQueryService extends QueryService<Orden> {
             }
             if (criteria.getDescripcionEstado() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescripcionEstado(), Orden_.descripcionEstado));
+            }
+            if (criteria.getFechaOperacion() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getFechaOperacion(), Orden_.fechaOperacion));
             }
         }
         return specification;

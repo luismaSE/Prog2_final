@@ -1,6 +1,7 @@
 package prog2.sarmiento.domain;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -52,10 +53,6 @@ public class Orden implements Serializable {
     private Integer cantidad;
 
     @NotNull
-    @Column(name = "fecha_operacion", nullable = false)
-    private String fechaOperacion;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "modo", nullable = false)
     private Modo modo;
@@ -66,6 +63,10 @@ public class Orden implements Serializable {
 
     @Column(name = "descripcion_estado")
     private String descripcionEstado;
+
+    @NotNull
+    @Column(name = "fecha_operacion", nullable = false)
+    private ZonedDateTime fechaOperacion;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -160,19 +161,6 @@ public class Orden implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public String getFechaOperacion() {
-        return this.fechaOperacion;
-    }
-
-    public Orden fechaOperacion(String fechaOperacion) {
-        this.setFechaOperacion(fechaOperacion);
-        return this;
-    }
-
-    public void setFechaOperacion(String fechaOperacion) {
-        this.fechaOperacion = fechaOperacion;
-    }
-
     public Modo getModo() {
         return this.modo;
     }
@@ -212,6 +200,19 @@ public class Orden implements Serializable {
         this.descripcionEstado = descripcionEstado;
     }
 
+    public ZonedDateTime getFechaOperacion() {
+        return this.fechaOperacion;
+    }
+
+    public Orden fechaOperacion(ZonedDateTime fechaOperacion) {
+        this.setFechaOperacion(fechaOperacion);
+        return this;
+    }
+
+    public void setFechaOperacion(ZonedDateTime fechaOperacion) {
+        this.fechaOperacion = fechaOperacion;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -242,10 +243,10 @@ public class Orden implements Serializable {
             ", operacion='" + getOperacion() + "'" +
             ", precio=" + getPrecio() +
             ", cantidad=" + getCantidad() +
-            ", fechaOperacion='" + getFechaOperacion() + "'" +
             ", modo='" + getModo() + "'" +
             ", estado='" + getEstado() + "'" +
             ", descripcionEstado='" + getDescripcionEstado() + "'" +
+            ", fechaOperacion='" + getFechaOperacion() + "'" +
             "}";
     }
 }

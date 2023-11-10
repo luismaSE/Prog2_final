@@ -116,7 +116,7 @@ public class AnalizadorOrdenesService {
     }
 
     public boolean analizarHorario(Orden orden){
-        LocalDateTime fecha = strToDate(orden.getFechaOperacion());
+        LocalDateTime fecha = orden.getFechaOperacion().toLocalDateTime();
         LocalTime horaOrden = fecha.toLocalTime();
         LocalTime horaInicio = LocalTime.of(9, 0);
         LocalTime horaFin = LocalTime.of(18, 0);

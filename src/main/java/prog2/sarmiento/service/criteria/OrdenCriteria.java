@@ -89,13 +89,13 @@ public class OrdenCriteria implements Serializable, Criteria {
 
     private IntegerFilter cantidad;
 
-    private StringFilter fechaOperacion;
-
     private ModoFilter modo;
 
     private EstadoFilter estado;
 
     private StringFilter descripcionEstado;
+
+    private ZonedDateTimeFilter fechaOperacion;
 
     private Boolean distinct;
 
@@ -109,10 +109,10 @@ public class OrdenCriteria implements Serializable, Criteria {
         this.operacion = other.operacion == null ? null : other.operacion.copy();
         this.precio = other.precio == null ? null : other.precio.copy();
         this.cantidad = other.cantidad == null ? null : other.cantidad.copy();
-        this.fechaOperacion = other.fechaOperacion == null ? null : other.fechaOperacion.copy();
         this.modo = other.modo == null ? null : other.modo.copy();
         this.estado = other.estado == null ? null : other.estado.copy();
         this.descripcionEstado = other.descripcionEstado == null ? null : other.descripcionEstado.copy();
+        this.fechaOperacion = other.fechaOperacion == null ? null : other.fechaOperacion.copy();
         this.distinct = other.distinct;
     }
 
@@ -226,21 +226,6 @@ public class OrdenCriteria implements Serializable, Criteria {
         this.cantidad = cantidad;
     }
 
-    public StringFilter getFechaOperacion() {
-        return fechaOperacion;
-    }
-
-    public StringFilter fechaOperacion() {
-        if (fechaOperacion == null) {
-            fechaOperacion = new StringFilter();
-        }
-        return fechaOperacion;
-    }
-
-    public void setFechaOperacion(StringFilter fechaOperacion) {
-        this.fechaOperacion = fechaOperacion;
-    }
-
     public ModoFilter getModo() {
         return modo;
     }
@@ -286,6 +271,21 @@ public class OrdenCriteria implements Serializable, Criteria {
         this.descripcionEstado = descripcionEstado;
     }
 
+    public ZonedDateTimeFilter getFechaOperacion() {
+        return fechaOperacion;
+    }
+
+    public ZonedDateTimeFilter fechaOperacion() {
+        if (fechaOperacion == null) {
+            fechaOperacion = new ZonedDateTimeFilter();
+        }
+        return fechaOperacion;
+    }
+
+    public void setFechaOperacion(ZonedDateTimeFilter fechaOperacion) {
+        this.fechaOperacion = fechaOperacion;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -311,10 +311,10 @@ public class OrdenCriteria implements Serializable, Criteria {
             Objects.equals(operacion, that.operacion) &&
             Objects.equals(precio, that.precio) &&
             Objects.equals(cantidad, that.cantidad) &&
-            Objects.equals(fechaOperacion, that.fechaOperacion) &&
             Objects.equals(modo, that.modo) &&
             Objects.equals(estado, that.estado) &&
             Objects.equals(descripcionEstado, that.descripcionEstado) &&
+            Objects.equals(fechaOperacion, that.fechaOperacion) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -329,10 +329,10 @@ public class OrdenCriteria implements Serializable, Criteria {
             operacion,
             precio,
             cantidad,
-            fechaOperacion,
             modo,
             estado,
             descripcionEstado,
+            fechaOperacion,
             distinct
         );
     }
@@ -348,10 +348,10 @@ public class OrdenCriteria implements Serializable, Criteria {
             (operacion != null ? "operacion=" + operacion + ", " : "") +
             (precio != null ? "precio=" + precio + ", " : "") +
             (cantidad != null ? "cantidad=" + cantidad + ", " : "") +
-            (fechaOperacion != null ? "fechaOperacion=" + fechaOperacion + ", " : "") +
             (modo != null ? "modo=" + modo + ", " : "") +
             (estado != null ? "estado=" + estado + ", " : "") +
             (descripcionEstado != null ? "descripcionEstado=" + descripcionEstado + ", " : "") +
+            (fechaOperacion != null ? "fechaOperacion=" + fechaOperacion + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

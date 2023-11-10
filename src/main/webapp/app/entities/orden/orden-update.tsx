@@ -49,6 +49,8 @@ export const OrdenUpdate = () => {
   }, [updateSuccess]);
 
   const saveEntity = values => {
+    values.fechaOperacion = convertDateTimeToServer(values.fechaOperacion);
+
     const entity = {
       ...ordenEntity,
       ...values,
@@ -63,12 +65,15 @@ export const OrdenUpdate = () => {
 
   const defaultValues = () =>
     isNew
-      ? {}
+      ? {
+          fechaOperacion: displayDefaultDateTime(),
+        }
       : {
           operacion: 'COMPRA',
           modo: 'AHORA',
           estado: 'OK',
           ...ordenEntity,
+          fechaOperacion: convertDateTimeFromServer(ordenEntity.fechaOperacion),
         };
 
   return (
@@ -163,16 +168,6 @@ export const OrdenUpdate = () => {
                   validate: v => isNumber(v) || translate('entity.validation.number'),
                 }}
               />
-              <ValidatedField
-                label={translate('prog2FinalApp.orden.fechaOperacion')}
-                id="orden-fechaOperacion"
-                name="fechaOperacion"
-                data-cy="fechaOperacion"
-                type="text"
-                validate={{
-                  required: { value: true, message: translate('entity.validation.required') },
-                }}
-              />
               <ValidatedField label={translate('prog2FinalApp.orden.modo')} id="orden-modo" name="modo" data-cy="modo" type="select">
                 {modoValues.map(modo => (
                   <option value={modo} key={modo}>
@@ -199,6 +194,17 @@ export const OrdenUpdate = () => {
                 name="descripcionEstado"
                 data-cy="descripcionEstado"
                 type="text"
+              />
+              <ValidatedField
+                label={translate('prog2FinalApp.orden.fechaOperacion')}
+                id="orden-fechaOperacion"
+                name="fechaOperacion"
+                data-cy="fechaOperacion"
+                type="datetime-local"
+                placeholder="YYYY-MM-DD HH:mm"
+                validate={{
+                  required: { value: true, message: translate('entity.validation.required') },
+                }}
               />
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/orden" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />

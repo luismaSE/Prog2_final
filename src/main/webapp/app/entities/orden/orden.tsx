@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
@@ -70,9 +70,6 @@ export const Orden = () => {
                   <Translate contentKey="prog2FinalApp.orden.cantidad">Cantidad</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="prog2FinalApp.orden.fechaOperacion">Fecha Operacion</Translate>
-                </th>
-                <th>
                   <Translate contentKey="prog2FinalApp.orden.modo">Modo</Translate>
                 </th>
                 <th>
@@ -80,6 +77,9 @@ export const Orden = () => {
                 </th>
                 <th>
                   <Translate contentKey="prog2FinalApp.orden.descripcionEstado">Descripcion Estado</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="prog2FinalApp.orden.fechaOperacion">Fecha Operacion</Translate>
                 </th>
                 <th />
               </tr>
@@ -100,7 +100,6 @@ export const Orden = () => {
                   </td>
                   <td>{orden.precio}</td>
                   <td>{orden.cantidad}</td>
-                  <td>{orden.fechaOperacion}</td>
                   <td>
                     <Translate contentKey={`prog2FinalApp.Modo.${orden.modo}`} />
                   </td>
@@ -108,6 +107,7 @@ export const Orden = () => {
                     <Translate contentKey={`prog2FinalApp.Estado.${orden.estado}`} />
                   </td>
                   <td>{orden.descripcionEstado}</td>
+                  <td>{orden.fechaOperacion ? <TextFormat type="date" value={orden.fechaOperacion} format={APP_DATE_FORMAT} /> : null}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/orden/${orden.id}`} color="info" size="sm" data-cy="entityDetailsButton">

@@ -24,10 +24,10 @@
       "operacion": "Operacion",
       "precio": "Precio",
       "cantidad": "Cantidad",
-      "fechaOperacion": "Fecha Operacion",
       "modo": "Modo",
       "estado": "Estado",
-      "descripcionEstado": "Descripcion Estado"
+      "descripcionEstado": "Descripcion Estado",
+      "fechaOperacion": "Fecha Operacion"
     }
   }
 }

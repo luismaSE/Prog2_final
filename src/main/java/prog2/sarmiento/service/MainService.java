@@ -36,7 +36,7 @@ public class MainService {
     // public List<Orden> ordenesAhora = new ArrayList<>();
     private Queue<Orden> ordenesPendientes = new LinkedList<>();
 
-    @Scheduled(cron = "0/10 * 9-18 * * ?")
+    // @Scheduled(cron = "0/10 * 9-18 * * ?")
     public String Serve() {
         log.info("Iniciando Procesamiento de Ordenes...");
         log.info("Obteniendo nuevas Ordenes...");
@@ -63,11 +63,11 @@ public class MainService {
         String reporte = reportarOrdenes.convertirJSON();
         analisis.clear();
         analizadorOrdenes.limpiarAnalisis();
-        try {
-            apiService.postReportar(reporte);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     apiService.postReportar(reporte);
+        // } catch (IOException | InterruptedException e) {
+        //     e.printStackTrace();
+        // }
         return (reporte);
     }    
 }

@@ -1,6 +1,7 @@
 package prog2.sarmiento.service.dto;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import javax.validation.constraints.*;
 import prog2.sarmiento.domain.enumeration.Estado;
@@ -34,14 +35,14 @@ public class OrdenDTO implements Serializable {
     private Integer cantidad;
 
     @NotNull
-    private String fechaOperacion;
-
-    @NotNull
     private Modo modo;
 
     private Estado estado;
 
     private String descripcionEstado;
+
+    @NotNull
+    private ZonedDateTime fechaOperacion;
 
     public Long getId() {
         return id;
@@ -99,14 +100,6 @@ public class OrdenDTO implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public String getFechaOperacion() {
-        return fechaOperacion;
-    }
-
-    public void setFechaOperacion(String fechaOperacion) {
-        this.fechaOperacion = fechaOperacion;
-    }
-
     public Modo getModo() {
         return modo;
     }
@@ -129,6 +122,14 @@ public class OrdenDTO implements Serializable {
 
     public void setDescripcionEstado(String descripcionEstado) {
         this.descripcionEstado = descripcionEstado;
+    }
+
+    public ZonedDateTime getFechaOperacion() {
+        return fechaOperacion;
+    }
+
+    public void setFechaOperacion(ZonedDateTime fechaOperacion) {
+        this.fechaOperacion = fechaOperacion;
     }
 
     @Override
@@ -163,10 +164,10 @@ public class OrdenDTO implements Serializable {
             ", operacion='" + getOperacion() + "'" +
             ", precio=" + getPrecio() +
             ", cantidad=" + getCantidad() +
-            ", fechaOperacion='" + getFechaOperacion() + "'" +
             ", modo='" + getModo() + "'" +
             ", estado='" + getEstado() + "'" +
             ", descripcionEstado='" + getDescripcionEstado() + "'" +
+            ", fechaOperacion='" + getFechaOperacion() + "'" +
             "}";
     }
 }

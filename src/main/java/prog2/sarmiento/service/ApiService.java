@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.service.dto.OrdenJsonWrapper;
@@ -26,7 +27,7 @@ import prog2.sarmiento.service.dto.OrdenJsonWrapper;
 public class ApiService {
 
     private final Logger log = LoggerFactory.getLogger(ApiService.class);
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private OrdenJsonWrapper ordenApiResponse;
     private final HttpClient client;
     private String JWT_TOKEN;

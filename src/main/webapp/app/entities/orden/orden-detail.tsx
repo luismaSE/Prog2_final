@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
@@ -69,12 +69,6 @@ export const OrdenDetail = () => {
           </dt>
           <dd>{ordenEntity.cantidad}</dd>
           <dt>
-            <span id="fechaOperacion">
-              <Translate contentKey="prog2FinalApp.orden.fechaOperacion">Fecha Operacion</Translate>
-            </span>
-          </dt>
-          <dd>{ordenEntity.fechaOperacion}</dd>
-          <dt>
             <span id="modo">
               <Translate contentKey="prog2FinalApp.orden.modo">Modo</Translate>
             </span>
@@ -92,6 +86,14 @@ export const OrdenDetail = () => {
             </span>
           </dt>
           <dd>{ordenEntity.descripcionEstado}</dd>
+          <dt>
+            <span id="fechaOperacion">
+              <Translate contentKey="prog2FinalApp.orden.fechaOperacion">Fecha Operacion</Translate>
+            </span>
+          </dt>
+          <dd>
+            {ordenEntity.fechaOperacion ? <TextFormat value={ordenEntity.fechaOperacion} type="date" format={APP_DATE_FORMAT} /> : null}
+          </dd>
         </dl>
         <Button tag={Link} to="/orden" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

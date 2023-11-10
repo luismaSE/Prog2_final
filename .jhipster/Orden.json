@@ -34,11 +34,6 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "fechaOperacion",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "modo",
       "fieldType": "Modo",
       "fieldValidateRules": ["required"],
@@ -52,6 +47,11 @@
     {
       "fieldName": "descripcionEstado",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "fechaOperacion",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
     }
   ],
   "jpaMetamodelFiltering": true,

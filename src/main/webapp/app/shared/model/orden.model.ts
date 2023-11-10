@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { Operacion } from 'app/shared/model/enumerations/operacion.model';
 import { Modo } from 'app/shared/model/enumerations/modo.model';
 import { Estado } from 'app/shared/model/enumerations/estado.model';
@@ -10,10 +11,10 @@ export interface IOrden {
   operacion?: Operacion;
   precio?: number;
   cantidad?: number;
-  fechaOperacion?: string;
   modo?: Modo;
   estado?: Estado | null;
   descripcionEstado?: string | null;
+  fechaOperacion?: string;
 }
 
 export const defaultValue: Readonly<IOrden> = {};

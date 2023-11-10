@@ -66,7 +66,7 @@ public class ReportarOrdenesService {
                 .put("modo", ordenOriginal.getModo().toString())
                 .put("cantidad", ordenOriginal.getCantidad())
                 .put("precio", ordenOriginal.getPrecio())
-                .put("fechaOperacion", ordenOriginal.getFechaOperacion())
+                .put("fechaOperacion", ordenOriginal.getFechaOperacion().toString())
                 .put("operacion", ordenOriginal.getOperacion().toString())
                 .put("operacionObservaciones", ordenOriginal.getDescripcionEstado());
             if (ordenOriginal.getEstado() == Estado.COMPLETE) {

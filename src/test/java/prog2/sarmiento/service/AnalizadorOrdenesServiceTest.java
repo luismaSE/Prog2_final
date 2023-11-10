@@ -6,6 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.ZonedDateTime;
+
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
@@ -23,7 +26,7 @@ public class AnalizadorOrdenesServiceTest {
         orden.setAccion("AAPL");
         orden.setCantidad(100);
         orden.setModo(Modo.AHORA);
-        orden.setFechaOperacion("2023-01-01T12:00:00");
+        orden.setFechaOperacion(ZonedDateTime.parse("2023-01-01T12:00:00"));
 
         Orden ordenAnalizada = analizadorOrdenesService.analizarOrden(orden);
 
@@ -72,7 +75,7 @@ public class AnalizadorOrdenesServiceTest {
     public void testAnalizarOrdenFueraHorarioTransacciones() {
         Orden orden = new Orden();
         orden.setModo(Modo.AHORA);
-        orden.setFechaOperacion("2023-01-01T07:00:00"); // Fuera del horario de transacciones (antes de las 09:00)
+        orden.setFechaOperacion(ZonedDateTime.parse("2023-01-01T07:00:00")); // Fuera del horario de transacciones (antes de las 09:00)
     
         Orden ordenAnalizada = analizadorOrdenesService.analizarOrden(orden);
     
