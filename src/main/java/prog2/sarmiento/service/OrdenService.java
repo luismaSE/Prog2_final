@@ -1,5 +1,6 @@
 package prog2.sarmiento.service;
 
+import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import prog2.sarmiento.domain.Orden;
+import prog2.sarmiento.domain.enumeration.Estado;
+import prog2.sarmiento.domain.enumeration.Modo;
+import prog2.sarmiento.domain.enumeration.Operacion;
 import prog2.sarmiento.repository.OrdenRepository;
 import prog2.sarmiento.service.dto.OrdenDTO;
 import prog2.sarmiento.service.mapper.OrdenMapper;
@@ -108,5 +112,18 @@ public class OrdenService {
     public void delete(Long id) {
         log.debug("Request to delete Orden : {}", id);
         ordenRepository.deleteById(id);
+    }
+
+
+    //metodo propio
+    public List<Orden> findOrdenes(Integer cliente, Integer accionId, String accion,
+                                  ZonedDateTime fechaInicio, ZonedDateTime fechaFin,
+                                  Operacion operacion, Modo modo, Estado estado) {
+
+        // Lógica para buscar órdenes según los parámetros recibidos
+        // Puedes usar tu repositorio (OrdenRepository) o acceso a base de datos aquí
+        
+        List<Orden> ordenes = ordenRepository.findOrdenes(cliente, accionId, accion, fechaInicio, fechaFin, operacion, modo, estado);
+        return ordenes;
     }
 }

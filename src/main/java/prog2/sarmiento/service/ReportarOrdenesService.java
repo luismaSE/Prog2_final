@@ -1,6 +1,7 @@
 package prog2.sarmiento.service;
 
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -28,6 +29,8 @@ public class ReportarOrdenesService {
 
     List<Orden> ordenesReport = new ArrayList<>();
     static ObjectMapper objectMapper = new ObjectMapper();
+    static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
     
     public void addOrden(Orden orden) {
         ordenesReport.add(orden);
@@ -57,6 +60,7 @@ public class ReportarOrdenesService {
  
 
     public static ObjectNode convertirFormato(Orden ordenOriginal) {
+
         try {
             // Crear un nuevo ObjectNode con el formato deseado
             ObjectNode nodoNuevo = objectMapper.createObjectNode()
@@ -66,7 +70,7 @@ public class ReportarOrdenesService {
                 .put("modo", ordenOriginal.getModo().toString())
                 .put("cantidad", ordenOriginal.getCantidad())
                 .put("precio", ordenOriginal.getPrecio())
-                .put("fechaOperacion", ordenOriginal.getFechaOperacion().toString())
+                .put("fechaOperacion", ordenOriginal.getFechaOperacion().format(formatter))
                 .put("operacion", ordenOriginal.getOperacion().toString())
                 .put("operacionObservaciones", ordenOriginal.getDescripcionEstado());
             if (ordenOriginal.getEstado() == Estado.COMPLETE) {
