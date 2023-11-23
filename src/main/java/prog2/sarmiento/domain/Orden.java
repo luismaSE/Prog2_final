@@ -1,7 +1,7 @@
 package prog2.sarmiento.domain;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -66,7 +66,7 @@ public class Orden implements Serializable {
 
     @NotNull
     @Column(name = "fecha_operacion", nullable = false)
-    private ZonedDateTime fechaOperacion;
+    private Instant fechaOperacion;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -200,16 +200,16 @@ public class Orden implements Serializable {
         this.descripcionEstado = descripcionEstado;
     }
 
-    public ZonedDateTime getFechaOperacion() {
+    public Instant getFechaOperacion() {
         return this.fechaOperacion;
     }
 
-    public Orden fechaOperacion(ZonedDateTime fechaOperacion) {
+    public Orden fechaOperacion(Instant fechaOperacion) {
         this.setFechaOperacion(fechaOperacion);
         return this;
     }
 
-    public void setFechaOperacion(ZonedDateTime fechaOperacion) {
+    public void setFechaOperacion(Instant fechaOperacion) {
         this.fechaOperacion = fechaOperacion;
     }
 

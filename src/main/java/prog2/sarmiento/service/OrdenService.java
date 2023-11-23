@@ -1,6 +1,6 @@
 package prog2.sarmiento.service;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -114,16 +114,9 @@ public class OrdenService {
         ordenRepository.deleteById(id);
     }
 
-
-    //metodo propio
-    public List<Orden> findOrdenes(Integer cliente, Integer accionId, String accion,
-                                  ZonedDateTime fechaInicio, ZonedDateTime fechaFin,
-                                  Operacion operacion, Modo modo, Estado estado) {
-
-        // Lógica para buscar órdenes según los parámetros recibidos
-        // Puedes usar tu repositorio (OrdenRepository) o acceso a base de datos aquí
-        
-        List<Orden> ordenes = ordenRepository.findOrdenes(cliente, accionId, accion, fechaInicio, fechaFin, operacion, modo, estado);
-        return ordenes;
+    public List<Orden> findOrdenes(Integer cliente, Integer accionId, String accion, Instant fechaInicio,
+            Instant fechaFin, Operacion operacion, Modo modo, Estado estado) {
+            List<Orden> ordenes = ordenRepository.findOrdenes(cliente, accionId, accion, fechaInicio, fechaFin, operacion, modo, estado);
+            return ordenes;
     }
 }

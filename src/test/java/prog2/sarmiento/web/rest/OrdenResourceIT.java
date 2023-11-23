@@ -4,12 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static prog2.sarmiento.web.rest.TestUtil.sameInstant;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -71,9 +68,8 @@ class OrdenResourceIT {
     private static final String DEFAULT_DESCRIPCION_ESTADO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPCION_ESTADO = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_FECHA_OPERACION = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_FECHA_OPERACION = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-    private static final ZonedDateTime SMALLER_FECHA_OPERACION = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
+    private static final Instant DEFAULT_FECHA_OPERACION = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FECHA_OPERACION = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/ordens";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -352,7 +348,7 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.[*].modo").value(hasItem(DEFAULT_MODO.toString())))
             .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())))
             .andExpect(jsonPath("$.[*].descripcionEstado").value(hasItem(DEFAULT_DESCRIPCION_ESTADO)))
-            .andExpect(jsonPath("$.[*].fechaOperacion").value(hasItem(sameInstant(DEFAULT_FECHA_OPERACION))));
+            .andExpect(jsonPath("$.[*].fechaOperacion").value(hasItem(DEFAULT_FECHA_OPERACION.toString())));
     }
 
     @Test
@@ -376,7 +372,7 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.modo").value(DEFAULT_MODO.toString()))
             .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO.toString()))
             .andExpect(jsonPath("$.descripcionEstado").value(DEFAULT_DESCRIPCION_ESTADO))
-            .andExpect(jsonPath("$.fechaOperacion").value(sameInstant(DEFAULT_FECHA_OPERACION)));
+            .andExpect(jsonPath("$.fechaOperacion").value(DEFAULT_FECHA_OPERACION.toString()));
     }
 
     @Test
@@ -1047,58 +1043,6 @@ class OrdenResourceIT {
         defaultOrdenShouldNotBeFound("fechaOperacion.specified=false");
     }
 
-    @Test
-    @Transactional
-    void getAllOrdensByFechaOperacionIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        ordenRepository.saveAndFlush(orden);
-
-        // Get all the ordenList where fechaOperacion is greater than or equal to DEFAULT_FECHA_OPERACION
-        defaultOrdenShouldBeFound("fechaOperacion.greaterThanOrEqual=" + DEFAULT_FECHA_OPERACION);
-
-        // Get all the ordenList where fechaOperacion is greater than or equal to UPDATED_FECHA_OPERACION
-        defaultOrdenShouldNotBeFound("fechaOperacion.greaterThanOrEqual=" + UPDATED_FECHA_OPERACION);
-    }
-
-    @Test
-    @Transactional
-    void getAllOrdensByFechaOperacionIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        ordenRepository.saveAndFlush(orden);
-
-        // Get all the ordenList where fechaOperacion is less than or equal to DEFAULT_FECHA_OPERACION
-        defaultOrdenShouldBeFound("fechaOperacion.lessThanOrEqual=" + DEFAULT_FECHA_OPERACION);
-
-        // Get all the ordenList where fechaOperacion is less than or equal to SMALLER_FECHA_OPERACION
-        defaultOrdenShouldNotBeFound("fechaOperacion.lessThanOrEqual=" + SMALLER_FECHA_OPERACION);
-    }
-
-    @Test
-    @Transactional
-    void getAllOrdensByFechaOperacionIsLessThanSomething() throws Exception {
-        // Initialize the database
-        ordenRepository.saveAndFlush(orden);
-
-        // Get all the ordenList where fechaOperacion is less than DEFAULT_FECHA_OPERACION
-        defaultOrdenShouldNotBeFound("fechaOperacion.lessThan=" + DEFAULT_FECHA_OPERACION);
-
-        // Get all the ordenList where fechaOperacion is less than UPDATED_FECHA_OPERACION
-        defaultOrdenShouldBeFound("fechaOperacion.lessThan=" + UPDATED_FECHA_OPERACION);
-    }
-
-    @Test
-    @Transactional
-    void getAllOrdensByFechaOperacionIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        ordenRepository.saveAndFlush(orden);
-
-        // Get all the ordenList where fechaOperacion is greater than DEFAULT_FECHA_OPERACION
-        defaultOrdenShouldNotBeFound("fechaOperacion.greaterThan=" + DEFAULT_FECHA_OPERACION);
-
-        // Get all the ordenList where fechaOperacion is greater than SMALLER_FECHA_OPERACION
-        defaultOrdenShouldBeFound("fechaOperacion.greaterThan=" + SMALLER_FECHA_OPERACION);
-    }
-
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -1117,7 +1061,7 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.[*].modo").value(hasItem(DEFAULT_MODO.toString())))
             .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())))
             .andExpect(jsonPath("$.[*].descripcionEstado").value(hasItem(DEFAULT_DESCRIPCION_ESTADO)))
-            .andExpect(jsonPath("$.[*].fechaOperacion").value(hasItem(sameInstant(DEFAULT_FECHA_OPERACION))));
+            .andExpect(jsonPath("$.[*].fechaOperacion").value(hasItem(DEFAULT_FECHA_OPERACION.toString())));
 
         // Check, that the count call also returns 1
         restOrdenMockMvc

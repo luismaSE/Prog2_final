@@ -3,6 +3,7 @@ package prog2.sarmiento.web.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +26,7 @@ import prog2.sarmiento.domain.enumeration.Operacion;
 import prog2.sarmiento.repository.OrdenRepository;
 import prog2.sarmiento.service.AnalizadorOrdenesService;
 import prog2.sarmiento.service.ApiService;
+import prog2.sarmiento.service.GeneradorOrdenService;
 import prog2.sarmiento.service.MainService;
 import prog2.sarmiento.service.OrdenQueryService;
 import prog2.sarmiento.service.OrdenService;
@@ -62,20 +64,13 @@ public class OrdenResource {
         this.ordenQueryService = ordenQueryService;
     }
 
-    /**
-     * {@code POST  /ordenes} : Create a new orden.
-     *
-     * @param ordenDTO the ordenDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new ordenDTO, or with status {@code 400 (Bad Request)} if the orden has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-
-// Metodos Propios
+    //Metodos Propios
     @Autowired private MainService mainService;
     @Autowired private ApiService apiService;
     @Autowired private AnalizadorOrdenesService analizadorOrdenesService;
     @Autowired private ProgramadorOrdenesService programadorOrdenesService;
     @Autowired private ReportarOrdenesService reportarOrdenesService;
+    @Autowired private GeneradorOrdenService generadorOrdenService;
 
 
     @GetMapping("/ordenes/procesar")
@@ -112,12 +107,25 @@ public class OrdenResource {
     }
 
 
+    @GetMapping("generar/ordenes")
+    public ResponseEntity<String> crearOrdenes() {
+        String ordenes = generadorOrdenService.generarOrdenes();
+        return ResponseEntity.ok(ordenes);
+    }
+
+    @GetMapping("/generar/ordenes/espejo")
+    public ResponseEntity<String> crearOrdenesEspejo() {
+        String ordenes = generadorOrdenService.generarOrdenes();
+        return ResponseEntity.ok(ordenes);
+    }
+
+
     @GetMapping("/ordenes/buscar")
     public ResponseEntity<List<Orden>> buscarOrdenes(@RequestParam(required = false) Integer cliente,
                                                   @RequestParam(required = false) Integer accionId,
                                                   @RequestParam(required = false) String accion,
-                                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime fechaInicio,
-                                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime fechaFin,
+                                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant fechaInicio,
+                                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant fechaFin,
                                                   @RequestParam(required = false) Operacion operacion,
                                                   @RequestParam(required = false) Modo modo,
                                                   @RequestParam(required = false) Estado estado) {
@@ -170,8 +178,14 @@ public class OrdenResource {
     }
 
 
-
-
+    //Generado por Jhipster
+    /**
+     * {@code POST  /ordenes} : Create a new orden.
+     *
+     * @param ordenDTO the ordenDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new ordenDTO, or with status {@code 400 (Bad Request)} if the orden has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
     @PostMapping("/ordenes")
     public ResponseEntity<OrdenDTO> createOrden(@Valid @RequestBody OrdenDTO ordenDTO) throws URISyntaxException {
         log.debug("REST request to save Orden : {}", ordenDTO);
@@ -185,6 +199,7 @@ public class OrdenResource {
             .body(result);
     }
 
+    
     /**
      * {@code PUT  /ordenes/:id} : Updates an existing orden.
      *
@@ -263,7 +278,7 @@ public class OrdenResource {
      */
     @GetMapping("/ordenes")
     public ResponseEntity<List<OrdenDTO>> getAllOrdens(OrdenCriteria criteria) {
-        log.debug("REST request to get ordenes by criteria: {}", criteria);
+        log.debug("REST request to get Ordens by criteria: {}", criteria);
         List<OrdenDTO> entityList = ordenQueryService.findByCriteria(criteria);
         return ResponseEntity.ok().body(entityList);
     }
@@ -276,7 +291,7 @@ public class OrdenResource {
      */
     @GetMapping("/ordenes/count")
     public ResponseEntity<Long> countOrdens(OrdenCriteria criteria) {
-        log.debug("REST request to count ordenes by criteria: {}", criteria);
+        log.debug("REST request to count Ordens by criteria: {}", criteria);
         return ResponseEntity.ok().body(ordenQueryService.countByCriteria(criteria));
     }
 

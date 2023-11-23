@@ -1,5 +1,6 @@
 package prog2.sarmiento.service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -116,8 +117,10 @@ public class AnalizadorOrdenesService {
     }
 
     public boolean analizarHorario(Orden orden){
-        LocalDateTime fecha = orden.getFechaOperacion().toLocalDateTime();
-        LocalTime horaOrden = fecha.toLocalTime();
+        // LocalDateTime fecha = orden.getFechaOperacion().toLocalDateTime();
+        Instant fecha = orden.getFechaOperacion();
+        // LocalTime horaOrden = fecha.toLocalTime();
+        LocalTime horaOrden = LocalDateTime.ofInstant(fecha, java.time.ZoneOffset.UTC).toLocalTime();
         LocalTime horaInicio = LocalTime.of(9, 0);
         LocalTime horaFin = LocalTime.of(18, 0);
         return (horaOrden.isAfter(horaInicio) && horaOrden.isBefore(horaFin));

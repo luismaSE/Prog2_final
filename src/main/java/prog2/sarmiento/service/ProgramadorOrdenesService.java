@@ -50,7 +50,7 @@ public class ProgramadorOrdenesService {
         }
     }
 
-    @Scheduled(cron = "0 15 18 * * ?")
+    @Scheduled(cron = "0 0 9 * * ?")
     public void procOrdenesInicioDia() {
         log.info("procesando ordenes PRINCIPIODIA");
         while (!ordenesPrincipioDia.isEmpty()) {

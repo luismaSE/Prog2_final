@@ -95,7 +95,7 @@ public class OrdenCriteria implements Serializable, Criteria {
 
     private StringFilter descripcionEstado;
 
-    private ZonedDateTimeFilter fechaOperacion;
+    private InstantFilter fechaOperacion;
 
     private Boolean distinct;
 
@@ -271,18 +271,18 @@ public class OrdenCriteria implements Serializable, Criteria {
         this.descripcionEstado = descripcionEstado;
     }
 
-    public ZonedDateTimeFilter getFechaOperacion() {
+    public InstantFilter getFechaOperacion() {
         return fechaOperacion;
     }
 
-    public ZonedDateTimeFilter fechaOperacion() {
+    public InstantFilter fechaOperacion() {
         if (fechaOperacion == null) {
-            fechaOperacion = new ZonedDateTimeFilter();
+            fechaOperacion = new InstantFilter();
         }
         return fechaOperacion;
     }
 
-    public void setFechaOperacion(ZonedDateTimeFilter fechaOperacion) {
+    public void setFechaOperacion(InstantFilter fechaOperacion) {
         this.fechaOperacion = fechaOperacion;
     }
 

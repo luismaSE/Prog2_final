@@ -1,7 +1,7 @@
 package prog2.sarmiento.service.dto;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Objects;
 import javax.validation.constraints.*;
 import prog2.sarmiento.domain.enumeration.Estado;
@@ -42,7 +42,7 @@ public class OrdenDTO implements Serializable {
     private String descripcionEstado;
 
     @NotNull
-    private ZonedDateTime fechaOperacion;
+    private Instant fechaOperacion;
 
     public Long getId() {
         return id;
@@ -124,11 +124,11 @@ public class OrdenDTO implements Serializable {
         this.descripcionEstado = descripcionEstado;
     }
 
-    public ZonedDateTime getFechaOperacion() {
+    public Instant getFechaOperacion() {
         return fechaOperacion;
     }
 
-    public void setFechaOperacion(ZonedDateTime fechaOperacion) {
+    public void setFechaOperacion(Instant fechaOperacion) {
         this.fechaOperacion = fechaOperacion;
     }
 

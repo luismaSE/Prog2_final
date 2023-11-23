@@ -32,17 +32,21 @@ public class MainService {
     @Autowired ProcesadorOrdenesService procesadorOrdenes;
     @Autowired ProgramadorOrdenesService programadorOrdenes;
     @Autowired ReportarOrdenesService reportarOrdenes;
+    @Autowired GeneradorOrdenService generadorOrdenes;
 
     // public List<Orden> ordenesAhora = new ArrayList<>();
     private Queue<Orden> ordenesPendientes = new LinkedList<>();
 
     // @Scheduled(cron = "0/10 * 9-18 * * ?")
     public String Serve() {
+        try {
+            apiService.postEspejo(generadorOrdenes.generarOrdenes());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         log.info("Iniciando Procesamiento de Ordenes...");
         log.info("Obteniendo nuevas Ordenes...");
         ordenesPendientes.addAll(apiService.obtenerOrdenesDesdeAPI());
-        
-        
         log.info("Analizando Ordenes...");
 
         while (!ordenesPendientes.isEmpty()) {

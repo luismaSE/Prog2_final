@@ -1,6 +1,8 @@
 package prog2.sarmiento.service;
 
 import java.util.List;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -70,7 +72,8 @@ public class ReportarOrdenesService {
                 .put("modo", ordenOriginal.getModo().toString())
                 .put("cantidad", ordenOriginal.getCantidad())
                 .put("precio", ordenOriginal.getPrecio())
-                .put("fechaOperacion", ordenOriginal.getFechaOperacion().format(formatter))
+                // .put("fechaOperacion", ZonedDateTime.ofInstant(ordenOriginal.getFechaOperacion(), ZoneId.systemDefault()))
+                .put("fechaOperacion", ordenOriginal.getFechaOperacion().toString())
                 .put("operacion", ordenOriginal.getOperacion().toString())
                 .put("operacionObservaciones", ordenOriginal.getDescripcionEstado());
             if (ordenOriginal.getEstado() == Estado.COMPLETE) {

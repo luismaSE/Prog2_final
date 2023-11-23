@@ -50,7 +50,7 @@
     },
     {
       "fieldName": "fechaOperacion",
-      "fieldType": "ZonedDateTime",
+      "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     }
   ],
