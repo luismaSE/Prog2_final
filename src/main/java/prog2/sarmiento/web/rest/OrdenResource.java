@@ -30,6 +30,7 @@ import prog2.sarmiento.service.GeneradorOrdenService;
 import prog2.sarmiento.service.MainService;
 import prog2.sarmiento.service.OrdenQueryService;
 import prog2.sarmiento.service.OrdenService;
+import prog2.sarmiento.service.ProcesadorOrdenesService;
 import prog2.sarmiento.service.ProgramadorOrdenesService;
 import prog2.sarmiento.service.ReportarOrdenesService;
 import prog2.sarmiento.service.criteria.OrdenCriteria;
@@ -71,6 +72,7 @@ public class OrdenResource {
     @Autowired private ProgramadorOrdenesService programadorOrdenesService;
     @Autowired private ReportarOrdenesService reportarOrdenesService;
     @Autowired private GeneradorOrdenService generadorOrdenService;
+    @Autowired private ProcesadorOrdenesService procesadorOrdenes;
 
 
     @GetMapping("/ordenes/procesar")
@@ -87,7 +89,7 @@ public class OrdenResource {
     @GetMapping("/ordenes/procesar/principiodia")
     public ResponseEntity<String> ejecutarPrincipioDia() {   
         try {
-            programadorOrdenesService.procOrdenesInicioDia();
+            procesadorOrdenes.procOrdenesInicioDia();
             return ResponseEntity.ok("Ordenes procesadas correctamente");
         } catch (Exception e) {
             // Manejo de excepción en caso de error
@@ -98,7 +100,7 @@ public class OrdenResource {
     @GetMapping("/ordenes/procesar/findia")
     public ResponseEntity<String> ejecutarFinDia() {   
         try {
-            programadorOrdenesService.procOrdenesFinDia();
+            procesadorOrdenes.procOrdenesFinDia();
             return ResponseEntity.ok("Ordenes procesadas correctamente");
         } catch (Exception e) {
             // Manejo de excepción en caso de error

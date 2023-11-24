@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
+import prog2.sarmiento.domain.enumeration.Operacion;
 
 @Service
 @Transactional
@@ -46,6 +47,8 @@ public class AnalizadorOrdenesService {
             estado = "ERROR: Una orden no puede tener un número de acciones <=0";
         } else if (orden.getModo() == Modo.AHORA && !analizarHorario(orden)) {
             estado = "ERROR: Una orden instantánea no puede ejecutarse fuera del horario de transacciones, antes de las 09:00 y después de las 18:00";
+        } else if (orden.getOperacion().equals(Operacion.VENTA) && !analizarCantidad(orden)) {
+            estado = "ERROR: EL cliente no tiene la cantidad de acciones que desea vender";
         }
 
         if (estado.equals("OK")) {
@@ -114,6 +117,11 @@ public class AnalizadorOrdenesService {
 
     public boolean analizarAccion(Orden orden){
         return (orden.getCantidad() > 0 );
+    }
+
+    public boolean analizarCantidad(Orden orden){
+        Integer cant = apiService.obtenerCantidadDesdeAPI(orden.getCliente(),orden.getAccionId());
+        return (orden.getCantidad() <= cant);
     }
 
     public boolean analizarHorario(Orden orden){

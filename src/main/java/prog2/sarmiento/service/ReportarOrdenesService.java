@@ -1,8 +1,6 @@
 package prog2.sarmiento.service;
 
 import java.util.List;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -39,7 +37,7 @@ public class ReportarOrdenesService {
     }
  
     
-    public String convertirJSON() {
+    public String reporte() {
         ObjectNode ordenesJson = new ObjectMapper().createObjectNode();
         ArrayNode ordenesArray = JsonNodeFactory.instance.arrayNode();
         for (Orden orden : ordenesReport) {
@@ -47,8 +45,6 @@ public class ReportarOrdenesService {
         }
         ordenesJson.set("ordenes", ordenesArray);
         ordenesReport.clear();
-        // OrdenesJsonWrapper ordenesJsonWrapper = new OrdenesJsonWrapper();
-        // ordenesJsonWrapper.setOrdenes(ordenesJson);
 
         try {
             String jsonOrdenesReport =  objectMapper.writeValueAsString(ordenesJson);

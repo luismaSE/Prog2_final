@@ -28,13 +28,12 @@ public class MainService {
 
     @Autowired ApiService apiService;
     @Autowired OrdenRepository ordenRepository;
+    @Autowired ReportarOrdenesService reportarOrdenes;
+    @Autowired GeneradorOrdenService generadorOrdenes;
     @Autowired AnalizadorOrdenesService analizadorOrdenes;
     @Autowired ProcesadorOrdenesService procesadorOrdenes;
     @Autowired ProgramadorOrdenesService programadorOrdenes;
-    @Autowired ReportarOrdenesService reportarOrdenes;
-    @Autowired GeneradorOrdenService generadorOrdenes;
 
-    // public List<Orden> ordenesAhora = new ArrayList<>();
     private Queue<Orden> ordenesPendientes = new LinkedList<>();
 
     // @Scheduled(cron = "0/10 * 9-18 * * ?")
@@ -53,7 +52,7 @@ public class MainService {
             Orden orden = analizadorOrdenes.analizarOrden(ordenesPendientes.poll());
             log.info("Orden Analizada: "+orden);
 
-            if (orden.getModo().equals(Modo.AHORA)) {
+            if (orden.getModo().equals(Modo.AHORA) && orden.getEstado().equals(Estado.OK)) {
                 orden = procesadorOrdenes.procesarOrden(orden);
             }
             analizadorOrdenes.registrarOrden(orden);
@@ -64,14 +63,14 @@ public class MainService {
         String estado = analizadorOrdenes.mostrarResultadoAnalisis();
         List<List<Orden>> analisis = analizadorOrdenes.terminarAnalisis();
         programadorOrdenes.programarOrdenes(analisis.get(0));
-        String reporte = reportarOrdenes.convertirJSON();
+        String reporte = reportarOrdenes.reporte();
         analisis.clear();
         analizadorOrdenes.limpiarAnalisis();
-        // try {
-        //     apiService.postReportar(reporte);
-        // } catch (IOException | InterruptedException e) {
-        //     e.printStackTrace();
-        // }
+        try {
+            apiService.postReportar(reporte);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         return (reporte);
     }    
 }

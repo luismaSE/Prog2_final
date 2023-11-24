@@ -23,24 +23,15 @@ public class ProgramadorOrdenesService {
 
     @Autowired OrdenRepository ordenRepository;
     @Autowired ProcesadorOrdenesService procesadorOrdenes;
-    @Autowired ApiService apiService;
 
     private final Logger log = LoggerFactory.getLogger(ProgramadorOrdenesService.class);
-
-    public Queue<Orden> ordenesFinDia = new LinkedList<>();
-    public Queue<Orden> ordenesPrincipioDia = new LinkedList<>();
-
 
     public void programarOrdenes(List<Orden> ordenes) {
         for(Orden orden : ordenes) {
             if (!orden.getModo().equals(Modo.AHORA)) {
                 orden.setEstado(Estado.PROG);
                 orden.setDescripcionEstado("Programada para procesamiento");
-                if (orden.getModo() == Modo.PRINCIPIODIA) {
-                    ordenesPrincipioDia.add(orden);
-                }
-                if (orden.getModo() == Modo.FINDIA) {
-                    ordenesFinDia.add(orden);
+                procesadorOrdenes.addOrden(orden);
                 }
                 log.info("Orden Programada para su Procesamiento: "+orden);
                 ordenRepository.save(orden);
@@ -49,29 +40,3 @@ public class ProgramadorOrdenesService {
             }
         }
     }
-
-    @Scheduled(cron = "0 0 9 * * ?")
-    public void procOrdenesInicioDia() {
-        log.info("procesando ordenes PRINCIPIODIA");
-        while (!ordenesPrincipioDia.isEmpty()) {
-            Orden orden = ordenesPrincipioDia.poll();
-            Integer ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
-            orden.setPrecio(ultimoValor);
-            orden = procesadorOrdenes.procesarOrden(orden);
-            ordenRepository.save(orden);
-        }
-    }
-
-    @Scheduled(cron = "0 0 18 * * ?")
-    public void procOrdenesFinDia() {
-        log.info("procesando ordenes FINDIA");
-        while (!ordenesFinDia.isEmpty()) {
-            Orden orden = ordenesFinDia.poll();
-            Integer ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
-            orden.setPrecio(ultimoValor);
-            orden = procesadorOrdenes.procesarOrden(orden);
-            ordenRepository.save(orden);
-        }
-    } 
-
-}

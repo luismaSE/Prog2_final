@@ -155,6 +155,28 @@ public class ApiService {
             return "null";
         }
     }
+
+
+    public Integer obtenerCantidadDesdeAPI(Integer clienteId,Integer accionId) {
+        String API_URL = "http://192.168.194.254:8000/api/acciones/buscar?clienteId=" + clienteId + "&accionId=" + accionId;
+        log.info("Obteniendo cantidad de Acción...");
+        HttpResponse<String> response = getApiMethod(API_URL);
+        if (response == null) {
+            return null;
+        }
+        String responseBody = response.body();
+        try {
+            JsonNode rootNode = objectMapper.readTree(responseBody);
+            JsonNode cantidadActualNode = rootNode.get("cantidadActual");
+            if (cantidadActualNode == null) {
+                return 0;
+            }
+            return cantidadActualNode.asInt();
+        } catch (IOException e) {
+            log.error("Error: "+ e.getMessage());
+            return null;
+        }
+    }
     
     
     
