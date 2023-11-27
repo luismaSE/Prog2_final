@@ -1,76 +1,133 @@
 package prog2.sarmiento.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.Estado;
+import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.domain.enumeration.Operacion;
-
+import prog2.sarmiento.repository.OrdenRepository;
 
 @SpringBootTest
-public class ProcesadorOrdenesServiceTest {
+class ProcesadorOrdenesServiceTest {
 
     @Mock
-    private ExternalService externalService;
+    private ApiService apiService;
 
-    @Autowired
-    private ProcesadorOrdenesService procesadorOrdenes;
+    @Mock
+    private OrdenRepository ordenRepository;
 
-    @Before
-    public void setUp() {
+    @Mock
+    private ExternalService servicioExterno;
+
+    @Mock
+    private ReportarOrdenesService reportarOrdenes;
+
+    @InjectMocks
+    private ProcesadorOrdenesService procesadorOrdenesService;
+
+    private Queue<Orden> ordenesPrincipioDia;
+    private Queue<Orden> ordenesFinDia;
+
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.openMocks(this);
-        procesadorOrdenes.servicioExterno = externalService;
+        ordenesPrincipioDia = new ConcurrentLinkedQueue<>();
+        ordenesFinDia = new ConcurrentLinkedQueue<>();
+        procesadorOrdenesService.ordenesPrincipioDia = ordenesPrincipioDia;
+        procesadorOrdenesService.ordenesFinDia = ordenesFinDia;
     }
 
     @Test
-    public void testProcesarOrdenCompraCompleta() {
-        // Configuración de prueba
+    void testAddOrden() {
+        Orden ordenPrincipioDia = new Orden();
+        ordenPrincipioDia.setModo(Modo.PRINCIPIODIA);
+        procesadorOrdenesService.addOrden(ordenPrincipioDia);
+        assertEquals(1, ordenesPrincipioDia.size());
+
+        Orden ordenFinDia = new Orden();
+        ordenFinDia.setModo(Modo.FINDIA);
+        procesadorOrdenesService.addOrden(ordenFinDia);
+        assertEquals(1, ordenesFinDia.size());
+    }
+
+    @Test
+    void testProcesarOrdenCompra() {
         Orden orden = new Orden();
         orden.setOperacion(Operacion.COMPRA);
-        Mockito.when(externalService.ordenCompra(orden)).thenReturn(true);
+        when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(true);
 
-        // Ejecutar la prueba
-        Orden resultado = procesadorOrdenes.procesarOrden(orden);
+        orden = procesadorOrdenesService.procesarOrden(orden);
 
-        // Verificar que la orden esté completa
-        assertEquals(Estado.COMPLETE, resultado.getEstado());
-        assertEquals("Orden COMPLETADA", resultado.getDescripcionEstado());
+        assertEquals(Estado.COMPLETE, orden.getEstado());
+        assertEquals("Orden COMPLETADA", orden.getDescripcionEstado());
+        verify(reportarOrdenes, times(1)).addOrden(orden);
+        verify(ordenRepository, times(1)).save(orden);
     }
 
     @Test
-    public void testProcesarOrdenVentaCompleta() {
-        // Configuración de prueba
+    void testProcesarOrdenVenta() {
         Orden orden = new Orden();
         orden.setOperacion(Operacion.VENTA);
-        Mockito.when(externalService.ordenVenta(orden)).thenReturn(true);
+        when(servicioExterno.ordenVenta(any(Orden.class))).thenReturn(true);
 
-        // Ejecutar la prueba
-        Orden resultado = procesadorOrdenes.procesarOrden(orden);
+        orden = procesadorOrdenesService.procesarOrden(orden);
 
-        // Verificar que la orden esté completa
-        assertEquals(Estado.COMPLETE, resultado.getEstado());
-        assertEquals("Orden COMPLETADA", resultado.getDescripcionEstado());
+        assertEquals(Estado.COMPLETE, orden.getEstado());
+        assertEquals("Orden COMPLETADA", orden.getDescripcionEstado());
+        verify(reportarOrdenes, times(1)).addOrden(orden);
     }
 
     @Test
-    public void testProcesarOrdenFallida() {
-        // Configuración de prueba
+    void testProcesarOrdenCompraFail() {
         Orden orden = new Orden();
         orden.setOperacion(Operacion.COMPRA);
-        Mockito.when(externalService.ordenCompra(orden)).thenReturn(false);
+        when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(false);
 
-        // Ejecutar la prueba
-        Orden resultado = procesadorOrdenes.procesarOrden(orden);
+        orden = procesadorOrdenesService.procesarOrden(orden);
 
-        // Verificar que la orden no esté completa
-        assertEquals(Estado.PEND, resultado.getEstado());
+        assertEquals(Estado.FAIL, orden.getEstado());
+        verify(reportarOrdenes, times(1)).addOrden(orden);
+        verify(ordenRepository, times(1)).save(orden);
     }
+
+    @Test
+    void testProcesarOrdenesPrincipioDia() {
+        Orden orden = new Orden();
+        orden.setModo(Modo.PRINCIPIODIA);
+        ordenesPrincipioDia.add(orden);
+        when(apiService.obtenerUltimoValor(anyString())).thenReturn(100);
+        when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(true);
+
+        procesadorOrdenesService.procOrdenesInicioDia();
+
+        verify(reportarOrdenes, times(1)).addOrden(orden);
+        verify(ordenRepository, times(1)).save(orden);
+    }
+
+    @Test
+    void testProcesarOrdenesFinDia() {
+        Orden orden = new Orden();
+        orden.setModo(Modo.FINDIA);
+        ordenesFinDia.add(orden);
+        when(apiService.obtenerUltimoValor(anyString())).thenReturn(100);
+        when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(true);
+
+        procesadorOrdenesService.procOrdenesFinDia();
+
+        verify(reportarOrdenes, times(1)).addOrden(orden);
+        verify(ordenRepository, times(1)).save(orden);
+    }
+
 }

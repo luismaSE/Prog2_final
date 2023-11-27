@@ -1,83 +1,118 @@
-// package prog2.sarmiento.service;
+package prog2.sarmiento.service;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
+import prog2.sarmiento.domain.Orden;
 
-// import static org.junit.Assert.assertNull;
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertNotNull;
-// import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-// import java.net.http.HttpResponse;
-// import java.util.List;
-
-// import org.junit.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.context.SpringBootTest;
-
-// import prog2.sarmiento.domain.Orden;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.List;
 
 // @SpringBootTest
-// public class ApiServiceTest {
+@ExtendWith(MockitoExtension.class)
+class ApiServiceTest {
 
-//     @Autowired
-//     ApiService apiService;
+    @Mock
+    private HttpClient client;
+
+    @Mock
+    private HttpRequest request;
+
+    @Mock
+    private HttpResponse<String> fakeResponse;
+
+    @Spy
+    private ApiService apiServiceSpy;
+
     
-//     @Test
-//     public void testObtenerClientesDesdeAPI() {
-//         List<Integer> clienteIds = apiService.obtenerClientesDesdeAPI();
 
-//         assertNotNull(clienteIds);
-//         assertTrue(clienteIds.size() > 0);
-//     }
+    @BeforeEach
+    void setUp() {
+        HttpResponse<String> fakeResponse = mock(HttpResponse.class);
+        
+    }
 
-//     @Test
-//     public void testObtenerCompDesdeAPIconCodigoValido() {
-//         String codigo = "AAPL"; // Código de acción válido
-
-//         String accionCodigo = apiService.obtenerCompDesdeAPIconCodigo(codigo);
-
-//         assertEquals(codigo, accionCodigo);
-//     }
-
-//     @Test
-//     public void testObtenerCompDesdeAPIconCodigoNoValido() {
-//         String codigo = "INVALID"; // Código de acción no válido
-
-//         String accionCodigo = apiService.obtenerCompDesdeAPIconCodigo(codigo);
-
-//         assertEquals("null", accionCodigo);
-//     }
-
-//     // @Test
-//     // public void testConsultaEspejo() {
-//     //     // Supongamos que tienes un JSON de órdenes válido como cadena
-//     //     String jsonOrdenes = "[{...}]"; // JSON de órdenes válido
-
-//     //     List<Orden> ordenes = apiService.consultaEspejo(jsonOrdenes);
-
-//     //     assertNotNull(ordenes);
-//     //     assertTrue(ordenes.size() > 0);
-//     // }
+    @Test
+    void testObtenerOrdenes() {
+        String fakeJsonResponse = "{ \"ordenes\": [ { \"cliente\": 51107, \"accionId\": 6, \"accion\": \"YPF\", \"modo\": \"FINDIA\", \"cantidad\": 13, \"precio\": 58, \"operacion\": \"COMPRA\", \"fechaOperacion\": \"2023-09-01T17:13:27Z\" }, { \"cliente\": 51107, \"accionId\": 6, \"accion\": \"YPF\", \"modo\": \"AHORA\", \"cantidad\": 81, \"precio\": 16, \"operacion\": \"COMPRA\", \"fechaOperacion\": \"2022-11-24T18:56:30Z\" } ] }"; 
+        when(fakeResponse.body()).thenReturn(fakeJsonResponse);
+        when(fakeResponse.statusCode()).thenReturn(200);
+        // Mockeamos solo el método getApiMethod
+        doReturn(fakeResponse).when(apiServiceSpy).getApiMethod(anyString());
 
 
-//     // @Test
-//     // public void testGetApiResponse() {
-//     //     String API_URL = "http://example.com/api/data"; // URL válida
+        List<Orden> ordenes = apiServiceSpy.obtenerOrdenesDesdeAPI();
 
-//     //     HttpResponse<String> response = apiService.getApiResponse(API_URL);
-
-//     //     assertNotNull(response);
-//     //     assertEquals(200, response.statusCode());
-//     // }
-
-
-//     @Test
-//     public void testGetApiResponseWithInvalidURL() {
-//         String API_URL = "http://example.com/nonexistent"; // URL no válida
+        assertEquals(2, ordenes.size());
+    }
     
-//         HttpResponse<String> response = apiService.getApiMethod(API_URL);
+
+    @Test
+    void testObtenerClientes() {
+        String fakeJsonResponse = "{ \"clientes\": [ { \"id\": 51101, \"nombreApellido\": \"María Corvalán\", \"empresa\": \"Happy Soul\" }, { \"id\": 51102, \"nombreApellido\": \"Ricardo Tapia\", \"empresa\": \"Salud Zen\" }, { \"id\": 51103, \"nombreApellido\": \"Valeria Rodriguez\", \"empresa\": \"Health Co\" }, { \"id\": 51104, \"nombreApellido\": \"Liliana Suarez\", \"empresa\": \"Magic Clinic\" }, { \"id\": 51105, \"nombreApellido\": \"Víctor Romero\", \"empresa\": \"Sky Jewelry\" }, { \"id\": 51106, \"nombreApellido\": \"Raúl Flores\", \"empresa\": \"Trendy Room\" }, { \"id\": 51107, \"nombreApellido\": \"Horacio Torres\", \"empresa\": \"PulserArte\" }, { \"id\": 51108, \"nombreApellido\": \"Mónica Garcia\", \"empresa\": \"Tienda urbana\" }, { \"id\": 51109, \"nombreApellido\": \"Ana Medina\", \"empresa\": \"Tienda vintage\" }, { \"id\": 51110, \"nombreApellido\": \"Ricardo Campos\", \"empresa\": \"Moda casual\" }, { \"id\": 51111, \"nombreApellido\": \"Victoria Vazquez\", \"empresa\": \"Cool fit\" }, { \"id\": 51112, \"nombreApellido\": \"Guadalupe Prieto\", \"empresa\": \"Sabor Natural\" } ] }";
+        when(fakeResponse.body()).thenReturn(fakeJsonResponse);
+        when(fakeResponse.statusCode()).thenReturn(200);
+        // Mockeamos solo el método getApiMethod
+        doReturn(fakeResponse).when(apiServiceSpy).getApiMethod(anyString());
+
+        List<Integer> clientes = apiServiceSpy.obtenerClientesDesdeAPI();
+        List<Integer> clientesEsperados = List.of(51101, 51102, 51103, 51104, 51105, 51106, 51107, 51108, 51109, 51110, 51111, 51112);
+        assertEquals(12, clientes.size());
+        assertEquals(clientes, clientesEsperados);
+    }
+
+
+    @Test
+    void testObtenerComp() {
+        String fakeJsonResponse = "{ \"acciones\": [ { \"id\": 13, \"codigo\": \"PAM\", \"empresa\": \"Pampa Energia SA\" } ] }";
+        when(fakeResponse.body()).thenReturn(fakeJsonResponse);
+        when(fakeResponse.statusCode()).thenReturn(200);
+        // Mockeamos solo el método getApiMethod
+        doReturn(fakeResponse).when(apiServiceSpy).getApiMethod(anyString());
+
+        String codigoEsperado = "PAM";
+        String codigo = apiServiceSpy.obtenerCompDesdeAPIconCodigo(codigoEsperado);  
+        assertEquals(codigoEsperado, codigo);
+        
+    }
+
+
+    @Test
+    void testObtenerCantidad() {
+        String fakeJsonResponse = "{ \"cliente\": 51110, \"accionId\": 251159, \"accion\": \"GLOB\", \"cantidadActual\": 30, \"observaciones\": \"Acciones presentes\" }";
+        when(fakeResponse.body()).thenReturn(fakeJsonResponse);
+        when(fakeResponse.statusCode()).thenReturn(200);
+        // Mockeamos solo el método getApiMethod
+        doReturn(fakeResponse).when(apiServiceSpy).getApiMethod(anyString());
+
+        Integer cantidadEsperada = 30;
+        Integer cantidad = apiServiceSpy.obtenerCantidadDesdeAPI(51110, 251159);
+        assertEquals(cantidadEsperada, cantidad);
     
-//         assertNull(response);
-//     }
+    }
+
+    @Test
+    void testObtenerUltimoValor() {
+        String fakeJsonResponse = "{ \"codigo\": \"GOOGL\", \"empresa\": \"Alphabet Inc. (google)\", \"ultimoValor\": { \"fechaHora\": \"19:10:30\", \"valor\": 125.42152239159692 }, \"valores\": null }";
+        when(fakeResponse.body()).thenReturn(fakeJsonResponse);
+        when(fakeResponse.statusCode()).thenReturn(200);
+        // Mockeamos solo el método getApiMethod
+        doReturn(fakeResponse).when(apiServiceSpy).getApiMethod(anyString());
+
+        Integer ultimoValorEsperado = 125;
+        Integer ultimoValor = apiServiceSpy.obtenerUltimoValor("GOOGL");
+        assertEquals(ultimoValorEsperado, ultimoValor);
+    }
 
 
-
-// }
+}

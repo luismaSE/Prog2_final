@@ -36,7 +36,7 @@ public class MainService {
 
     private Queue<Orden> ordenesPendientes = new LinkedList<>();
 
-    // @Scheduled(cron = "0/10 * 9-18 * * ?")
+    @Scheduled(cron = "0/10 * 9-18 * * ?")
     public String Serve() {
         try {
             apiService.postEspejo(generadorOrdenes.generarOrdenes());

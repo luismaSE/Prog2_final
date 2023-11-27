@@ -48,7 +48,11 @@ public class ApiService {
         return new String(tokenBytes).trim();
     }
 
-    private HttpResponse<String> sendRequest(String url, HttpRequest.BodyPublisher bodyPublisher, String method) {
+
+
+
+
+    public HttpResponse<String> sendRequest(String url, HttpRequest.BodyPublisher bodyPublisher, String method) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Authorization", "Bearer " + JWT_TOKEN)
@@ -79,7 +83,7 @@ public class ApiService {
         String API_URL = "http://192.168.194.254:8000/api/ordenes/ordenes";
         log.info("Obteniendo listado de ordenes por Procesar...");
         HttpResponse<String> response = getApiMethod(API_URL);
-        if (response != null) {
+        if (response.statusCode() == 200) {
             ordenes = mapOrdenes(response.body());
         }
         return ordenes;
@@ -120,7 +124,7 @@ public class ApiService {
         log.info("Obteniendo listado de Clientes...");
         HttpResponse<String> response = getApiMethod(API_URL);
         List<Integer> clienteIds = new ArrayList<>();
-        if (response != null) {
+        if (response.statusCode() == 200) {
             String responseBody = response.body();
             JsonNode rootNode;
             try {
@@ -139,7 +143,7 @@ public class ApiService {
         String API_URL = "http://192.168.194.254:8000/api/acciones/buscar?codigo=" + codigo;
         log.info("Obteniendo Codigo de Acción...");
         HttpResponse<String> response = getApiMethod(API_URL);
-        if (response == null) {
+        if (response.statusCode() != 200) {
             return "null";
         }
         String responseBody = response.body();
@@ -161,7 +165,7 @@ public class ApiService {
         String API_URL = "http://192.168.194.254:8000/api/acciones/buscar?clienteId=" + clienteId + "&accionId=" + accionId;
         log.info("Obteniendo cantidad de Acción...");
         HttpResponse<String> response = getApiMethod(API_URL);
-        if (response == null) {
+        if (response.statusCode() != 200) {
             return null;
         }
         String responseBody = response.body();
@@ -214,15 +218,15 @@ public class ApiService {
 
 
     //obtiene un json con una orden y la convierte en un objeto orden
-    public Orden mapOrden (String jsonOrden) {
-        Orden orden = new Orden();
-        try {
-            orden = objectMapper.readValue(jsonOrden, Orden.class);
-        } catch (Exception e) {
-            log.error("Error al mapear orden: {}", e.getMessage());
-        }
-        return orden;
-    }
+    // public Orden mapOrden (String jsonOrden) {
+    //     Orden orden = new Orden();
+    //     try {
+    //         orden = objectMapper.readValue(jsonOrden, Orden.class);
+    //     } catch (Exception e) {
+    //         log.error("Error al mapear orden: {}", e.getMessage());
+    //     }
+    //     return orden;
+    // }
 
 
     
