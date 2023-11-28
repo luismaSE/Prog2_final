@@ -51,9 +51,9 @@ class OrdenResourceIT {
     private static final Operacion DEFAULT_OPERACION = Operacion.COMPRA;
     private static final Operacion UPDATED_OPERACION = Operacion.VENTA;
 
-    private static final Integer DEFAULT_PRECIO = 1;
-    private static final Integer UPDATED_PRECIO = 2;
-    private static final Integer SMALLER_PRECIO = 1 - 1;
+    private static final Double DEFAULT_PRECIO = 1D;
+    private static final Double UPDATED_PRECIO = 2D;
+    private static final Double SMALLER_PRECIO = 1D - 1D;
 
     private static final Integer DEFAULT_CANTIDAD = 1;
     private static final Integer UPDATED_CANTIDAD = 2;
@@ -343,7 +343,7 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.[*].accionId").value(hasItem(DEFAULT_ACCION_ID)))
             .andExpect(jsonPath("$.[*].accion").value(hasItem(DEFAULT_ACCION)))
             .andExpect(jsonPath("$.[*].operacion").value(hasItem(DEFAULT_OPERACION.toString())))
-            .andExpect(jsonPath("$.[*].precio").value(hasItem(DEFAULT_PRECIO)))
+            .andExpect(jsonPath("$.[*].precio").value(hasItem(DEFAULT_PRECIO.doubleValue())))
             .andExpect(jsonPath("$.[*].cantidad").value(hasItem(DEFAULT_CANTIDAD)))
             .andExpect(jsonPath("$.[*].modo").value(hasItem(DEFAULT_MODO.toString())))
             .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())))
@@ -367,7 +367,7 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.accionId").value(DEFAULT_ACCION_ID))
             .andExpect(jsonPath("$.accion").value(DEFAULT_ACCION))
             .andExpect(jsonPath("$.operacion").value(DEFAULT_OPERACION.toString()))
-            .andExpect(jsonPath("$.precio").value(DEFAULT_PRECIO))
+            .andExpect(jsonPath("$.precio").value(DEFAULT_PRECIO.doubleValue()))
             .andExpect(jsonPath("$.cantidad").value(DEFAULT_CANTIDAD))
             .andExpect(jsonPath("$.modo").value(DEFAULT_MODO.toString()))
             .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO.toString()))
@@ -1056,7 +1056,7 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.[*].accionId").value(hasItem(DEFAULT_ACCION_ID)))
             .andExpect(jsonPath("$.[*].accion").value(hasItem(DEFAULT_ACCION)))
             .andExpect(jsonPath("$.[*].operacion").value(hasItem(DEFAULT_OPERACION.toString())))
-            .andExpect(jsonPath("$.[*].precio").value(hasItem(DEFAULT_PRECIO)))
+            .andExpect(jsonPath("$.[*].precio").value(hasItem(DEFAULT_PRECIO.doubleValue())))
             .andExpect(jsonPath("$.[*].cantidad").value(hasItem(DEFAULT_CANTIDAD)))
             .andExpect(jsonPath("$.[*].modo").value(hasItem(DEFAULT_MODO.toString())))
             .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())))

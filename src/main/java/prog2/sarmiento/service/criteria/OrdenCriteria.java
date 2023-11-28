@@ -85,7 +85,7 @@ public class OrdenCriteria implements Serializable, Criteria {
 
     private OperacionFilter operacion;
 
-    private IntegerFilter precio;
+    private DoubleFilter precio;
 
     private IntegerFilter cantidad;
 
@@ -196,18 +196,18 @@ public class OrdenCriteria implements Serializable, Criteria {
         this.operacion = operacion;
     }
 
-    public IntegerFilter getPrecio() {
+    public DoubleFilter getPrecio() {
         return precio;
     }
 
-    public IntegerFilter precio() {
+    public DoubleFilter precio() {
         if (precio == null) {
-            precio = new IntegerFilter();
+            precio = new DoubleFilter();
         }
         return precio;
     }
 
-    public void setPrecio(IntegerFilter precio) {
+    public void setPrecio(DoubleFilter precio) {
         this.precio = precio;
     }
 

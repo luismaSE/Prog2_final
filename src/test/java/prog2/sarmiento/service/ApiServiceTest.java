@@ -109,8 +109,8 @@ class ApiServiceTest {
         // Mockeamos solo el método getApiMethod
         doReturn(fakeResponse).when(apiServiceSpy).getApiMethod(anyString());
 
-        Integer ultimoValorEsperado = 125;
-        Integer ultimoValor = apiServiceSpy.obtenerUltimoValor("GOOGL");
+        Double ultimoValorEsperado = 125.0;
+        Double ultimoValor = apiServiceSpy.obtenerUltimoValor("GOOGL");
         assertEquals(ultimoValorEsperado, ultimoValor);
     }
 

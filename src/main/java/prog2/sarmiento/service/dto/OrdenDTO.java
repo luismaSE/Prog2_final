@@ -29,7 +29,7 @@ public class OrdenDTO implements Serializable {
     private Operacion operacion;
 
     @NotNull
-    private Integer precio;
+    private Double precio;
 
     @NotNull
     private Integer cantidad;
@@ -84,11 +84,11 @@ public class OrdenDTO implements Serializable {
         this.operacion = operacion;
     }
 
-    public Integer getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Integer precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 

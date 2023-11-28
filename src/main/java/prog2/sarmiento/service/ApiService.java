@@ -184,7 +184,7 @@ public class ApiService {
     
     
     
-    public Integer obtenerUltimoValor (String codigo) {
+    public Double obtenerUltimoValor (String codigo) {
         String API_URL = "http://192.168.194.254:8000/api/acciones/ultimovalor/" + codigo;
         log.info("Obteniendo Ultimo Valor de Acción...");
         try {
@@ -194,8 +194,8 @@ public class ApiService {
                 String responseBody = response.body();
                 JsonNode rootNode = objectMapper.readTree(responseBody);
                 JsonNode node = rootNode.get("ultimoValor");
-                Integer ultimoValor = node.get("valor").asInt();
-                return ultimoValor.intValue();
+                Double ultimoValor = node.get("valor").asDouble();
+                return ultimoValor;
             } else {
                 throw new IOException("No se pudo obtener el ultimo valor");
             }

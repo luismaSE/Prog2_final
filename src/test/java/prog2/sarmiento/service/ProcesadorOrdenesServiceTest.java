@@ -105,7 +105,7 @@ class ProcesadorOrdenesServiceTest {
         orden.setModo(Modo.PRINCIPIODIA);
         orden.setOperacion(Operacion.COMPRA);
         ordenesPrincipioDia.add(orden);
-        when(apiService.obtenerUltimoValor(anyString())).thenReturn(100);
+        when(apiService.obtenerUltimoValor(anyString())).thenReturn(100.0);
         when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(true);
 
         procesadorOrdenesService.procOrdenesInicioDia();
@@ -120,7 +120,7 @@ class ProcesadorOrdenesServiceTest {
         orden.setModo(Modo.FINDIA);
         orden.setOperacion(Operacion.VENTA);
         ordenesFinDia.add(orden);
-        when(apiService.obtenerUltimoValor(anyString())).thenReturn(100);
+        when(apiService.obtenerUltimoValor(anyString())).thenReturn(100.0);
         when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(true);
 
         procesadorOrdenesService.procOrdenesFinDia();

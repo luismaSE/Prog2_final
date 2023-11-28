@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -65,7 +64,8 @@ public class OrdenResource {
         this.ordenQueryService = ordenQueryService;
     }
 
-    //Metodos Propios
+    // METODOS PROPIOS
+
     @Autowired private MainService mainService;
     @Autowired private ApiService apiService;
     @Autowired private AnalizadorOrdenesService analizadorOrdenesService;
@@ -142,8 +142,8 @@ public class OrdenResource {
     }
 
     @GetMapping("/consultar/{accion}")
-    public ResponseEntity<Integer> consultarUltimoValor(@PathVariable String accion) {
-        Integer ultimoValor = apiService.obtenerUltimoValor(accion);
+    public ResponseEntity<Double> consultarUltimoValor(@PathVariable String accion) {
+        Double ultimoValor = apiService.obtenerUltimoValor(accion);
         return ResponseEntity.ok(ultimoValor);
     }
 
@@ -171,16 +171,16 @@ public class OrdenResource {
     }
 
 
-    
-    //Generado por Jhipster
+    // METODOS DE JHIPSTER
+
     /**
-     * {@code POST  /ordenes} : Create a new orden.
+     * {@code POST  /ordens} : Create a new orden.
      *
      * @param ordenDTO the ordenDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new ordenDTO, or with status {@code 400 (Bad Request)} if the orden has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/ordenes")
+    @PostMapping("/ordens")
     public ResponseEntity<OrdenDTO> createOrden(@Valid @RequestBody OrdenDTO ordenDTO) throws URISyntaxException {
         log.debug("REST request to save Orden : {}", ordenDTO);
         if (ordenDTO.getId() != null) {
@@ -188,14 +188,13 @@ public class OrdenResource {
         }
         OrdenDTO result = ordenService.save(ordenDTO);
         return ResponseEntity
-            .created(new URI("/api/ordenes/" + result.getId()))
+            .created(new URI("/api/ordens/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
-    
     /**
-     * {@code PUT  /ordenes/:id} : Updates an existing orden.
+     * {@code PUT  /ordens/:id} : Updates an existing orden.
      *
      * @param id the id of the ordenDTO to save.
      * @param ordenDTO the ordenDTO to update.
@@ -204,7 +203,7 @@ public class OrdenResource {
      * or with status {@code 500 (Internal Server Error)} if the ordenDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/ordenes/{id}")
+    @PutMapping("/ordens/{id}")
     public ResponseEntity<OrdenDTO> updateOrden(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody OrdenDTO ordenDTO
@@ -229,7 +228,7 @@ public class OrdenResource {
     }
 
     /**
-     * {@code PATCH  /ordenes/:id} : Partial updates given fields of an existing orden, field will ignore if it is null
+     * {@code PATCH  /ordens/:id} : Partial updates given fields of an existing orden, field will ignore if it is null
      *
      * @param id the id of the ordenDTO to save.
      * @param ordenDTO the ordenDTO to update.
@@ -239,7 +238,7 @@ public class OrdenResource {
      * or with status {@code 500 (Internal Server Error)} if the ordenDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/ordenes/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/ordens/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<OrdenDTO> partialUpdateOrden(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody OrdenDTO ordenDTO
@@ -265,12 +264,12 @@ public class OrdenResource {
     }
 
     /**
-     * {@code GET  /ordenes} : get all the ordenes.
+     * {@code GET  /ordens} : get all the ordens.
      *
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of ordenes in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of ordens in body.
      */
-    @GetMapping("/ordenes")
+    @GetMapping("/ordens")
     public ResponseEntity<List<OrdenDTO>> getAllOrdens(OrdenCriteria criteria) {
         log.debug("REST request to get Ordens by criteria: {}", criteria);
         List<OrdenDTO> entityList = ordenQueryService.findByCriteria(criteria);
@@ -278,24 +277,24 @@ public class OrdenResource {
     }
 
     /**
-     * {@code GET  /ordenes/count} : count all the ordenes.
+     * {@code GET  /ordens/count} : count all the ordens.
      *
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/ordenes/count")
+    @GetMapping("/ordens/count")
     public ResponseEntity<Long> countOrdens(OrdenCriteria criteria) {
         log.debug("REST request to count Ordens by criteria: {}", criteria);
         return ResponseEntity.ok().body(ordenQueryService.countByCriteria(criteria));
     }
 
     /**
-     * {@code GET  /ordenes/:id} : get the "id" orden.
+     * {@code GET  /ordens/:id} : get the "id" orden.
      *
      * @param id the id of the ordenDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the ordenDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/ordenes/{id}")
+    @GetMapping("/ordens/{id}")
     public ResponseEntity<OrdenDTO> getOrden(@PathVariable Long id) {
         log.debug("REST request to get Orden : {}", id);
         Optional<OrdenDTO> ordenDTO = ordenService.findOne(id);
@@ -303,12 +302,12 @@ public class OrdenResource {
     }
 
     /**
-     * {@code DELETE  /ordenes/:id} : delete the "id" orden.
+     * {@code DELETE  /ordens/:id} : delete the "id" orden.
      *
      * @param id the id of the ordenDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/ordenes/{id}")
+    @DeleteMapping("/ordens/{id}")
     public ResponseEntity<Void> deleteOrden(@PathVariable Long id) {
         log.debug("REST request to delete Orden : {}", id);
         ordenService.delete(id);

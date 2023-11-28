@@ -115,8 +115,8 @@ public class OrdenService {
     }
 
     public List<Orden> findOrdenes(Integer cliente, Integer accionId, String accion, Instant fechaInicio,
-            Instant fechaFin, Operacion operacion, Modo modo, Estado estado) {
-            List<Orden> ordenes = ordenRepository.findOrdenes(cliente, accionId, accion, fechaInicio, fechaFin, operacion, modo, estado);
-            return ordenes;
+        Instant fechaFin, Operacion operacion, Modo modo, Estado estado) {
+        List<Orden> ordenes = ordenRepository.findOrdenes(cliente, accionId, accion, fechaInicio, fechaFin, operacion, modo, estado);
+        return ordenes;
     }
 }

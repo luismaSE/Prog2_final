@@ -67,7 +67,7 @@ public class ProcesadorOrdenesService {
         log.info("procesando ordenes PRINCIPIODIA");
         while (!ordenesPrincipioDia.isEmpty()) {
             Orden orden = ordenesPrincipioDia.poll();
-            Integer ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
+            Double ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
             orden.setPrecio(ultimoValor);
             orden = procesarOrden(orden);
             ordenRepository.save(orden);
@@ -79,7 +79,7 @@ public class ProcesadorOrdenesService {
         log.info("procesando ordenes FINDIA");
         while (!ordenesFinDia.isEmpty()) {
             Orden orden = ordenesFinDia.poll();
-            Integer ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
+            Double ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
             orden.setPrecio(ultimoValor);
             orden = procesarOrden(orden);
             ordenRepository.save(orden);

@@ -46,7 +46,7 @@ public class Orden implements Serializable {
 
     @NotNull
     @Column(name = "precio", nullable = false)
-    private Integer precio;
+    private Double precio;
 
     @NotNull
     @Column(name = "cantidad", nullable = false)
@@ -135,16 +135,16 @@ public class Orden implements Serializable {
         this.operacion = operacion;
     }
 
-    public Integer getPrecio() {
+    public Double getPrecio() {
         return this.precio;
     }
 
-    public Orden precio(Integer precio) {
+    public Orden precio(Double precio) {
         this.setPrecio(precio);
         return this;
     }
 
-    public void setPrecio(Integer precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 

@@ -26,7 +26,7 @@
             <column name="operacion" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="precio" type="integer">
+            <column name="precio" type="double">
                 <constraints nullable="false" />
             </column>
             <column name="cantidad" type="integer">

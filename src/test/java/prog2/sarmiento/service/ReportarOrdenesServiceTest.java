@@ -37,7 +37,7 @@ class ReportarOrdenesServiceTest {
         orden1.setAccion("AAPL");
         orden1.setModo(Modo.AHORA);
         orden1.setCantidad(10);
-        orden1.setPrecio(100);
+        orden1.setPrecio(100.0);
         orden1.setFechaOperacion(Instant.now());
         orden1.setOperacion(Operacion.COMPRA);
         orden1.setDescripcionEstado("Orden completada");
@@ -49,7 +49,7 @@ class ReportarOrdenesServiceTest {
         orden2.setAccion("GOOGL");
         orden2.setModo(Modo.AHORA);
         orden2.setCantidad(20);
-        orden2.setPrecio(200);
+        orden2.setPrecio(200.0);
         orden2.setFechaOperacion(Instant.now());
         orden2.setOperacion(Operacion.VENTA);
         orden2.setDescripcionEstado("Orden completada");
@@ -64,7 +64,7 @@ class ReportarOrdenesServiceTest {
         String reporte = reportarOrdenesService.reporte();
 
         // Assert
-        String expectedJson = "{\"ordenes\":[{\"cliente\":1,\"accionId\":1,\"accion\":\"AAPL\",\"modo\":\"AHORA\",\"cantidad\":10,\"precio\":100,\"fechaOperacion\":\"" + orden1.getFechaOperacion().toString() + "\",\"operacion\":\"COMPRA\",\"operacionObservaciones\":\"Orden completada\",\"operacionExitosa\":true},{\"cliente\":2,\"accionId\":2,\"accion\":\"GOOGL\",\"modo\":\"AHORA\",\"cantidad\":20,\"precio\":200,\"fechaOperacion\":\"" + orden2.getFechaOperacion().toString() + "\",\"operacion\":\"VENTA\",\"operacionObservaciones\":\"Orden completada\",\"operacionExitosa\":true}]}";
+        String expectedJson = "{\"ordenes\":[{\"cliente\":1,\"accionId\":1,\"accion\":\"AAPL\",\"modo\":\"AHORA\",\"cantidad\":10,\"precio\":100.0,\"fechaOperacion\":\"" + orden1.getFechaOperacion().toString() + "\",\"operacion\":\"COMPRA\",\"operacionObservaciones\":\"Orden completada\",\"operacionExitosa\":true},{\"cliente\":2,\"accionId\":2,\"accion\":\"GOOGL\",\"modo\":\"AHORA\",\"cantidad\":20,\"precio\":200.0,\"fechaOperacion\":\"" + orden2.getFechaOperacion().toString() + "\",\"operacion\":\"VENTA\",\"operacionObservaciones\":\"Orden completada\",\"operacionExitosa\":true}]}";
         assertEquals(expectedJson, reporte);
     }
 
@@ -77,7 +77,7 @@ class ReportarOrdenesServiceTest {
         orden.setAccion("AAPL");
         orden.setModo(Modo.AHORA);
         orden.setCantidad(10);
-        orden.setPrecio(100);
+        orden.setPrecio(100.0);
         orden.setFechaOperacion(Instant.now());
         orden.setOperacion(Operacion.COMPRA);
         orden.setDescripcionEstado("Analisis: OK.");
