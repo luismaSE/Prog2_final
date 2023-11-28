@@ -77,10 +77,8 @@ public class ReportarOrdenesService {
             } else {
                 nodoNuevo.put("operacionExitosa", false);
             }
-
-            // Convertir el nuevo ObjectNode a una cadena JSON
             return nodoNuevo;
-            // return objectMapper.writeValueAsString(nodoNuevo);
+            
         } catch (Exception e) {
             e.printStackTrace();
             return null;

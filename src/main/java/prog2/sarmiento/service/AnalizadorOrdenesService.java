@@ -29,13 +29,6 @@ public class AnalizadorOrdenesService {
     @Autowired
     ApiService apiService;
 
-    // public void analizarOrdenes(List<Orden> ordenes) {
-    //     for (Orden orden : ordenes) {
-    //         // Perform analysis on each order
-    //         log.info("Analyzing order: {}", orden);
-    //     }
-    // }
-
     public Orden analizarOrden(Orden orden) {
         String estado = "OK";
 
@@ -64,7 +57,6 @@ public class AnalizadorOrdenesService {
 
 
     public void registrarOrden(Orden orden) {
-        // log.info("Orden analizada, estado:"+orden.getEstado());
         if (!(orden.getEstado().equals(Estado.FAIL))) {
             ordenesOk.add(orden);
         } else {
@@ -125,9 +117,7 @@ public class AnalizadorOrdenesService {
     }
 
     public boolean analizarHorario(Orden orden){
-        // LocalDateTime fecha = orden.getFechaOperacion().toLocalDateTime();
         Instant fecha = orden.getFechaOperacion();
-        // LocalTime horaOrden = fecha.toLocalTime();
         LocalTime horaOrden = LocalDateTime.ofInstant(fecha, java.time.ZoneOffset.UTC).toLocalTime();
         LocalTime horaInicio = LocalTime.of(9, 0);
         LocalTime horaFin = LocalTime.of(18, 0);

@@ -216,44 +216,5 @@ public class ApiService {
         return ordenes;
     }
 
-
-    //obtiene un json con una orden y la convierte en un objeto orden
-    // public Orden mapOrden (String jsonOrden) {
-    //     Orden orden = new Orden();
-    //     try {
-    //         orden = objectMapper.readValue(jsonOrden, Orden.class);
-    //     } catch (Exception e) {
-    //         log.error("Error al mapear orden: {}", e.getMessage());
-    //     }
-    //     return orden;
-    // }
-
-
-    
-
-    // public String mapOrdenAtributo(String jsonOrden, String atributo) {
-    //     String valor = "";
-    //     try {
-    //         JsonNode rootNode = objectMapper.readTree(jsonOrden);
-    //         valor = rootNode.get(atributo).asText();
-    //     } catch ( IOException e) {
-    //         log.error("Error: "+ e.getMessage());
-    //     }
-    //     return valor;
-    // }
-
-    // public List<Integer> mapOrdenLista(String jsonOrden, String atributo) {
-    //     List<Integer> valores = new ArrayList<>();
-    //     try {
-    //         JsonNode rootNode = objectMapper.readTree(jsonOrden);
-    //         JsonNode lista = rootNode.get(atributo);
-    //         for (JsonNode nodo : lista) {
-    //             valores.add(nodo.asInt());
-    //         }
-    //     } catch ( IOException e) {
-    //         log.error("Error: "+ e.getMessage());
-    //     }
-    //     return valores;
-    // }
 }
  

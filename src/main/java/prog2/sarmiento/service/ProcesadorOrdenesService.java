@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
+import prog2.sarmiento.domain.enumeration.Operacion;
 import prog2.sarmiento.repository.OrdenRepository;
 
 @Service
@@ -41,21 +42,21 @@ public class ProcesadorOrdenesService {
     }
 
     public Orden procesarOrden(Orden orden) {
-        // if (orden.getEstado() != Estado.FAIL) {
-            Boolean response = false;
-            switch (orden.getOperacion()) {
-            case COMPRA:
-                response = servicioExterno.ordenCompra(orden);
-                case VENTA:
-                response = servicioExterno.ordenVenta(orden);
-                default: {};
-                if (response) {
-                    orden.setEstado(Estado.COMPLETE);
-                    orden.setDescripcionEstado("Orden COMPLETADA");;
-                    log.info("Orden de (" + orden.getOperacion() + ") procesada correctamente:" + orden);
-                }
+        Boolean response = false;
+        if (orden.getOperacion().equals(Operacion.COMPRA)) {
+            response = servicioExterno.ordenCompra(orden);
+        } else if (orden.getOperacion().equals(Operacion.VENTA)) {
+            response = servicioExterno.ordenVenta(orden);
+        }
+            if (response) {
+                orden.setEstado(Estado.COMPLETE);
+                orden.setDescripcionEstado("Orden COMPLETADA");;
+                log.info("Orden de (" + orden.getOperacion() + ") procesada correctamente:" + orden);
+            } else {
+                orden.setEstado(Estado.FAIL);
+                orden.setDescripcionEstado("Orden FALLIDA");
+                log.info("Orden de (" + orden.getOperacion() + ") procesada con error:" + orden);
             }
-        // }
         log.info("Orden Procesada: "+orden);
         reportarOrdenes.addOrden(orden);
         return orden;

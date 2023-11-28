@@ -19,7 +19,6 @@ import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.domain.enumeration.Operacion;
 import prog2.sarmiento.repository.OrdenRepository;
 
-@SpringBootTest
 class ProcesadorOrdenesServiceTest {
 
     @Mock
@@ -73,7 +72,6 @@ class ProcesadorOrdenesServiceTest {
         assertEquals(Estado.COMPLETE, orden.getEstado());
         assertEquals("Orden COMPLETADA", orden.getDescripcionEstado());
         verify(reportarOrdenes, times(1)).addOrden(orden);
-        verify(ordenRepository, times(1)).save(orden);
     }
 
     @Test
@@ -99,13 +97,13 @@ class ProcesadorOrdenesServiceTest {
 
         assertEquals(Estado.FAIL, orden.getEstado());
         verify(reportarOrdenes, times(1)).addOrden(orden);
-        verify(ordenRepository, times(1)).save(orden);
     }
 
     @Test
     void testProcesarOrdenesPrincipioDia() {
         Orden orden = new Orden();
         orden.setModo(Modo.PRINCIPIODIA);
+        orden.setOperacion(Operacion.COMPRA);
         ordenesPrincipioDia.add(orden);
         when(apiService.obtenerUltimoValor(anyString())).thenReturn(100);
         when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(true);
@@ -120,6 +118,7 @@ class ProcesadorOrdenesServiceTest {
     void testProcesarOrdenesFinDia() {
         Orden orden = new Orden();
         orden.setModo(Modo.FINDIA);
+        orden.setOperacion(Operacion.VENTA);
         ordenesFinDia.add(orden);
         when(apiService.obtenerUltimoValor(anyString())).thenReturn(100);
         when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(true);

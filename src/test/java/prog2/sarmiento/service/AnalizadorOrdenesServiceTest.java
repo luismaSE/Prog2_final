@@ -1,27 +1,25 @@
 package prog2.sarmiento.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.domain.enumeration.Operacion;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 
-@SpringBootTest
 class AnalizadorOrdenesServiceTest {
 
     @Mock
@@ -29,6 +27,12 @@ class AnalizadorOrdenesServiceTest {
 
     @InjectMocks
     private AnalizadorOrdenesService analizadorOrdenesService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+
+    }
 
     @Test
     void testAnalizarOrdenOk() {
@@ -94,5 +98,81 @@ class AnalizadorOrdenesServiceTest {
         assertEquals(0, analizadorOrdenesService.ordenesOk.size());
     }
 
-    // Agrega más pruebas según sea necesario
+    @Test
+    void testAnalizarCliente() {
+        // Configuración del mock
+        List<Integer> clientesDesdeApi = Arrays.asList(123, 456, 789);
+        when(apiService.obtenerClientesDesdeAPI()).thenReturn(clientesDesdeApi);
+
+        // Prueba
+        Orden orden = new Orden();
+        orden.setCliente(456); // Cliente existente en la lista
+        assertTrue(analizadorOrdenesService.analizarCliente(orden));
+
+        orden.setCliente(999); // Cliente no existente en la lista
+        assertFalse(analizadorOrdenesService.analizarCliente(orden));
+
+        // Verificación del método llamado
+        verify(apiService, times(2)).obtenerClientesDesdeAPI();
+    }
+
+    @Test
+    void testAnalizarComp() {
+        String codigoAccion = "AAPL";
+        when(apiService.obtenerCompDesdeAPIconCodigo(anyString())).thenReturn(codigoAccion);
+
+        // Prueba
+        Orden orden = new Orden();
+        orden.setAccion(codigoAccion);
+        assertTrue(analizadorOrdenesService.analizarComp(orden));
+
+        orden.setAccion("GOOGL"); // Código diferente al obtenido desde la API
+        assertFalse(analizadorOrdenesService.analizarComp(orden));
+
+        // Verificación del método llamado
+        verify(apiService, times(2)).obtenerCompDesdeAPIconCodigo(anyString());
+    }
+
+    @Test
+    void testAnalizarAccion() {
+        Orden orden = new Orden();
+        orden.setCantidad(5);
+        assertTrue(analizadorOrdenesService.analizarAccion(orden));
+
+        orden.setCantidad(0);
+        assertFalse(analizadorOrdenesService.analizarAccion(orden));
+    }
+
+    @Test
+    void testAnalizarCantidad() {
+        // Configuración del mock
+        when(apiService.obtenerCantidadDesdeAPI(anyInt(), anyInt())).thenReturn(10);
+
+        // Prueba
+        Orden orden = new Orden();
+        orden.setCliente(123);
+        orden.setAccionId(1);
+        orden.setCantidad(5);
+        assertTrue(analizadorOrdenesService.analizarCantidad(orden));
+
+        orden.setCantidad(15); // Cantidad mayor a la disponible según la API
+        assertFalse(analizadorOrdenesService.analizarCantidad(orden));
+
+        // Verificación del método llamado
+        verify(apiService, times(2)).obtenerCantidadDesdeAPI(anyInt(), anyInt());
+    }
+
+    @Test
+    void testAnalizarHorario() {
+        // Prueba
+        Orden orden = new Orden();
+        Instant fechaOperacion = Instant.parse("2023-01-01T12:00:00Z");
+        orden.setFechaOperacion(fechaOperacion);
+        assertTrue(analizadorOrdenesService.analizarHorario(orden));
+
+        orden.setFechaOperacion(Instant.parse("2023-01-01T20:00:00Z")); // Fuera del horario permitido
+        assertFalse(analizadorOrdenesService.analizarHorario(orden));
+    }
 }
+
+

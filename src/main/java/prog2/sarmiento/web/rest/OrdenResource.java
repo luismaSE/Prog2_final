@@ -135,15 +135,6 @@ public class OrdenResource {
         return ResponseEntity.ok(ordenes);
     }
 
-
-    // @PostMapping("/analizar")
-    // public ResponseEntity<String> analizarOrdenes(String jsonOrdenes)  {
-    //     //convertir json a lista de ordenes
-    //     List<Orden> ordenes = apiService.mapOrdenes(jsonOrdenes);
-    //     analizadorOrdenesService.analizarOrdenes(ordenes);
-    //     return ResponseEntity.ok("Ordenes analizadas correctamente");
-    // }
-
     @PostMapping("/programar")
     public ResponseEntity<String> programarOrdenes(@RequestBody List<Orden> ordenes) {
         programadorOrdenesService.programarOrdenes(ordenes);
@@ -180,6 +171,7 @@ public class OrdenResource {
     }
 
 
+    
     //Generado por Jhipster
     /**
      * {@code POST  /ordenes} : Create a new orden.

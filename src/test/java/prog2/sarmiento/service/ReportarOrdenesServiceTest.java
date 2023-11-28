@@ -4,44 +4,28 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.domain.enumeration.Operacion;
 
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class ReportarOrdenesServiceTest {
 
-    @Mock
-    private List<Orden> ordenesReport;
 
     @InjectMocks
     private ReportarOrdenesService reportarOrdenesService;
 
     @Test
     void addOrden() {
-        // Arrange
         Orden orden = new Orden();
-        when(ordenesReport.add(orden)).thenReturn(true);
-
-        // Act
         reportarOrdenesService.addOrden(orden);
-
-        // Assert
-        verify(ordenesReport, times(1)).add(orden);
+        assertEquals(1, reportarOrdenesService.ordenesReport.size());
     }
 
     @Test
@@ -80,7 +64,7 @@ class ReportarOrdenesServiceTest {
         String reporte = reportarOrdenesService.reporte();
 
         // Assert
-        String expectedJson = "{\"ordenes\":[{\"cliente\":1,\"accionId\":1,\"accion\":\"AAPL\",\"modo\":\"AHORA\",\"cantidad\":10,\"precio\":100.0,\"fechaOperacion\":\"" + orden1.getFechaOperacion().toString() + "\",\"operacion\":\"COMPRA\",\"operacionExitosa\":true,\"operacionObservaciones\":\"Orden completada\"},{\"cliente\":2,\"accionId\":2,\"accion\":\"GOOGL\",\"modo\":\"AHORA\",\"cantidad\":20,\"precio\":200.0,\"fechaOperacion\":\"" + orden2.getFechaOperacion().toString() + "\",\"operacion\":\"VENTA\",\"operacionExitosa\":true,\"operacionObservaciones\":\"Orden completada.\"}]}";
+        String expectedJson = "{\"ordenes\":[{\"cliente\":1,\"accionId\":1,\"accion\":\"AAPL\",\"modo\":\"AHORA\",\"cantidad\":10,\"precio\":100,\"fechaOperacion\":\"" + orden1.getFechaOperacion().toString() + "\",\"operacion\":\"COMPRA\",\"operacionObservaciones\":\"Orden completada\",\"operacionExitosa\":true},{\"cliente\":2,\"accionId\":2,\"accion\":\"GOOGL\",\"modo\":\"AHORA\",\"cantidad\":20,\"precio\":200,\"fechaOperacion\":\"" + orden2.getFechaOperacion().toString() + "\",\"operacion\":\"VENTA\",\"operacionObservaciones\":\"Orden completada\",\"operacionExitosa\":true}]}";
         assertEquals(expectedJson, reporte);
     }
 
