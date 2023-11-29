@@ -38,6 +38,7 @@ public class ReportarOrdenesService {
  
     
     public String reporte() {
+        log.info("Generando Reporte de Ordenes...");
         ObjectNode ordenesJson = new ObjectMapper().createObjectNode();
         ArrayNode ordenesArray = JsonNodeFactory.instance.arrayNode();
         for (Orden orden : ordenesReport) {

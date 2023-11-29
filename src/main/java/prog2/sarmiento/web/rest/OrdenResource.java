@@ -23,7 +23,6 @@ import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.domain.enumeration.Operacion;
 import prog2.sarmiento.repository.OrdenRepository;
-import prog2.sarmiento.service.AnalizadorOrdenesService;
 import prog2.sarmiento.service.ApiService;
 import prog2.sarmiento.service.GeneradorOrdenService;
 import prog2.sarmiento.service.MainService;
@@ -31,7 +30,6 @@ import prog2.sarmiento.service.OrdenQueryService;
 import prog2.sarmiento.service.OrdenService;
 import prog2.sarmiento.service.ProcesadorOrdenesService;
 import prog2.sarmiento.service.ProgramadorOrdenesService;
-import prog2.sarmiento.service.ReportarOrdenesService;
 import prog2.sarmiento.service.criteria.OrdenCriteria;
 import prog2.sarmiento.service.dto.OrdenDTO;
 import prog2.sarmiento.web.rest.errors.BadRequestAlertException;
@@ -68,9 +66,7 @@ public class OrdenResource {
 
     @Autowired private MainService mainService;
     @Autowired private ApiService apiService;
-    @Autowired private AnalizadorOrdenesService analizadorOrdenesService;
     @Autowired private ProgramadorOrdenesService programadorOrdenesService;
-    @Autowired private ReportarOrdenesService reportarOrdenesService;
     @Autowired private GeneradorOrdenService generadorOrdenService;
     @Autowired private ProcesadorOrdenesService procesadorOrdenes;
 

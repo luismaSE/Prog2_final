@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,20 +27,26 @@ import prog2.sarmiento.service.dto.OrdenJsonWrapper;
 @Transactional
 public class ApiService {
 
+    @Value("${apiCatedra.jwt}") private String JWT_TOKEN;
+    @Value("${apiCatedra.url-api}") private String URL_API;
+    @Value("${apiCatedra.url-ordenes}") private String URL_ORDENES;
+    @Value("${apiCatedra.url-espejo}") private String URL_ESPEJO;
+    @Value("${apiCatedra.url-reportar}") private String URL_REPORTAR;
+    @Value("${apiCatedra.url-clientes}") private String URL_CLIENTES;
+    @Value("${apiCatedra.url-acciones}") private String URL_ACCIONES;
+
+
+
     private final Logger log = LoggerFactory.getLogger(ApiService.class);
     private ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private OrdenJsonWrapper ordenApiResponse;
     private final HttpClient client;
-    private String JWT_TOKEN;
+    // private String JWT_TOKEN;
 
     public ApiService() {
         this.client = HttpClient.newHttpClient();
-        try {
-            this.JWT_TOKEN = readTokenFromFile("/home/luisma_se/Documentos/programacion_2/token.txt");
-            log.info("Token extraido correctamente");
-        } catch (IOException e) {
-            log.error("Error al leer el token: ", e);
-        }
+        // this.JWT_TOKEN = readTokenFromFile("/home/luisma_se/Documentos/programacion_2/token.txt");
+        log.info("Token extraido correctamente");
     }
 
     public static String readTokenFromFile(String filePath) throws IOException {
@@ -80,7 +87,7 @@ public class ApiService {
 
     public List<Orden> obtenerOrdenesDesdeAPI() {
         List<Orden> ordenes = new ArrayList<>();
-        String API_URL = "http://192.168.194.254:8000/api/ordenes/ordenes";
+        String API_URL = URL_API + URL_ORDENES;
         log.info("Obteniendo listado de ordenes por Procesar...");
         HttpResponse<String> response = getApiMethod(API_URL);
         if (response.statusCode() == 200) {
@@ -91,7 +98,7 @@ public class ApiService {
        
 
     public String postEspejo(String jsonString) throws IOException, InterruptedException {
-        String API_URL = "http://192.168.194.254:8000/api/ordenes/espejo";
+        String API_URL = URL_API + URL_ESPEJO;
     
         log.info("Enviando ordenes a espejo...");
         HttpResponse<String> response = postApiMethod(API_URL, jsonString);
@@ -106,7 +113,7 @@ public class ApiService {
     }
 
     public String postReportar (String jsonString) throws IOException, InterruptedException {
-        String API_URL = "http://192.168.194.254:8000/api/reporte-operaciones/reportar/";
+        String API_URL = URL_API + URL_REPORTAR;
         log.info("Enviando ordenes para reportar...");
         HttpResponse<String> response = postApiMethod(API_URL, jsonString);
         if (response.statusCode() == 200) {
@@ -120,7 +127,7 @@ public class ApiService {
 
  
     public List<Integer> obtenerClientesDesdeAPI() {
-        String API_URL = "http://192.168.194.254:8000/api/clientes/";
+        String API_URL = URL_API + URL_CLIENTES;
         log.info("Obteniendo listado de Clientes...");
         HttpResponse<String> response = getApiMethod(API_URL);
         List<Integer> clienteIds = new ArrayList<>();
@@ -129,8 +136,9 @@ public class ApiService {
             JsonNode rootNode;
             try {
                 rootNode = objectMapper.readTree(responseBody);
-                JsonNode lista = rootNode.get("clientes");
-                for (JsonNode nodo : lista) {
+                // JsonNode lista = rootNode.get("clientes");
+                // for (JsonNode nodo : lista) {
+                for (JsonNode nodo : rootNode) {
                     clienteIds.add(nodo.get("id").asInt());
                 }
             } catch (IOException e) {
@@ -140,7 +148,7 @@ public class ApiService {
         return clienteIds;
     } 
     public String obtenerCompDesdeAPIconCodigo(String codigo) {
-        String API_URL = "http://192.168.194.254:8000/api/acciones/buscar?codigo=" + codigo;
+        String API_URL = URL_API + URL_ACCIONES + "/buscar?codigo=" + codigo;
         log.info("Obteniendo Codigo de Acción...");
         HttpResponse<String> response = getApiMethod(API_URL);
         if (response.statusCode() != 200) {
@@ -162,7 +170,7 @@ public class ApiService {
 
 
     public Integer obtenerCantidadDesdeAPI(Integer clienteId,Integer accionId) {
-        String API_URL = "http://192.168.194.254:8000/api/acciones/buscar?clienteId=" + clienteId + "&accionId=" + accionId;
+        String API_URL = URL_API + URL_ACCIONES + "/buscar?clienteId=" + clienteId + "&accionId=" + accionId;
         log.info("Obteniendo cantidad de Acción...");
         HttpResponse<String> response = getApiMethod(API_URL);
         if (response.statusCode() != 200) {
@@ -185,7 +193,7 @@ public class ApiService {
     
     
     public Double obtenerUltimoValor (String codigo) {
-        String API_URL = "http://192.168.194.254:8000/api/acciones/ultimovalor/" + codigo;
+        String API_URL = URL_API + URL_ACCIONES + "/ultimovalor/" + codigo;
         log.info("Obteniendo Ultimo Valor de Acción...");
         try {
             HttpResponse<String> response = getApiMethod(API_URL);

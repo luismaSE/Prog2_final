@@ -1,5 +1,4 @@
 package prog2.sarmiento.service;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -10,7 +9,6 @@ import prog2.sarmiento.domain.Orden;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.net.http.HttpClient;
@@ -34,13 +32,6 @@ class ApiServiceTest {
     @Spy
     private ApiService apiServiceSpy;
 
-    
-
-    @BeforeEach
-    void setUp() {
-        HttpResponse<String> fakeResponse = mock(HttpResponse.class);
-        
-    }
 
     @Test
     void testObtenerOrdenes() {
@@ -103,13 +94,13 @@ class ApiServiceTest {
 
     @Test
     void testObtenerUltimoValor() {
-        String fakeJsonResponse = "{ \"codigo\": \"GOOGL\", \"empresa\": \"Alphabet Inc. (google)\", \"ultimoValor\": { \"fechaHora\": \"19:10:30\", \"valor\": 125.42152239159692 }, \"valores\": null }";
+        String fakeJsonResponse = "{ \"codigo\": \"GOOGL\", \"empresa\": \"Alphabet Inc. (google)\", \"ultimoValor\": { \"fechaHora\": \"19:10:30\", \"valor\": 125.42 }, \"valores\": null }";
         when(fakeResponse.body()).thenReturn(fakeJsonResponse);
         when(fakeResponse.statusCode()).thenReturn(200);
         // Mockeamos solo el método getApiMethod
         doReturn(fakeResponse).when(apiServiceSpy).getApiMethod(anyString());
 
-        Double ultimoValorEsperado = 125.0;
+        Double ultimoValorEsperado = 125.42;
         Double ultimoValor = apiServiceSpy.obtenerUltimoValor("GOOGL");
         assertEquals(ultimoValorEsperado, ultimoValor);
     }

@@ -5,11 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import prog2.sarmiento.domain.Orden;
-import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
 import prog2.sarmiento.repository.OrdenRepository;
 

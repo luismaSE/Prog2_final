@@ -47,6 +47,7 @@ public class GeneradorOrdenService {
 
 
     public String generarOrdenes() {
+        log.info("Generando Ordenes random...");
         ObjectNode ordenesJson = new ObjectMapper().createObjectNode();
         ArrayNode ordenesArray = JsonNodeFactory.instance.arrayNode();
         int cantidad = 5;

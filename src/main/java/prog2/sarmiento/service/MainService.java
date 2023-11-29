@@ -1,7 +1,6 @@
 package prog2.sarmiento.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -36,7 +35,7 @@ public class MainService {
 
     private Queue<Orden> ordenesPendientes = new LinkedList<>();
 
-    @Scheduled(cron = "0/10 * 9-18 * * ?")
+    @Scheduled(cron = "0/10 * 9-17 * * ?")
     public String Serve() {
         try {
             apiService.postEspejo(generadorOrdenes.generarOrdenes());
@@ -61,6 +60,7 @@ public class MainService {
         }
 
         String estado = analizadorOrdenes.mostrarResultadoAnalisis();
+        log.info("Resultado del Analisis: "+estado);
         List<List<Orden>> analisis = analizadorOrdenes.terminarAnalisis();
         programadorOrdenes.programarOrdenes(analisis.get(0));
         String reporte = reportarOrdenes.reporte();

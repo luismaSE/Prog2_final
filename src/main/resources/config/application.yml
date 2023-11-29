@@ -197,6 +197,15 @@ info:
 #
 # Full reference is available at: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
+apiCatedra:
+  jwt: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsdWlzbWFfc2UiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNzI5ODUxNjA1fQ.al7ukn4sDdBXdP_raQU-C1T-CKuYlZVN6W3n6Dp2XREOU1N11Pjn0vJR-X4sTnMTXuFonO38k64Se5xBWZowRw
+  url-api: http://192.168.194.254:8000/api
+  url-ordenes: /ordenes/ordenes
+  url-espejo: /ordenes/espejo 
+  url-reportar: /reporte-operaciones/reportar
+  url-acciones: /acciones
+  url-clientes: /clientes
+
 
 jhipster:
   clientApp:
