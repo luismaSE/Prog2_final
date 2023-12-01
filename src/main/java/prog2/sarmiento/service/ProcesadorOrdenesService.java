@@ -1,6 +1,8 @@
 package prog2.sarmiento.service;
 
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import org.slf4j.Logger;
@@ -62,6 +64,21 @@ public class ProcesadorOrdenesService {
         return orden;
     }
 
+
+    public void programarOrdenes(List<Orden> ordenes) {
+        for(Orden orden : ordenes) {
+            if (!orden.getModo().equals(Modo.AHORA)) {
+                orden.setEstado(Estado.PROG);
+                orden.setDescripcionEstado("Programada para procesamiento");
+                addOrden(orden);
+                log.info("Orden Programada para su Procesamiento: "+orden);
+                ordenRepository.save(orden);
+                log.info("Orden ACtualizada en Base de datos: "+orden);
+            }   
+
+            }
+        }
+
     @Scheduled(cron = "0 0 9 * * ?")
     public void procOrdenesInicioDia() {
         log.info("procesando ordenes PRINCIPIODIA");
@@ -72,6 +89,7 @@ public class ProcesadorOrdenesService {
             orden = procesarOrden(orden);
             ordenRepository.save(orden);
         }
+        reportarProcesadas();
     }
 
     @Scheduled(cron = "0 0 18 * * ?")
@@ -84,7 +102,18 @@ public class ProcesadorOrdenesService {
             orden = procesarOrden(orden);
             ordenRepository.save(orden);
         }
+        reportarProcesadas();
     } 
+
+
+    public void reportarProcesadas(){
+        String reporte = reportarOrdenes.reporte();
+        try {
+            apiService.postReportar(reporte);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

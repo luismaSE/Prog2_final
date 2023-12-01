@@ -29,7 +29,6 @@ import prog2.sarmiento.service.MainService;
 import prog2.sarmiento.service.OrdenQueryService;
 import prog2.sarmiento.service.OrdenService;
 import prog2.sarmiento.service.ProcesadorOrdenesService;
-import prog2.sarmiento.service.ProgramadorOrdenesService;
 import prog2.sarmiento.service.criteria.OrdenCriteria;
 import prog2.sarmiento.service.dto.OrdenDTO;
 import prog2.sarmiento.web.rest.errors.BadRequestAlertException;
@@ -66,7 +65,6 @@ public class OrdenResource {
 
     @Autowired private MainService mainService;
     @Autowired private ApiService apiService;
-    @Autowired private ProgramadorOrdenesService programadorOrdenesService;
     @Autowired private GeneradorOrdenService generadorOrdenService;
     @Autowired private ProcesadorOrdenesService procesadorOrdenes;
 
@@ -133,7 +131,7 @@ public class OrdenResource {
 
     @PostMapping("/programar")
     public ResponseEntity<String> programarOrdenes(@RequestBody List<Orden> ordenes) {
-        programadorOrdenesService.programarOrdenes(ordenes);
+        procesadorOrdenes.programarOrdenes(ordenes);
         return ResponseEntity.ok("Ordenes programadas correctamente");
     }
 

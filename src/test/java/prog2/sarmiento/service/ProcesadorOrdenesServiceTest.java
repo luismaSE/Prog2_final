@@ -3,6 +3,8 @@ package prog2.sarmiento.service;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import prog2.sarmiento.domain.Orden;
 import prog2.sarmiento.domain.enumeration.Estado;
 import prog2.sarmiento.domain.enumeration.Modo;
@@ -31,6 +34,7 @@ class ProcesadorOrdenesServiceTest {
     @Mock
     private ReportarOrdenesService reportarOrdenes;
 
+    @Spy
     @InjectMocks
     private ProcesadorOrdenesService procesadorOrdenesService;
 
@@ -97,6 +101,39 @@ class ProcesadorOrdenesServiceTest {
         verify(reportarOrdenes, times(1)).addOrden(orden);
     }
 
+
+    @Test
+    void programarOrdenes() {
+        // Arrange
+        Orden orden1 = new Orden();
+        orden1.setId(1L);
+        orden1.setModo(Modo.AHORA);
+
+        Orden orden2 = new Orden();
+        orden2.setId(2L);
+        orden2.setModo(Modo.PRINCIPIODIA);
+
+        Orden orden3 = new Orden();
+        orden3.setId(3L);
+        orden3.setModo(Modo.FINDIA);
+
+        List<Orden> ordenes = Arrays.asList(orden1, orden2, orden3);
+
+        doNothing().when(procesadorOrdenesService).addOrden(any(Orden.class));
+        when(ordenRepository.save(any(Orden.class))).thenReturn(any(Orden.class));
+
+        procesadorOrdenesService.programarOrdenes(ordenes);
+
+        verify(procesadorOrdenesService, never()).addOrden(orden1);
+        verify(procesadorOrdenesService, times(1)).addOrden(orden2);
+        verify(procesadorOrdenesService, times(1)).addOrden(orden3);
+        verify(ordenRepository, never()).save(orden1);
+        verify(ordenRepository, times(1)).save(orden2);
+        verify(ordenRepository, times(1)).save(orden3);
+
+    }
+
+
     @Test
     void testProcesarOrdenesPrincipioDia() {
         Orden orden = new Orden();
@@ -105,11 +142,13 @@ class ProcesadorOrdenesServiceTest {
         ordenesPrincipioDia.add(orden);
         when(apiService.obtenerUltimoValor(anyString())).thenReturn(100.0);
         when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(true);
+        doNothing().when(procesadorOrdenesService).reportarProcesadas();
 
         procesadorOrdenesService.procOrdenesInicioDia();
 
         verify(reportarOrdenes, times(1)).addOrden(orden);
         verify(ordenRepository, times(1)).save(orden);
+        verify(procesadorOrdenesService, times(1)).reportarProcesadas();
     }
 
     @Test
@@ -120,11 +159,15 @@ class ProcesadorOrdenesServiceTest {
         ordenesFinDia.add(orden);
         when(apiService.obtenerUltimoValor(anyString())).thenReturn(100.0);
         when(servicioExterno.ordenCompra(any(Orden.class))).thenReturn(true);
+        doNothing().when(procesadorOrdenesService).reportarProcesadas();
+
 
         procesadorOrdenesService.procOrdenesFinDia();
 
         verify(reportarOrdenes, times(1)).addOrden(orden);
         verify(ordenRepository, times(1)).save(orden);
+        verify(procesadorOrdenesService, times(1)).reportarProcesadas();
+
     }
 
 }

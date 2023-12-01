@@ -31,7 +31,6 @@ public class MainService {
     @Autowired GeneradorOrdenService generadorOrdenes;
     @Autowired AnalizadorOrdenesService analizadorOrdenes;
     @Autowired ProcesadorOrdenesService procesadorOrdenes;
-    @Autowired ProgramadorOrdenesService programadorOrdenes;
 
     private Queue<Orden> ordenesPendientes = new LinkedList<>();
 
@@ -62,15 +61,10 @@ public class MainService {
         String estado = analizadorOrdenes.mostrarResultadoAnalisis();
         log.info("Resultado del Analisis: "+estado);
         List<List<Orden>> analisis = analizadorOrdenes.terminarAnalisis();
-        programadorOrdenes.programarOrdenes(analisis.get(0));
-        String reporte = reportarOrdenes.reporte();
-        analisis.clear();
+        procesadorOrdenes.programarOrdenes(analisis.get(0));
         analizadorOrdenes.limpiarAnalisis();
-        try {
-            apiService.postReportar(reporte);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return (reporte);
-    }    
+        analisis.clear();
+        procesadorOrdenes.reportarProcesadas();
+        return (estado);
+    }
 }
