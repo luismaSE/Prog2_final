@@ -204,7 +204,7 @@ apiCatedra:
   url-espejo: /ordenes/espejo 
   url-reportar: /reporte-operaciones/reportar
   url-acciones: /acciones
-  url-clientes: /clientes
+  url-clientes: /clientes/
 
 
 jhipster:

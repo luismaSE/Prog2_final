@@ -5,9 +5,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -15,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -41,23 +37,11 @@ public class ApiService {
     private ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private OrdenJsonWrapper ordenApiResponse;
     private final HttpClient client;
-    // private String JWT_TOKEN;
 
     public ApiService() {
         this.client = HttpClient.newHttpClient();
-        // this.JWT_TOKEN = readTokenFromFile("/home/luisma_se/Documentos/programacion_2/token.txt");
         log.info("Token extraido correctamente");
     }
-
-    public static String readTokenFromFile(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
-        byte[] tokenBytes = Files.readAllBytes(path);
-        return new String(tokenBytes).trim();
-    }
-
-
-
-
 
     public HttpResponse<String> sendRequest(String url, HttpRequest.BodyPublisher bodyPublisher, String method) {
         HttpRequest request = HttpRequest.newBuilder()
@@ -95,8 +79,7 @@ public class ApiService {
         }
         return ordenes;
     }
-       
-
+    
     public String postEspejo(String jsonString) throws IOException, InterruptedException {
         String API_URL = URL_API + URL_ESPEJO;
     
@@ -136,9 +119,8 @@ public class ApiService {
             JsonNode rootNode;
             try {
                 rootNode = objectMapper.readTree(responseBody);
-                // JsonNode lista = rootNode.get("clientes");
-                // for (JsonNode nodo : lista) {
-                for (JsonNode nodo : rootNode) {
+                JsonNode lista = rootNode.get("clientes");
+                for (JsonNode nodo : lista) {
                     clienteIds.add(nodo.get("id").asInt());
                 }
             } catch (IOException e) {
