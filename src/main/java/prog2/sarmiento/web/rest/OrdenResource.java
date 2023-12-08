@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
+import java.util.ListResourceBundle;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -83,10 +84,9 @@ public class OrdenResource {
     @GetMapping("/ordenes/procesar/principiodia")
     public ResponseEntity<String> ejecutarPrincipioDia() {   
         try {
-            procesadorOrdenes.procOrdenesInicioDia();
-            return ResponseEntity.ok("Ordenes procesadas correctamente");
+            List<Orden> ordenes = procesadorOrdenes.procOrdenesInicioDia();
+            return ResponseEntity.ok("Ordenes procesadas correctamente \n" + ordenes.toString());
         } catch (Exception e) {
-            // Manejo de excepción en caso de error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al ejecutar MainService: " + e.getMessage());
         }
     }
@@ -94,10 +94,9 @@ public class OrdenResource {
     @GetMapping("/ordenes/procesar/findia")
     public ResponseEntity<String> ejecutarFinDia() {   
         try {
-            procesadorOrdenes.procOrdenesFinDia();
-            return ResponseEntity.ok("Ordenes procesadas correctamente");
+            List<Orden> ordenes = procesadorOrdenes.procOrdenesFinDia();
+            return ResponseEntity.ok("Ordenes procesadas correctamente \n" + ordenes.toString());
         } catch (Exception e) {
-            // Manejo de excepción en caso de error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al ejecutar MainService: " + e.getMessage());
         }
     }

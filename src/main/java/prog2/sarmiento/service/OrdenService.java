@@ -5,8 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.mapstruct.ap.shaded.freemarker.core.ReturnInstruction.Return;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import prog2.sarmiento.domain.Orden;
@@ -114,9 +117,49 @@ public class OrdenService {
         ordenRepository.deleteById(id);
     }
 
+    // public List<Orden> findOrdenes(Integer cliente, Integer accionId, String accion, Instant fechaInicio,
+    //     Instant fechaFin, Operacion operacion, Modo modo, Estado estado) {
+    //     List<Orden> ordenes = ordenRepository.findOrdenes(cliente, accionId, accion, fechaInicio, fechaFin, operacion, modo, estado);
+    //     return ordenes;
+    // }
+
     public List<Orden> findOrdenes(Integer cliente, Integer accionId, String accion, Instant fechaInicio,
         Instant fechaFin, Operacion operacion, Modo modo, Estado estado) {
-        List<Orden> ordenes = ordenRepository.findOrdenes(cliente, accionId, accion, fechaInicio, fechaFin, operacion, modo, estado);
+
+        Specification<Orden> clienteSpec = (root, query, cb) -> cliente == null ? cb.conjunction() : cb.equal(root.get("cliente"), cliente);
+        Specification<Orden> accionIdSpec = (root, query, cb) -> accionId == null ? cb.conjunction() : cb.equal(root.get("accionId"), accionId);
+        Specification<Orden> accionSpec = (root, query, cb) -> accion == null ? cb.conjunction() : cb.equal(root.get("accion"), accion);
+        Specification<Orden> fechaInicioSpec = (root, query, cb) -> fechaInicio == null ? cb.conjunction() : cb.greaterThanOrEqualTo(root.get("fechaOperacion"), fechaInicio);
+        Specification<Orden> fechaFinSpec = (root, query, cb) -> fechaFin == null ? cb.conjunction() : cb.lessThanOrEqualTo(root.get("fechaOperacion"), fechaFin);
+        Specification<Orden> operacionSpec = (root, query, cb) -> operacion == null ? cb.conjunction() : cb.equal(root.get("operacion"), operacion);
+        Specification<Orden> modoSpec = (root, query, cb) -> modo == null ? cb.conjunction() : cb.equal(root.get("modo"), modo);
+        Specification<Orden> estadoSpec = (root, query, cb) -> estado == null ? cb.conjunction() : cb.equal(root.get("estado"), estado);
+
+        Specification<Orden> combinedSpec = Specification.where(clienteSpec)
+            .and(clienteSpec)
+            .and(accionIdSpec)
+            .and(fechaInicioSpec)
+            .and(fechaFinSpec)
+            .and(operacionSpec)
+            .and(modoSpec)
+            .and(estadoSpec);
+
+        List<Orden> ordenes = ordenRepository.findAll(combinedSpec);
+
         return ordenes;
     }
+
+    public List<Orden> findOrdenesPend() {
+
+        Specification<Orden> spec = (root, query, cb) -> {
+            return cb.and(
+                cb.notEqual(root.get("estado"), Estado.COMPLETE),
+                cb.notEqual(root.get("estado"), Estado.FAIL)
+                );
+            };
+            List<Orden> ordenes = ordenRepository.findAll(spec);
+            return ordenes;
+        }
+
+    
 }

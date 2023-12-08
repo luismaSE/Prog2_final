@@ -206,6 +206,9 @@ apiCatedra:
   url-acciones: /acciones
   url-clientes: /clientes/
 
+procesador:
+  dev: true
+
 
 jhipster:
   clientApp:

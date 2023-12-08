@@ -1,6 +1,7 @@
 package prog2.sarmiento.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -80,29 +81,36 @@ public class ProcesadorOrdenesService {
         }
 
     @Scheduled(cron = "0 0 9 * * ?")
-    public void procOrdenesInicioDia() {
+    public List<Orden> procOrdenesInicioDia() {
+        List<Orden> ordenes = new ArrayList<>();
         log.info("procesando ordenes PRINCIPIODIA");
         while (!ordenesPrincipioDia.isEmpty()) {
             Orden orden = ordenesPrincipioDia.poll();
             Double ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
             orden.setPrecio(ultimoValor);
             orden = procesarOrden(orden);
-            ordenRepository.save(orden);
+            orden = ordenRepository.save(orden);
+            ordenes.add(orden);
+
         }
         reportarProcesadas();
+        return ordenes;
     }
 
     @Scheduled(cron = "0 0 18 * * ?")
-    public void procOrdenesFinDia() {
+    public List<Orden> procOrdenesFinDia() {
+        List<Orden> ordenes = new ArrayList<>();
         log.info("procesando ordenes FINDIA");
         while (!ordenesFinDia.isEmpty()) {
             Orden orden = ordenesFinDia.poll();
             Double ultimoValor = apiService.obtenerUltimoValor(orden.getAccion());
             orden.setPrecio(ultimoValor);
             orden = procesarOrden(orden);
-            ordenRepository.save(orden);
+            orden = ordenRepository.save(orden);
+            ordenes.add(orden);
         }
         reportarProcesadas();
+        return ordenes;
     } 
 
 

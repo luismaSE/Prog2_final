@@ -5,9 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +26,12 @@ import prog2.sarmiento.repository.OrdenRepository;
 @Transactional
 public class MainService {
 
+    @Value("${procesador.dev}") private Boolean DEV;
+
     private final Logger log = LoggerFactory.getLogger(MainService.class);
 
     @Autowired ApiService apiService;
+    @Autowired OrdenService ordenService;
     @Autowired OrdenRepository ordenRepository;
     @Autowired ReportarOrdenesService reportarOrdenes;
     @Autowired GeneradorOrdenService generadorOrdenes;
@@ -36,18 +42,18 @@ public class MainService {
 
     @Scheduled(cron = "0/10 * 9-17 * * ?")
     public String Serve() {
-        try {
-            apiService.postEspejo(generadorOrdenes.generarOrdenes());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        if (DEV) {generadorOrdenes();}
         log.info("Iniciando Procesamiento de Ordenes...");
         log.info("Obteniendo nuevas Ordenes...");
         ordenesPendientes.addAll(apiService.obtenerOrdenesDesdeAPI());
         log.info("Analizando Ordenes...");
 
         while (!ordenesPendientes.isEmpty()) {
-            Orden orden = analizadorOrdenes.analizarOrden(ordenesPendientes.poll());
+            Orden orden = ordenesPendientes.poll();
+            orden = ordenRepository.save(orden);
+            orden = analizadorOrdenes.analizarOrden(orden);
+            log.info("Orden Analizada: "+orden);
+            analizadorOrdenes.analizarOrden(orden);
             log.info("Orden Analizada: "+orden);
 
             if (orden.getModo().equals(Modo.AHORA) && orden.getEstado().equals(Estado.OK)) {
@@ -67,4 +73,29 @@ public class MainService {
         procesadorOrdenes.reportarProcesadas();
         return (estado);
     }
+
+
+    @PostConstruct
+    public void recuperarOrdenes() {
+        log.info("Buscando Ordenes previas...");
+        List<Orden> ordenes = ordenService.findOrdenesPend();
+        log.info("Ordenes Recuperadas: "+ordenes.size());
+        for (Orden orden : ordenes) {
+            if (orden.getEstado().equals(Estado.PROG)) {
+                procesadorOrdenes.addOrden(orden);
+            } else if (orden.getEstado().equals(Estado.OK) || orden.getEstado().equals(null))  { 
+                ordenesPendientes.add(orden);
+            }
+        }
+    }
+
+    public void generadorOrdenes () {
+        try {
+            apiService.postEspejo(generadorOrdenes.generarOrdenes());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
 }

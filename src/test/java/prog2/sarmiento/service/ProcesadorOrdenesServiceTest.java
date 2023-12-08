@@ -104,7 +104,6 @@ class ProcesadorOrdenesServiceTest {
 
     @Test
     void programarOrdenes() {
-        // Arrange
         Orden orden1 = new Orden();
         orden1.setId(1L);
         orden1.setModo(Modo.AHORA);
